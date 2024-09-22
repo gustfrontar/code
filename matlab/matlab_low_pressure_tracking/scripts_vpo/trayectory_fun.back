@@ -1,0 +1,332 @@
+
+function [trayectorias]=trayectory_fun(MinStruct,config)
+%This function associates minimuns at different times to compute the
+%trajectory of the different systems.
+
+
+               
+%==========================================================================
+% START TIME LOOP FOR TRAJECTORY COMPUTATION
+%==========================================================================
+
+for itime=1:size(MinStruct,2)
+ 
+
+% IF WE ARE AT THE FIRST TIME WE ONLY INITIALIZE TRAYECTORIES.
+%==========================================================================
+
+ if(itime==1)
+
+    for i=1:MinStruct(1).nminimos;
+      trayectorias(i).minarea(1)=MinStruct(1).minarea(i);
+      trayectorias(i).minlat(1)=MinStruct(1).minlat(i);
+      trayectorias(i).minlon(1)=MinStruct(1).minlon(i);
+      trayectorias(i).minanomsis(1)=MinStruct(1).minanomsis(i);
+      trayectorias(i).meananomsis(1)=MinStruct(1).meananomsis(i);
+      trayectorias(i).daten(1)=MinStruct(1).daten;
+      if(MinStruct(1).additionaldataflag)
+          trayectorias(i).minadditionaldata(1,:)=MinStruct(1).minadditionaldata(i,:);
+          trayectorias(i).maxadditionaldata(1,:)=MinStruct(1).maxadditionaldata(i,:);
+          trayectorias(i).meanadditionaldata(1,:)=MinStruct(1).meanadditionaldata(i,:);
+      end
+    end
+    
+
+ else  %Si no es el primer tiempo...
+     
+ 
+% ESTA PARTE DEL ALGORITMO ES EL MATCHING ENTRE LOS SISTEMAS DETECTADOS EN 
+% EL TIEMPO T Y LOS DETECTADOS EN EL TIEMPO T-1. NOTAR QUE ESTA PARTE ES
+% INDEPENDIENTE DE COMO DETECTAMOS LOS SISTEMAS.
+% LA IDEA ES BARRER TODOS LOS SISTEMAS DETECTADOS EN EL TIEMPO T Y VER SI
+% ESTAN CERCA DE ALGUNO DETECTADO EN EL TIEMPO T-1, SI UN SISTEMA DETECTADO
+% EN EL TIEMPO T NO SE PUEDE ASOCIAR A NINGUN SISTEMA DETECTADO EN EL
+% TIEMPO T-1 ENTONCES SE TRATA COMO UN NUEVO SISTEMA Y SE INICIALIZA UNA
+% NUEVA TRAYECTORIA.
+%========================================================================== 
+
+
+    sistemas_detectados=length(trayectorias); %Get the number of trayectories so far.
+
+    %Loop over the trayectories to see which ones can be still active.
+    
+    %Existen 2 situaciones a tener en cuenta, la primera es mas de un
+    %sistema esta al alcance del ultimo punto de una trayectoria (entonces
+    %deberia elegir el mas cercano y usar ademas un criterio de velocidad
+    %que impida que haya cambios bruscos en la direccion de la trayectoria)
+    
+    %La segunda situacion es cuando 2 trayectorias podrian tener como
+    %continuidad un mismo sistema, en ese caso tengo que guardar la
+    %distancia con la que fue asociada cada sistema, porque podria ser que
+    %la trayectoria que analice mas adelante este mas cerca de dicho
+    %sistema que a la que fue asignado originalmente.
+    
+       asociado=false(MinStruct(itime).nminimos,1);
+       traj_asoc=zeros(MinStruct(itime).nminimos,1);
+       dist_asoc=NaN(MinStruct(itime).nminimos,1);
+       for isis=1:MinStruct(itime).nminimos   %LOOP OVER ALL THE MINIMUNS DETECTED AT TIME ITIME.
+       %Para cada sistema calculo la distancia a los sistemas conocidos
+       %siempre y cuando hayan sido detectados en el ultimo tiempo o en el
+       %inmediatamente anterior.
+
+       if( sistemas_detectados > 0)
+
+
+          min_dist=config.umbral_distancia;
+          for isisref=1:sistemas_detectados  %LOOP OVER ALL THE AVAILABLE TRAYECTORIES.
+             
+              %CHECK IF THE TRAYECTORY ISISREF IS ACTIVE (I.E. IF SOME
+              %POINT HAS BEEN ADDED TO THIS TRAYECTORY IN THE LAST
+              %2*CONFIG.TIMEFREC HOURS.
+
+              if(MinStruct(itime).daten - trayectorias(isisref).daten(end) <= 2*config.timefrec/24);
+              
+              %IF SO COMPUTE THE DISTANCE BETWEE THE MINIMUN ISIS AND THE
+              %THE LAST POINT OF THE TRAYECTORY ISISREF (AT THE END OF THIS
+              %TRAYECTORY).
+              
+                 dist=distll_fun(MinStruct(itime).minlon(isis),MinStruct(itime).minlat(isis),trayectorias(isisref).minlon(end),trayectorias(isisref).minlat(end));
+                 continuacion=false;              
+                 
+                  if(~config.asymetric_propagation) %USE AN ISOTROPIC DISTANCE CRITERIA (I.E. DISPLACEMENTS ARE EQUALY PROBABLE IN ANY DIRECTION.
+                     if( dist < min_dist)
+         
+                        continuacion=true;
+                     end
+                  else   %USE AN ANYSOTROPIC DISTANCE CRITERIA (I.E. DISPLACEMENTES ARE MORE PROBABLE IN THE FLOW DIRECTION, TO THE EAST)
+                       
+                       tmp_mean_lat=0.5*(MinStruct(itime).minlat(isis)+trayectorias(isisref).minlat(end));
+                       tmp_mean_lon=0.5*(MinStruct(itime).minlon(isis)+trayectorias(isisref).minlon(end));
+                       %Calculamos las componentes del desplazamiento en x
+                       %y en y.
+                       tmp_dx=distll_fun(MinStruct(itime).minlon(isis),tmp_mean_lat,trayectorias(isisref).minlon(end),tmp_mean_lat);
+                       tmp_dy=distll_fun(tmp_mean_lon,MinStruct(itime).minlat(isis),tmp_mean_lon,trayectorias(isisref).minlat(end));
+                       tmp_dlon=(MinStruct(itime).minlon(isis)-trayectorias(isisref).minlon(end));
+                       %tmp_dlat=(cent_lat(isis)-trayectorias(isisref).lat(end));
+                       if(tmp_dlon > 0 || tmp_dlon < -180) %WEST PROPAGATION
+                       test_dist=(tmp_dx^2)/(config.max_eastpropagation^2)+(tmp_dy^2)/(config.max_nspropagation^2);
+                          if(test_dist < 1)
+                          continuacion=true;
+                          end
+                       end
+                       if(tmp_dlon < 0 || tmp_dlon > 180) %EAST PROPAGATION
+                       test_dist=(tmp_dx^2)/(config.max_westpropagation^2)+(tmp_dy^2)/(config.max_nspropagation^2);
+                          if(test_dist < 1)
+                          continuacion=true;
+                          end 
+                       end                  
+                    end
+                    
+                    if(continuacion)
+                    %Tengo que verificar que no exista algun otro sistema
+                    %que haya sido asignado a la trayectoria isisref y en
+                    %dicho caso si la distancia de asignacion fue mayor
+                    %entonces lo desasocio.
+                    if(isis==1)
+                        sum(traj_asoc==isisref)
+                    end
+                    %FALTA CONSIDERAR QUE PASA SI EL MINIMO ISIS YA FUE
+                    %CAPTADO POR ALGUNA TRAYECTORIA. CREO QUE LO MEJOR VA A
+                    %SER PLANTEAR LA TABLA Y A PARTIR DE AHI ENCONTRAR LAS
+                    %CONTINUACIONES DE LAS TRAYECTORIAS.
+                    if(sum(traj_asoc==isisref) >=1)
+                    
+                    %IN THIS CASE THE TRAJECTORY ISISREF HAS ALREADY BEEN
+                    %CONTINUED FOR TIME ITIME WITH OTHER MINIMUN.
+                    for isis2=1:isis-1
+                       %CHECK WHICH ONE IS THE BEST CONTINUATION IN TERMS
+                       %OF DISTANCE.
+
+                       if( traj_asoc(isis2)==isisref && dist < dist_asoc(isis2))
+                       %THE NEW CANDIDATE IS BETTER, SO CHANGE THE
+                       %ASSOCIATION SO THIS TRAJECTORY CONTINUES WITH THIS
+                       %NEW MINIMUN.
+                       fprintf('Voy a cambiar la asociacion de un sistema\n')
+                       %dist_asoc(isis2)
+                       
+                       asociado(isis2)=false;
+                       traj_asoc(isis2)=0;
+                       dist_asoc(isis2)=NaN;
+                       asociado(isis)=true;
+                       traj_asoc(isis)=isisref;
+                       dist_asoc(isis)=dist;
+                       end
+                    end
+                    
+                    else
+                    %IN THIS CASE NO CONTINUATION HAS BEEN FOUND SO FAR FOR
+                    %THE TRAJECTORY ISIS, SO LETS THIS MINIMUN BE THE
+                    %CONTINUATION FOR THIS TRAYECTORY.
+                    %min_dist=dist;      %CHANGE THE CRITERIA TO BECOME MORE STRICT FOR THIS PARTICULAR TRAJECTORY.
+                    
+                    if(isis==1)
+                        isisref
+                        dist
+                    end
+                    asociado(isis)=true;
+                    traj_asoc(isis)=isisref; %STATES THAT THE MINIMUN ISIS IS SO FAR THE CONTINUATION OF THE TRAJECTORY ISISREF.
+                    dist_asoc(isis)=dist;
+                    
+                    %MinStruct(itime).minlat(isis)
+                    %MinStruct(itime).minlon(isis)
+                    %trayectorias(isisref).minlat(end)
+                    %trayectorias(isisref).minlon(end)
+                    
+                    end
+                    
+
+
+                 end 
+
+              end
+          end
+         
+       end
+       
+       end %END LOOP OVER THE MINIMUNS AT TIME ITIME.
+       %SO FAR WE KNOW THE MINIMUNS THAT CORRESPONDS TO DIFFERENT
+       %TRAJECTORIES. WE HAVE TO UPDATE THE TRAYECTORIAS STRUCTURE TO KEEP
+       %THIS INFORMATION.
+       
+
+       
+       for isis=1:MinStruct(itime).nminimos
+       
+          if( asociado(isis) ) %SO I HAVE FOUND A CONTINUATION FOR THIS TRAJECTORY.
+          %ADD THE MATCHED MINIMUN TO THE TRAJECTORY.
+          if(MinStruct(itime).daten == trayectorias(traj_asoc(isis)).daten(end)+config.timefrec/24)
+          %IN THIS CASE THE LAST POINT OF THE TRAYECTORY CORRESPONDS TO THE
+          %PREVIOUS TIME.
+          ctraj=traj_asoc(isis);
+          trajl=length(trayectorias(ctraj).minlat);
+          trayectorias(ctraj).minlat(trajl+1)=MinStruct(itime).minlat(isis);              %#ok<AGROW>
+          trayectorias(ctraj).minlon(trajl+1)=MinStruct(itime).minlon(isis);              %#ok<AGROW>
+          trayectorias(ctraj).minarea(trajl+1)=MinStruct(itime).minarea(isis);            %#ok<AGROW>
+          trayectorias(ctraj).minanomsis(trajl+1)=MinStruct(itime).minanomsis(isis);      %#ok<AGROW>
+          trayectorias(ctraj).meananomsis(trajl+1)=MinStruct(itime).meananomsis(isis);    %#ok<AGROW>
+          trayectorias(ctraj).daten(trajl+1)=MinStruct(itime).daten;                      %#ok<AGROW>
+          if(MinStruct(itime).additionaldataflag)
+            trayectorias(ctraj).minadditionaldata(trajl+1,:)=MinStruct(itime).minadditionaldata(isis,:);   %#ok<AGROW>
+            trayectorias(ctraj).maxadditionaldata(trajl+1,:)=MinStruct(itime).maxadditionaldata(isis,:);   %#ok<AGROW>
+            trayectorias(ctraj).meanadditionaldata(trajl+1,:)=MinStruct(itime).meanadditionaldata(isis,:); %#ok<AGROW>
+          end 
+          end
+          
+          
+          if(MinStruct(itime).daten == trayectorias(traj_asoc(isis)).daten(end)+2*config.timefrec/24)
+          %IN THIS CASE THER IS ONE TIME WHERE THE SYSTEM CANNOT BE DETECTED
+          %SHOULD I INCLUDE SOME CHECKIN ABOUT THE SYSTEM SIZE IN THIS
+          %CASE?
+          
+          %I FIRST INTERPOLATE THE MISSING TIME FROM THE PREVIOUS AND THE
+          %FOLLOWING TIME AND THEN PROCEED TO ADD THE CURRENT TIME.
+          
+          %Get the current length of the trajectory.
+          trajl=length(trayectorias(traj_asoc(isis)).minlat);
+          ctraj=traj_asoc(isis);
+          
+          trayectorias(ctraj).minlat(trajl+1)=0.5*(trayectorias(ctraj).minlat(trajl)+MinStruct(itime).minlat(isis));
+             %Average longitude taking into account possible
+             %discontinuities.
+             tmplon=[trayectorias(ctraj).minlon(trajl) MinStruct(itime).minlon(isis)];
+
+             if(max(tmplon)-min(tmplon) > 180)
+                if(max(tmplon) > 180)
+                   tmplon(tmplon > 180)=tmplon(tmplon > 180)-360;
+                   meantmplon=mean(tmplon);
+                    if(meantmplon < 0)
+                       meantmplon=meantmplon+360;
+                    end
+                 elseif(min(tmplon) < 0)
+                   tmplon(tmplon < 0)=tmplon(tmplon < 0)+360;
+                   meantmplon=mean(tmplon);
+                     if(meantmplon > 180)
+                       meantmplon=meantmplon-360;
+                     end 
+                end
+             else
+                  meantmplon=mean(tmplon);
+             end
+            trayectorias(ctraj).minlon(trajl+1)=meantmplon; %#ok<AGROW>
+            trayectorias(ctraj).minarea(trajl+1)=0.5*(trayectorias(ctraj).minarea(trajl)+MinStruct(itime).minarea(isis));             %#ok<AGROW>
+            trayectorias(ctraj).minanomsis(trajl+1)=0.5*(trayectorias(ctraj).minanomsis(trajl)+MinStruct(itime).minanomsis(isis));    %#ok<AGROW>
+            trayectorias(ctraj).meananomsis(trajl+1)=0.5*(trayectorias(ctraj).meananomsis(trajl)+MinStruct(itime).meananomsis(isis)); %#ok<AGROW>
+            trayectorias(ctraj).daten(trajl+1)= 0.5*(trayectorias(ctraj).daten(trajl)+MinStruct(itime).daten);                        %#ok<AGROW>
+          if(MinStruct(itime).additionaldataflag)
+            trayectorias(ctraj).minadditionaldata(trajl+1,:)=0.5*(trayectorias(ctraj).minadditionaldata(trajl,:)+MinStruct(itime).minadditionaldata(isis,:));    %#ok<AGROW>
+            trayectorias(ctraj).maxadditionaldata(trajl+1,:)=0.5*(trayectorias(ctraj).maxadditionaldata(trajl,:)+MinStruct(itime).maxadditionaldata(isis,:));    %#ok<AGROW>
+            trayectorias(ctraj).meanadditionaldata(trajl+1,:)=0.5*(trayectorias(ctraj).meanadditionaldata(trajl,:)+MinStruct(itime).meanadditionaldata(isis,:)); %#ok<AGROW>
+          end 
+          
+          %NOW I CAN JUST ADD THE LAS TIME CORRESPONDING TO TIME ITIME.
+          trayectorias(ctraj).minlat(trajl+2)=MinStruct(itime).minlat(isis);            %#ok<AGROW>
+          trayectorias(ctraj).minlon(trajl+2)=MinStruct(itime).minlon(isis);            %#ok<AGROW>
+          trayectorias(ctraj).minarea(trajl+2)=MinStruct(itime).minarea(isis);          %#ok<AGROW>
+          trayectorias(ctraj).minanomsis(trajl+2)=MinStruct(itime).minanomsis(isis);    %#ok<AGROW>
+          trayectorias(ctraj).meananomsis(trajl+2)=MinStruct(itime).meananomsis(isis);  %#ok<AGROW>
+          trayectorias(ctraj).daten(trajl+2)=MinStruct(itime).daten;                    %#ok<AGROW>
+          if(MinStruct(itime).additionaldataflag)
+            trayectorias(ctraj).minadditionaldata(trajl+2,:)=MinStruct(itime).minadditionaldata(isis,:);     %#ok<AGROW>
+            trayectorias(ctraj).maxadditionaldata(trajl+2,:)=MinStruct(itime).maxadditionaldata(isis,:);     %#ok<AGROW>
+            trayectorias(ctraj).meanadditionaldata(trajl+2,:)=MinStruct(itime).meanadditionaldata(isis,:);   %#ok<AGROW>
+          end 
+          
+          end
+          %
+          
+          
+         
+          else %IF NOT THE THE MINIMUN HAS NOT BEEN MATCHED AS THE CONTINUATION OF ANY
+               %OF THE AVAILABLE TRAJECTORIES.
+          sistemas_detectados=sistemas_detectados+1; 
+
+          trayectorias(sistemas_detectados).minarea=MinStruct(itime).minarea(isis);
+          trayectorias(sistemas_detectados).minlat=MinStruct(itime).minlat(isis);
+          trayectorias(sistemas_detectados).minlon=MinStruct(itime).minlon(isis);
+          trayectorias(sistemas_detectados).minanomsis=MinStruct(itime).minanomsis(isis);
+          trayectorias(sistemas_detectados).meananomsis=MinStruct(itime).meananomsis(isis);
+          trayectorias(sistemas_detectados).daten=MinStruct(itime).daten;
+          
+          if(MinStruct(1).additionaldataflag)
+            trayectorias(traj_asoc(isis)).minadditionaldata=MinStruct(itime).minadditionaldata(isis,:);
+            trayectorias(traj_asoc(isis)).maxadditionaldata=MinStruct(itime).maxadditionaldata(isis,:);
+            trayectorias(traj_asoc(isis)).meanadditionaldata=MinStruct(itime).meanadditionaldata(isis,:);
+          end
+          
+             
+
+          end         
+       end   %END LOOP OVER MINIMUNS AT TIME ITIME  
+       
+   
+
+  
+ end %End del if sobre si es el primer tiempo o no (tener en cuenta el else).
+  
+end %END LOOP OVER TIME
+
+
+%TODO: Seria interesante ver si podemos detectar trayectorias que se hayan
+%creado por solo un punto y que eventualmente hayan quedado truncas (por
+%ejemplo un sistema que se divide a un tiempo pero que el tiempo anterior y
+%el siguiente eran una sola trayectoria.
+
+%==========================================================================
+% LISTO EL LLOPO!!
+%==========================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

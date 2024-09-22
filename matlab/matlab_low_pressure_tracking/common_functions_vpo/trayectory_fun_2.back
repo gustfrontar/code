@@ -1,0 +1,351 @@
+
+function [trajectories]=trayectory_fun_2(config,MinStruct)
+%This function associates minimuns at different times to compute the
+%trajectory of the different systems.
+
+MaxPropVel=30;                                       %Velocidad maxima de propagacion en m/s.
+MaxTravelDistance=MaxPropVel*config.timefrec*3600;   %Maximun distance that a system can travel between two frames.
+MaxCostFunction=0.5;
+   
+
+ntraj=0;
+%==========================================================================
+% SETEAMOS EN LA ESTRUCTURA DE LOS MINIMOS 2 VALORES QUE NECESITAMOS PARA
+% EL CALCULO DE LA TRAYECTORIA.
+%==========================================================================
+
+for itime=1:size(MinStruct,2)
+    for imin=1:MinStruct(itime).nminimos
+    
+        MinStruct(itime).asociado(imin)=false;  %Si el minimo esta asociado a alguna trayectoria.
+        MinStruct(itime).trajectory(imin)=NaN;  %A que trayectoria esta asociado el minimo.
+        MinStruct(itime).costfunction(imin)=NaN;%Con que cost function se asocio el minimo imin a la trayectoria trajectory.
+        MinStruct(itime).trajectoryend(imin)=false; %Si la trayectoria termina en este minimo.
+        
+    end
+end
+
+
+
+
+%==========================================================================
+% START TIME LOOP FOR TRAJECTORY COMPUTATION
+%==========================================================================
+
+for itime=2:size(MinStruct,2)-1  %Arranca en el tiempo 2 porque el primero no tiene sentido analizarlo.
+ 
+
+    for imin=1:MinStruct(itime).nminimos
+    % VAMOS A HACER EL ANALISIS DE CONTINUIDAD CENTRANDONOS EN CADA UNO DE
+    % LOS MINIMOS.
+    
+       %OBTENGO LA LISTA DE LOS POSIBLES MINIMOS ASOCIABLES EN EL TIEMPO
+       %T-1
+       minprelist=[];
+       for iminprev=1:MinStruct(itime-1).nminimos
+          if( abs(MinStruct(itime-1).minlat(iminprev) - MinStruct(itime).minlat(imin)) < 10) %Condicion de descarte facil para acelerar la busqueda. 
+            %Si esto sucede calculo la distancia exacta entre ambos.
+           
+           tmp_dist=distll_fun(MinStruct(itime-1).minlon(iminprev),MinStruct(itime-1).minlat(iminprev),MinStruct(itime).minlon(imin),MinStruct(itime).minlat(imin));
+           
+           if(tmp_dist < MaxTravelDistance)
+               minprelist=[minprelist iminprev];
+           
+          end
+          end
+       end
+       %OBTENGO LA LISTA DE LOS POSIBLES MINIMOS ASOCIABLES EN EL TIEMPO
+       %T+1
+       minfowlist=[];
+       for iminprev=1:MinStruct(itime+1).nminimos
+          if( abs(MinStruct(itime+1).minlat(iminprev) - MinStruct(itime).minlat(imin)) < 10) %Condicion de descarte facil para acelerar la busqueda. 
+            %Si esto sucede calculo la distancia exacta entre ambos.
+           
+           tmp_dist=distll_fun(MinStruct(itime+1).minlon(iminprev),MinStruct(itime+1).minlat(iminprev),MinStruct(itime).minlon(imin),MinStruct(itime).minlat(imin));
+           
+           if(tmp_dist < MaxTravelDistance)
+               minprelist=[minprelist iminprev];
+           
+          end
+          end
+       end
+    
+       %EN ESTE PUNT CONTAMOS CON 2 LISTAS DE MINIMOS POSIBLES EN EL TIEMPO
+       %PASADO Y EN EL PRESENTE, AHORA VAMOS A EVALUAR TODAS LAS POSIBLES
+       %COMBINACIONES QUE INVOLUCREN A ESTOS MINIMOS. 
+       
+       if( ~isempty(minfowlist) && ~isempty(minprelist) ) 
+       %SI NO HAY MINIMOS POSIBLES EN EL TIEMPO PASADO O EN EL TIEMPO
+       %FUTURO NO HAY NADA QUE HACER. 
+       
+          %DEFINO LAS POSIBLES COMBINACIONES DE MINIMOS PASADOS Y FUTUROS.
+          ncomb=0;
+          for ii=1:length(minprelist)
+              for jj=1:length(minfowlist)
+                  ncomb=ncomb+1;
+                  comb(ncomb)=[minprelist(ii) imin minfowlist(jj)];  
+              end
+          end
+           
+           
+          %CALCULO LA COST FUNCTION PARA CADA UNA DE ESTAS COMBINACIONES...
+          %LA COSTFUNCTION SE BASA EN UN CRITERIO DE CONTINUIDAD
+          %DIRECCIONAL Y DE VELOCIDADES.
+          
+          costfunction=NaN(1,size(comb,1));
+          for ii=size(comb,1);
+              lona=MinStruct(itime-1).minlon(comb(ii,1));
+              lata=MinStruct(itime-1).minlat(comb(ii,1));
+              lonb=MinStruct(itime).minlon(comb(ii,2));
+              latb=MinStruct(itime).minlat(comb(ii,2));
+              lonc=MinStruct(itime).minlon(comb(ii,3));
+              latc=MinStruct(itime).minlat(comb(ii,3));
+              costfunction(ii)=cost_function_trajectory(lona,lata,lonb,latb,lonc,latc);
+          end
+          
+          %ME QUEDO SOLO CON LAS POSIBLES COMBINACIONES QUE TIENEN UN COST
+          %FUNCTION MENOR QUE EL PERMITIDO.
+          
+          tmplog=costfunction < MaxCostFunction;
+          costfunction=costfunction(tmplog);
+          comb=comb(tmplog,:);
+          
+          %ORDENO LOS COST FUNCTION DE MENOR A MAYOR (ES DECIR DE LA MEJOR
+          %CHANCE A LA PEOR CHANCE SOLO CONSIDERANDO AQUELLOS QUE ESTAN POR
+          %DEBAJO DEL UMBRAL.
+          
+          [costfunction indexsort]=sort(costfunction,'ascend');
+          comb=comb(indexsort,:);
+          
+          
+          %AHORA DENTRO DE LAS POSIBLES TRAMOS DE TRAYECTORIAS VAMOS A
+          %EVALUAR LAS DIFERENTES POSIBILIDADES, LA IDEA ES IR PROBANDO
+          %PRIMERO CON LA QUE TIENE EL COST FUNCTION MAS BAJO, PERO SI ESA
+          %NO LOGRA CONVERTIRSE EN LA CONTINUACION DE UNA TRAYECTORIA O EN
+          %UNA NUEVA TRAYECTORIA POR X MOTIVO ENTONCES VAMOS A SEGUIR
+          %PROBANDO CON LOS RESTANTES POSIBILIDADES. 
+          
+          for jj=1:length(costfunction) 
+              % 1----------------------------------------------------------
+              %CASO 1, NINGUNO DE LOS MINIMOS ESTA ASOCIADO A UNA
+              %TRAYECTORIA... ENTONCES CREO UNA NUEVA TRAYECTORIA A PARTIR
+              %DE ESTE GRUPO DE MINIMOS.
+              iminprev=comb(jj,1);
+              iminfow =comb(jj,3);
+              imincur =comb(jj,2);
+              if( ~MinStruct(itime-1).asociado(iminprev) && ~MinStruct(itime).asociado(imincur) && ~MinStruct(itime+1).asociado(iminfow) )
+                  %POR AHORA SOLO GUARDAMOS LOS ID DE LOS MINIMOS.
+                  ntraj=ntraj+1;
+                  trajectory(ntraj).time(1:3)=[itime-1 itime itime+1];
+                  trajectory(ntraj).minid(1:3)=[comb(jj)];
+                  
+                  MinStruct(itime-1).asociado(iminprev)=true;
+                  MinStruct(itime-1).trajectory(iminprev)=ntraj;
+                  MinStruct(itime-1).trajectoryend(iminprev)=false;
+                  
+                  MinStruct(itime).asociado(imincur)=true;
+                  MinStruct(itime).trajectory(imincur)=ntraj;
+                  MinStruct(itime).trajectoryend(imincur)=false;
+                  MinStruct(itime).costfunction(imincur)=costfunction(jj);
+                  
+                  MinStruct(itime+1).asociado(iminfow)=true;
+                  MinStruct(itime+1).trajectory(iminfow)=ntraj;
+                  MinStruct(itime+1).trajectoryend(iminfow)=true;
+                  
+                  break  %Salgo del loop porque ya pude asociar el minimo de la mejor manera posible.
+              end  %END SOBRE LA POSIBILIDAD 1.
+              
+              % 2----------------------------------------------------------
+              % CASO 2, EL MINIMO T-1 Y T YA ESTABAN ASOCIADOS Y ADEMAS
+              % ESTABAN ASOCIADOS A LA MISMA TRAYECTORIA y T+1 NO ESTABA
+              % ASOCIADO... EN ESTE CASO CHEQUEO SI T+1 ESTA LIBRE, SI ESTA
+              % ES LA CONTINUACION DE T-1, T, SINO TENGO QUE VER ...
+              if( MinStruct(itime-1).asociado(iminprev) && MinStruct(itime).asociado(imincur) && MinStruct(itime-1).trajectory(iminprev)==MinStruct(itime).trajectory(imincur) )
+                 if(~MinStruct(itime+1).asociado(iminfow))
+                 %ESTE ES EL CASO MAS DESEABLE, T+1 ESTA LIBRE ENTONCES ES
+                 %LA CONTINUACION NATURAL DE T-1, T.
+                 curtraj=MinStruct(itime).trajectory(imincur);
+                 slot=length(trajectory(curtraj).time)+1;
+                  trajectory(curtraj).time(slot)=itime+1;
+                  trajectory(curtraj).minid(slot)=comb(jj,3);
+
+                  MinStruct(itime).costfunction(imincur)=costfunction(jj);
+                  
+                  MinStruct(itime+1).asociado(iminfow)=true;
+                  MinStruct(itime+1).trajectory(iminfow)=MinStruct(itime).trajectory(imincur);
+                  MinStruct(itime+1).trajectoryend(iminfow)=true;
+                  
+                  break  %Salgo del loop porque este minimo ya fue asociado de la mejor manera posible.
+
+                 else
+                 %EN ESTE CASO T+1 YA FUE ASOCIADO A OTRA TRAYECTORIA.
+                 %UBICO CUAL FUE Y COMPARA LOS COST FUNCTIONS PARA VER
+                 %QUIEN SE QUEDA CON T+1.
+                   curtraj=MinStruct(itime).trajectory(imincur);
+                   trajanterior=MinStruct(itime+1).trajectory(iminfow);
+                   minimoanterior=trajectory(trajanterior).minid(end-1);
+                   costfunctionanterior=MinStruct(itime).costfunction(minimoanterior);
+                   
+                   if( costfunctionanterior > costfunction(jj) )
+                   %ENTONCES LA CONTINUACION NUEVA ES MEJOR QUE LA
+                   %CONTINUACION ANTERIOR. TENEMOS QUE MODIFICAR LA
+                   %TRAJECTORIA ANTERIOR Y LA ACTUAL.
+                   
+                   %MODIFICO LA TRAJECTORIA ANTERIOR. (ELIMINO SU ULTIMO
+                   %ELEMENTO)
+                   trajectory(trajanterior).time(end)=[];
+                   trajectory(trajanterior).minid(end)=[];
+                   
+                   MinStruct(itime).trajectoryend(minimoanterior)=true; 
+                    
+                   %NOW MODIFY CURRENT TRAJECTORY AND REDEFINE THE
+                   %ASSOCIATION OF T+1;
+                   slot=length(trajectory(curtraj).time)+1;
+                   trajectory(curtraj).time(slot)=itime+1;
+                   trajectory(curtraj).minid(slot)=comb(jj,3);
+                   
+                   MinStruct(itime+1).asociado(iminfow)=true;
+                   MinStruct(itime+1).trajectory(iminfow)=MinStruct(itime).trajectory(imincur);
+                   MinStruct(itime+1).trajectoryend(iminfow)=true;
+                   
+                   break  %Este minimo ya fue asociado de la mejor manera posible.
+                    
+                   %FALTA CONSIDERAR QUE TAL VEZ T DE LA TRAJECTORIA
+                   %ANTERIOR DEBERIA SER REEXAMINADO, PORQUE POR AHI HABIA
+                   %OTRA POSIBILIDAD DE ASOCIACION QUE NO FUE CONSIDERADA.
+                     
+                   end
+                 end  %End del if sobre si T+1 esta libre o no.
+              end   %END SOBRE LA POSIBILIDAD 2.
+              
+              % 3----------------------------------------------------------
+              %ESTE ES EL CASO MAS COMPLICADO EL CASO EN EL QUE T-1 ESTA
+              %ASOCIADO A UNA TRAJECTORIA QUE CONTINUA EN OTRO PUNTO QUE NO
+              %ES IMIN EN EL TIEMPO T.
+              
+              if( MinStruct(itime-1).asociado(iminprev) && ~MinStruct(itime).asociado(imincur))
+              
+              %BUSCO EL MINIMO QUE FUE ENCONTRADO COMO LA CONTINUACION DE IMINPRE
+              trajanterior=MinStruct(itime-1).trajectory(iminpre);
+              slot=trajectory(trajanterior).time==itime;
+              minimoanterior=trajectory(trajanterior).minid(slot);
+              
+                %SI ESTE MINIMO ES EL ULTIMO DE LA TRAJECTORIA Y T+1 ESTA
+                %LIBRE, ME APROPIO LA TRAJECTORIA PORQUE SIEMPRE ES MEJOR
+                %TENER UNA QUE CONTINUE. LUEGO SERA TESTEADO SI ESTO FUE
+                %UNA BUENA IDEA O NO. 
+                if( MinStruct(itime).trajectoryend(minimoanterior) && extratest ) 
+                 
+                  if(MinStruct(itime+1).asociado(iminfow))
+                        trajanterior=MinStruct(itime+1).trajectory(iminfow);
+                        minimoanterior=trajectory(trajanterior).minid(end-1);
+                        costfunctionanterior=MinStruct(itime).costfunction(minimoanterior);
+                        extratest=costfunctionanterior > costfunction(jj);
+                        trajectory(trajanterior).time(end)=[];
+                        trajectory(trajanterior).minid(end)=[];
+                        MinStruct(itime).trajectoryend(minimoanterior)=true; 
+                  else
+                        extratest=true;
+                  end
+                
+
+                  if(extratest)   
+                  %SOLO MODIFICO LA TRAYECTORIA SI SE CUMPLE QUE EL MINIMO
+                  %T+1 NO ESTABA ASOCIAOD A NINGUNA TRAJECTORIA O
+                  %EVENTUALMENTE LA ASOCIACION QUE TENIA IMPLICABA UN COST
+                  %FUNCTION MAYOR QUE EL QUE ESTAMOS OBTENIENDO CON ESTA
+                  %NUEVA ASOCIACION.
+                  
+                  %VOY A MODIFICAR LA TRAJECTORIA ANTERIOR Y A AGREGAR ESOS
+                  %2 NUEVOS PUNTOS A LA TRAJECTORIA NUEVA.
+                  
+                  %DESASOCIO EL ULTIMO MINIMO DE LA TRAYECTORIA ANTERIOR.
+                  MinStruct(itime).trajectory(minimoanterior)=NaN;
+                  MinStruct(itime).asociado(minimoanterior)=false;
+                  MinStruct(itime).trajectoryend(minimoanterior)=false;
+                  
+                  %ELIMINO EL ULTIMO ELEMENTO DE LA TRAYECTORIA ANTERIOR
+                  trajectory(trajanterior).time(end)=[];
+                  trajectory(trajanterior).minid(end)=[];
+                  
+                  
+                  %EXTIENDO LA TRAJECTORIA ANTERIOR SOBRE LOS NUEVOS 2
+                  %MINIMOS IMINCUR E IMINFOW
+                  slot=length(trajectory(trajanterior).time)+1;
+                  trajectory(trajanterior).time(slot)=itime;
+                  trajectory(trajanterior).minid(slot)=imincur;
+                  
+                  slot=slot+1;
+                  trajectory(trajanterior).time(slot)=itime+1;
+                  trajectory(trajanterior).minid(slot)=iminfow;
+                  
+                  %MODIFICO EL ESTATUS DE LOS MINIMOS QUE FUERON ASOCIADOS
+                  %A LA NUEVA TRAYECTORIA.
+                  
+                  MinStruct(itime).trajectory(imincur)=trajanterior;
+                  MinStruct(itime).asociado=true;
+                  MinStruct(itime).trajectoryend(imincur)=false;
+                  MinStruct(itime+1).trajectory(iminfow)=trajanterior;
+                  MinStruct(itime+1).asociado(iminfow)=true;
+                  MinStruct(itime+1).trajectoryend(iminfow)=true;
+                  
+                  break %Asocie el minimo de la mejor manera posible.
+                  end
+                  
+                end
+                if( ~MinStruct(itime).trajectoryend(minimoanterior) && extratest )
+                %EN ESTE CASO, LA TRAJECTORIA CONTINUABA HASTA T+1.
+                %SI NUESTRA PROPUESTA ACTUAL ES MEJOR QUE ESTA TRAYECTORIA
+                %Y A SU VEZ ES UNA MEJOR CHANCE PARA T+1 SEA QUE ESTUVIERA
+                %ASOCIADO O NO, CAMBIAMOS LAS TRAYECTORIAS.
+                
+                %DESASOCIO LOS MINIMOS QUE ESTABAN ANTES ASOCIADOS A LA
+                %TRAYECTORIA ANTERIOR.
+                trajanterior=MinStruct(itime).trajectory(iminpre);
+                minimoanterior=trajectory(trajanterior).minid(end);
+                MinStruct(itime+1).trajectory(minimoanterior)=NaN;
+                MinStruct(itime+1).asociado(minimoanterior)  =false;
+                MinStruct(itime+1).trayectoryend(minimoanterior)=false;
+                minimoanterior=trajectory(trajanterior).minid(end-1);
+                MinStruct(itime).trajectory(minimoanterior)=NaN;
+                MinStruct(itime+1).asociado(minimoanterior)  =false;
+                MinStruct(itime+1).trayectoryend(minimoanterior)=false;
+                minimoanterior=trajectory(trajanterior).minid(end-2);
+                MinStruct(itime+1).trayectoryend(minimoanterior)=true;
+                
+                trajectory(trajanterior).minid(end-1:end)=[];
+                trajectory(trajanterior).time(end-1:end)=[];
+                
+                %EXTIENDO LA TRAJECTORIA ANTERIOR SOBRE LOS NUEVOS 2
+                %MINIMOS IMINCUR E IMINFOW
+                slot=length(trajectory(trajanterior).time)+1;
+                trajectory(trajanterior).time(slot)=itime;
+                trajectory(trajanterior).minid(slot)=imincur;
+                  
+                slot=slot+1;
+                trajectory(trajanterior).time(slot)=itime+1;
+                trajectory(trajanterior).minid(slot)=iminfow;
+                
+                break %Asocie el minimo de la mejor manera posible.
+                
+                end
+                
+                   
+              end  %END SOBRE LA POSIBILIDAD 3.
+                  
+              
+          end %End del do sobre las diferentes posibilidades.  
+
+       end  %End sobre el if de si estan vacias las listas de minimos pasados y futuros.
+       
+    end %End del loop sobre los minimos del tiempo itime
+
+end %End del loop sobre los tiempos.
+
+
+
+
+
+
+
+

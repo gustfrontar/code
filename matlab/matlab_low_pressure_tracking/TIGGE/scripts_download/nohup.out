@@ -1,0 +1,254 @@
+mkdir: cannot create directory `/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12': File exists
+La variable PYTHONPATH es :  :/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201101.grib': No such file or directory
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201102.grib': No such file or directory
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201103.grib': No such file or directory
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201104.grib': No such file or directory
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201105.grib': No such file or directory
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201106.grib': No such file or directory
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201107.grib': No such file or directory
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201108.grib': No such file or directory
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201109.grib': No such file or directory
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201110.grib': No such file or directory
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201111.grib': No such file or directory
+Traceback (most recent call last):
+  File "./baja.py", line 8, in ?
+    server.retrieve({
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 47, in retrieve
+    user = self._call("user_info",{});
+  File "/home/jruiz/TIGGE/scripts_download/TMP_cwaopf2011Januarygeopotential12/ecmwf.py", line 23, in _call
+    response = urllib2.urlopen(req)
+  File "/usr/lib64/python2.4/urllib2.py", line 130, in urlopen
+    return _opener.open(url, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 358, in open
+    response = self._open(req, data)
+  File "/usr/lib64/python2.4/urllib2.py", line 376, in _open
+    '_open', req)
+  File "/usr/lib64/python2.4/urllib2.py", line 337, in _call_chain
+    result = func(*args)
+  File "/usr/lib64/python2.4/urllib2.py", line 573, in <lambda>
+    lambda r, proxy=url, type=type, meth=self.proxy_open: \
+  File "/usr/lib64/python2.4/urllib2.py", line 580, in proxy_open
+    if '@' in host:
+TypeError: iterable argument required
+mv: cannot stat `./HGT_ENS_cwao_201112.grib': No such file or directory
