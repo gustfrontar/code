@@ -1,0 +1,38 @@
+%Calculo correlacion lineal y corrijo para u y v
+clear all
+close all
+
+load /home/juan/Dropbox/Niebla/Scripts/EZEIZAugrd_10m.mat
+
+u_ref2=datos_estacion(1:9526,:)/0.51;  %es en m/s
+
+clear datos_estacion
+
+load /home/juan/Dropbox/Niebla/Scripts/EZEIZAvgrd_10m.mat
+
+v_ref2=datos_estacion(1:9526,:)/0.51; %es en m/s, cuando multiplico lo convierto en kt
+
+load uyvsynop_3_new.mat %en kt
+load /home/juan/Dropbox/Niebla/Scripts/datos2_3hs.mat
+load /home/juan/Dropbox/Niebla/Scripts/viento_ref2_modificado.mat
+
+viento_ref=viento_ref2(1:9526,:)/0.51; %en ref2 viene en m/s
+viento_syn=viento_3(1:9526,:); %hasta el dia que tienen datos, por eso el 9526
+u_synop=u_synop_3(1:9526,:);
+v_synop_3=v_synop_3(1:9526,:);
+%Voy a calcular los coef de correlacion lineal para cada estacion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

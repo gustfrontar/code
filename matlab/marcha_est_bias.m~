@@ -1,0 +1,85 @@
+clear all
+close all
+
+
+
+load ('../pp_ets_bias.mat')
+
+
+
+t_datos_n=size(pp_datos_n,4)
+t_datos_s=size(pp_datos_s,4)
+t_est_n=size(pp_est_n,4)
+t_est_s=size(pp_est_s,4)
+
+
+% Graficos ETS
+figure
+% Umbral de 1 mm 
+plot(squeeze(pp_datos_n(1,1,1,t_datos_n-30:t_datos_n)),'-bs','DisplayName','Pronostico a 24hs','LineWidth',1)
+hold on
+plot(squeeze(pp_datos_n(1,3,1,t_datos_n-30:t_datos_n)),'-.r*','DisplayName','Pronostico a 48hs','LineWidth',2)
+plot(squeeze(pp_datos_n(1,5,1,t_datos_n-30:t_datos_n)),'--mo','DisplayName','Pronostico a 72hs','LineWidth',2)
+legend('Pronostico a 24hs','Pronostico a 48hs','Pronostico a 72hs',0)
+
+figure
+% Umbral de 2.54 mm 
+plot(squeeze(pp_datos_n(2,1,1,t_datos_n-30:t_datos_n)),'-bs','DisplayName','Pronostico a 24hs','LineWidth',1)
+hold on
+plot(squeeze(pp_datos_n(2,3,1,t_datos_n-30:t_datos_n)),'-.r*','DisplayName','Pronostico a 48hs','LineWidth',2)
+plot(squeeze(pp_datos_n(2,5,1,t_datos_n-30:t_datos_n)),'--mo','DisplayName','Pronostico a 72hs','LineWidth',2)
+legend('Pronostico a 24hs','Pronostico a 48hs','Pronostico a 72hs',0)
+
+figure
+% Umbral de 25.4 mm 
+plot(squeeze(pp_datos_n(5,1,1,t_datos_n-30:t_datos_n)),'-bs','DisplayName','Pronostico a 24hs','LineWidth',1)
+hold on
+plot(squeeze(pp_datos_n(5,3,1,t_datos_n-30:t_datos_n)),'-.r*','DisplayName','Pronostico a 48hs','LineWidth',2)
+plot(squeeze(pp_datos_n(5,5,1,t_datos_n-30:t_datos_n)),'--mo','DisplayName','Pronostico a 72hs','LineWidth',2)
+legend('Pronostico a 24hs','Pronostico a 48hs','Pronostico a 72hs',0)
+
+figure
+% Umbral de 50.8 mm 
+plot(squeeze(pp_datos_n(7,1,1,t_datos_n-30:t_datos_n)),'-bs','DisplayName','Pronostico a 24hs','LineWidth',1)
+hold on
+plot(squeeze(pp_datos_n(7,3,1,t_datos_n-30:t_datos_n)),'-.r*','DisplayName','Pronostico a 48hs','LineWidth',2)
+plot(squeeze(pp_datos_n(7,5,1,t_datos_n-30:t_datos_n)),'--mo','DisplayName','Pronostico a 72hs','LineWidth',2)
+legend('Pronostico a 24hs','Pronostico a 48hs','Pronostico a 72hs',0)
+
+
+
+% Graficos Bias
+figure
+% Umbral de 1 mm 
+plot(squeeze(pp_datos_n(1,1,4,t_datos_n-30:t_datos_n)),'-bs','DisplayName','Pronostico a 24hs','LineWidth',1)
+hold on
+plot(squeeze(pp_datos_n(1,3,4,t_datos_n-30:t_datos_n)),'-.r*','DisplayName','Pronostico a 48hs','LineWidth',2)
+plot(squeeze(pp_datos_n(1,5,4,t_datos_n-30:t_datos_n)),'--mo','DisplayName','Pronostico a 72hs','LineWidth',2)
+legend('Pronostico a 24hs','Pronostico a 48hs','Pronostico a 72hs',0)
+
+figure
+% Umbral de 2.54 mm 
+plot(squeeze(pp_datos_n(2,1,4,t_datos_n-30:t_datos_n)),'-bs','DisplayName','Pronostico a 24hs','LineWidth',1)
+hold on
+plot(squeeze(pp_datos_n(2,3,4,t_datos_n-30:t_datos_n)),'-.r*','DisplayName','Pronostico a 48hs','LineWidth',2)
+plot(squeeze(pp_datos_n(2,5,4,t_datos_n-30:t_datos_n)),'--mo','DisplayName','Pronostico a 72hs','LineWidth',2)
+legend('Pronostico a 24hs','Pronostico a 48hs','Pronostico a 72hs',0)
+
+figure
+% Umbral de 25.4 mm 
+plot(squeeze(pp_datos_n(5,1,4,t_datos_n-30:t_datos_n)),'-bs','DisplayName','Pronostico a 24hs','LineWidth',1)
+hold on
+plot(squeeze(pp_datos_n(5,3,4,t_datos_n-30:t_datos_n)),'-.r*','DisplayName','Pronostico a 48hs','LineWidth',2)
+plot(squeeze(pp_datos_n(5,5,1,t_datos_n-30:t_datos_n)),'--mo','DisplayName','Pronostico a 72hs','LineWidth',2)
+legend('Pronostico a 24hs','Pronostico a 48hs','Pronostico a 72hs',0)
+
+figure
+% Umbral de 50.8 mm 
+plot(squeeze(pp_datos_n(7,1,1,t_datos_n-30:t_datos_n)),'-bs','DisplayName','Pronostico a 24hs','LineWidth',1)
+hold on
+plot(squeeze(pp_datos_n(7,3,1,t_datos_n-30:t_datos_n)),'-.r*','DisplayName','Pronostico a 48hs','LineWidth',2)
+plot(squeeze(pp_datos_n(7,5,1,t_datos_n-30:t_datos_n)),'--mo','DisplayName','Pronostico a 72hs','LineWidth',2)
+legend('Pronostico a 24hs','Pronostico a 48hs','Pronostico a 72hs',0)
+
+
+

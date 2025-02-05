@@ -1,0 +1,9 @@
+function [SM]=SmoothMatrix(M,srow,scol);
+
+%Usamos las funciones para suavizar series temporales para suavizar una
+%matriz.
+
+[NRow NCol]=size(M);
+
+for ir=1
+

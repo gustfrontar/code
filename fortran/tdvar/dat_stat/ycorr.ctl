@@ -1,0 +1,15 @@
+DSET ^ycorr.grd
+TITLE SPEEDY MODEL OUTPUT
+UNDEF -9.99E33
+OPTIONS big_endian
+XDEF 21 LINEAR 0.0 1
+YDEF 1 LINEAR 0 1 
+ZDEF 7 LEVELS  0.950 0.835 0.685 0.510 0.340 0.200 0.080
+TDEF 1 LINEAR 00Z01JAN1982 6HR
+VARS 5
+U 7 99 U-wind [m/s]
+V 7 99 V-wind [m/s]
+T 7 99 Temperature [K]
+Q 7 99 Specific Humidity [kg/kg]
+PS 0 99 Surface Pressure [Pa]
+ENDVARS

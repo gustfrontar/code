@@ -1,0 +1,88 @@
+function [xaens,xabar,Wa,coeficiente]=RUN_4DETKF(yo,xbens4d,xbens,p,dim,K,H,R,e)
+
+%---------------------------------------------
+%  apply ETKF to update analysis state
+%
+%  input:
+%       p - total observations
+%       yo(1,p) - observations
+%       xbens(dim,K) - background ensemble state
+%       K - ensemble size
+%       H - observation operator
+%       R - observation error covariance
+%       e(2) - inflation parameters
+%  output:
+%       xaens(dim,K) - analysis ensemble state
+%       xabar(dim,K) - analysis mean state
+%
+%  Shu-Chih Yang, 2006
+%---------------------------------------------
+ntimes=size(xbens4d,3);
+
+% ensemble mean
+xbbar=mean(xbens,2);
+xbbar4d=squeeze(mean(xbens4d,2));
+
+% background ensemble perturbations
+for i=1:K
+    xbens(:,i)=xbens(:,i)-xbbar;
+    for ii=1:ntimes
+       xbbar4d(:,i,ii)=xbbar4d(:,i,ii)-xbbar4d(:,ii); 
+    end
+end
+
+% background ensemble perturbation in observation space
+yb=[];
+d=[];
+%Compute innovation vector 
+for ii=1:ntimes
+yb=[yb ; H*squeeze(xbens4d(:,:,ii))];
+d=[d yo(:,ii)'-H*xbbar(1:dim,ii)];
+end
+
+
+Rinv=diag(1./diag(R));
+
+Rinvd=Rinv*d;
+
+% analysis error covariance in ensemble space
+dummy=yb'*(Rinv*yb)+double(K-1)*eye(K)/e(1);
+
+[U,S,VT]=svd(dummy);
+
+
+Pahat=U*(inv(S))*U';
+
+% weight to update ensemble mean
+wabar=Pahat*(yb'*Rinvd);
+
+clear dummy;
+
+% weight to update ensemble perturbations
+dummy=(K-1)*Pahat;
+[U,S,VT]= svd(dummy);
+
+clear dummy;
+for i=1:K
+   S(i,i)=sqrt(S(i,i));
+end
+
+coeficiente=K/sum(diag(S));
+
+
+%for symmetric square root matrix
+Wa=U*S*U';
+
+
+% update analysis ensemble mean and perturbations
+
+xabar=xbbar+xbens*wabar;
+xaens=xbens*Wa;
+
+
+% finalize the analysis ensemble
+for i=1:K
+    xaens(:,i)=xabar+xaens(:,i);
+end
+return
+

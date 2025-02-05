@@ -1,0 +1,92 @@
+% Grafica la evolucion del LLj del ultimo mes y medio, para el analisis y
+% los pronosticos a 24, 48 y 72 horas. Los calculos del llj estan en el
+% archivo rmse.m
+clear all
+close all
+
+
+% Abre el archivo donde estan los datos del llj
+load llj.mat
+var=1; % Cantidad de dias del defaseje para el promedio movil
+a=size(llj);
+tmax=a(1);
+tmin=a(1)-90 + var; %cantidad de dias q quiero graficar mas 2 dias mas o los q
+%sean para calcular el promedio y q no me falten dias
+%tmin=a(1)-10
+tmaxi=tmax-1;
+tmini=tmin+1;
+
+
+% Calculo el promedio segun el defasaje
+for i= tmini:tmaxi
+    m00(i)=(llj(i-var,1)+llj(i,1)+llj(i+var,1))/3;
+    m24(i)=(llj(i-var,2)+llj(i,2)+llj(i+var,2))/3;
+    m48(i)=(llj(i-var,3)+llj(i,3)+llj(i+var,3))/3;
+    m72(i)=(llj(i-var,4)+llj(i,4)+llj(i+var,4))/3;
+end
+
+
+% Genera la fecha q aparece en el eje X del grafico
+p=fecha_ar';
+a=size(p);
+aa=a(1);
+b=a(1)-10;
+bb=a(1)-20;
+c=a(1)-30;
+cc=a(1)-40;
+d=a(1)-50;
+dd=a(1)-60;
+e=a(1)-70;
+ee=a(1)-80;
+eee=a(1)-90;
+f=p(aa,:);
+ff=p(b,:);
+g=p(bb,:);
+gg=p(c,:);
+h=p(cc,:);
+hh=p(d,:);
+i=p(dd,:);
+ii=p(e,:);
+j=p(ee,:);
+jjj=p(eee,:);
+jj=[f 0 0];
+k=[ff 0 0];
+kk=[g 0 0];
+l=[gg 0 0];
+ll=[h 0 0];
+m=[hh 0 0];
+mm=[i 0 0];
+n=[ii 0 0];
+nn=[j 0 0];
+o=[jjj 0 0];
+temp45=datestr(o, ' dd/mm'); %genera la fecha de hoy menos 45 dias
+temp40=datestr(nn, 'dd/mm'); %genera la fecha de hoy menos 40 dias
+temp35=datestr(n, 'dd/mm'); %genera la fecha de hoy menos 35 dias
+temp30=datestr(mm, 'dd/mm'); %genera la fecha de hoy menos 30 dias
+temp25=datestr(m, 'dd/mm'); %genera la fecha de hoy menos 25 dias
+temp20=datestr(ll, 'dd/mm'); %genera la fecha de hoy menos 20 dias
+temp15=datestr(l, 'dd/mm'); %genera la fecha de hoy menos 15 dias
+temp10=datestr(kk, 'dd/mm'); %genera la fecha de hoy menos 10 dias
+temp5=datestr(k, 'dd/mm'); %genera la fecha de hoy menos 5 dia
+temp0=datestr(jj, ' dd/mm'); %genera la fecha de hoy 
+
+
+
+% Grafico los pronosticos y el analisis en una misma figura
+figure
+hold on
+plot(m00(tmini:tmaxi),'k','DisplayName','Analisis','LineWidth',3)
+plot(m24(tmini:tmaxi),'r','DisplayName','Pronostico a 24hs','LineWidth',2)
+plot(m48(tmini:tmaxi),'b','DisplayName','Pronostico a 48hs','LineWidth',2)
+plot(m72(tmini:tmaxi),'g','DisplayName','Pronostico a 72hs','LineWidth',2)
+title('Low Level Jet del ultimo meses y medio','FontSize',13)
+absisas=strcat('Dias desde ', temp45, ' al ', temp0);
+xlabel(absisas,'FontSize',12)
+ylabel('Promedio Movil','FontSize',12)
+set(gca,'XTick',[0 1 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 68 70 72 74 76 78 80 82 84 86 88 90]);
+set(gca,'XTickLabel',{temp45,'','','','',temp40,'','','','',temp35,'','','','',temp30,'','','','',temp25,'','','','',temp20,'','','','',temp15,'','','','',temp10,'','','','',temp5,'','','','',temp0})
+set(gca,'YGrid','on','XGrid','on')
+legend('Analisis','Pronostico a 24hs','Pronostico a 48hs','Pronostico a 72hs',1)
+archivo=strcat('llj','_pronos');
+print('-depsc',archivo)
+close 1;

@@ -1,0 +1,16 @@
+clear all
+close all
+
+load()
+
+carga_mapa
+
+latvar=pp_ensemble_24(:,3);
+lonvar=pp_ensemble_48(:,4);
+plot(lonvar,latvar,'o')
+hold on
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+axis([-180 -8 -82 16])

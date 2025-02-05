@@ -1,0 +1,13 @@
+% Two coupled Lorenz '63 systems
+
+function x_dot = lorenz(x,n)
+
+a      = par(1);
+r      = par(2);
+b      = par(3);
+
+x_dot(1) = a*(x(2) - x(1));
+x_dot(2) = -x(1)*x(3) + r*x(1) - x(2);
+x_dot(3) = x(1)*x(2) - b*x(3);	
+
+

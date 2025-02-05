@@ -1,0 +1,8 @@
+clear all
+close all
+
+%Test minimizador.
+
+options = optimset('GradObj','on');
+[minX] = fminunc('funcionfacil',x);
+

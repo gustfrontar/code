@@ -1,0 +1,123 @@
+clear all
+close all
+
+load datos_val.mat;
+
+%TODO: Reconstruir los pronosticos corregidos para todos las fechas y
+%calcular los scores.
+
+NFor=size(Val.WRFVel,1);
+
+for CurrentForecast=1:NFor
+
+CurrentForecast/NFor
+
+
+CVelFor=Val.WRFVel(CurrentForecast,:);
+CDirFor=Val.WRFDir(CurrentForecast,:);
+
+CDate=Val.datetotal(CurrentForecast,:);
+
+VelForDb=Val.WRFVel;
+VelObsDb=Val.ObsVel;
+DirForDb=Val.WRFDir;
+DirObsDb=Val.ObsDir;
+
+DatesDb=Val.datetotal;
+
+%TODO: Incorporar una cross validation sacando el dia del pronostico.
+
+[ CVelMean(CurrentForecast,:) CDirMean(CurrentForecast,:) CVelMedian(CurrentForecast,:) CDirMedian(CurrentForecast,:) CVelStd(CurrentForecast,:) CDirStd(CurrentForecast,:) SampleSize(CurrentForecast,:) ]=calibration_fun( CVelFor , CDirFor , CDate , VelForDb , VelObsDb , DirForDb, DirObsDb , DatesDb );
+
+
+end
+
+%Ejemplo de performance para un pronostico.
+PlotForecast=170;
+
+figure
+subplot(1,2,1)
+hold on
+plot(CVelMean(PlotForecast,:),'r');
+plot(CVelMedian(PlotForecast,:),'r--');
+plot(Val.WRFVel(PlotForecast,:),'b');
+plot(Val.ObsVel(PlotForecast,:),'k');
+
+subplot(1,2,2)
+hold on
+plot(CDirMean(PlotForecast,:),'r');
+plot(CDirMedian(PlotForecast,:),'r--');
+plot(Val.WRFDir(PlotForecast,:),'b');
+plot(Val.ObsDir(PlotForecast,:),'k');
+
+
+%Verificamos los pronosticos calibrados y los no calibrados.
+
+[ VerificationWRF ]=verification_fun(Val.WRFVel,Val.ObsVel,Val.WRFDir,Val.ObsDir);
+[ VerificationWRFCalibratedMean ]=verification_fun(CVelMean,Val.ObsVel,CDirMean,Val.ObsDir);
+[ VerificationWRFCalibratedMedian ]=verification_fun(CVelMedian,Val.ObsVel,CDirMedian,Val.ObsDir);
+
+
+figure
+
+subplot(2,2,1)
+
+hold on
+plot(VerificationWRF.VelRmse,'b')
+plot(VerificationWRFCalibratedMean.VelRmse,'r')
+plot(VerificationWRFCalibratedMedian.VelRmse,'r--')
+
+subplot(2,2,2)
+hold on
+plot(VerificationWRF.VelCorrelation,'b')
+plot(VerificationWRFCalibratedMean.VelCorrelation,'r')
+plot(VerificationWRFCalibratedMedian.VelCorrelation,'r--')
+
+subplot(2,2,3)
+hold on
+plot(VerificationWRF.VelBias,'b')
+plot(VerificationWRFCalibratedMean.VelBias,'r')
+plot(VerificationWRFCalibratedMedian.VelBias,'r--')
+
+subplot(2,2,4)
+hold on
+plot(VerificationWRF.VelStdFor,'b')
+plot(VerificationWRFCalibratedMean.VelStdFor,'r')
+plot(VerificationWRFCalibratedMedian.VelStdFor,'r--')
+plot(VerificationWRF.VelStdObs,'k')
+
+
+
+figure
+
+subplot(2,2,1)
+
+hold on
+plot(VerificationWRF.DirRmse,'b')
+plot(VerificationWRFCalibratedMean.DirRmse,'r')
+plot(VerificationWRFCalibratedMedian.DirRmse,'r--')
+
+subplot(2,2,2)
+hold on
+plot(VerificationWRF.DirCorrelation,'b')
+plot(VerificationWRFCalibratedMean.DirCorrelation,'r')
+plot(VerificationWRFCalibratedMedian.DirCorrelation,'r--')
+
+subplot(2,2,3)
+hold on
+plot(VerificationWRF.DirBias,'b')
+plot(VerificationWRFCalibratedMean.DirBias,'r')
+plot(VerificationWRFCalibratedMedian.DirBias,'r--')
+
+subplot(2,2,4)
+hold on
+plot(VerificationWRF.DirStdFor,'b')
+plot(VerificationWRFCalibratedMean.DirStdFor,'r')
+plot(VerificationWRFCalibratedMedian.DirStdFor,'r--')
+plot(VerificationWRF.DirStdObs,'k')
+
+
+
+
+
+

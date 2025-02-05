@@ -1,0 +1,23 @@
+La fecha es: 20090416
+Los modelos aprobados en el primer paso para el pronstico a 24 horas son
+14
+Los modelos aprobados en el primer paso para el pronstico a 48 horas son
+15
+Los modelos aprobados en el segundo paso para el pronstico a 24 horas son
+14
+Cantidad de pronos: 107
+LOW STD, HI STD 3.98 7.73
+Rank histograms
+ 0.160 0.100 0.094 0.100 0.088 0.045 0.042 0.042 0.033 0.018 0.027 0.012 0.021 0.036 0.181 
+ 0.536 0.154 0.087 0.030 0.021 0.036 0.009 0.015 0.015 0.012 0.003 0.021 0.003 0.018 0.039 
+ 0.714 0.087 0.033 0.027 0.009 0.009 0.024 0.006 0.012 0.006 0.009 0.009 0.015 0.015 0.024 
+ 0.470 0.114 0.071 0.052 0.039 0.030 0.025 0.021 0.020 0.012 0.013 0.014 0.013 0.023 0.081 
+Los modelos aprobados en el segundo paso para el pronstico a 48 horas son
+15
+Cantidad de pronos: 107
+LOW STD, HI STD 3.98 7.73
+Rank histograms
+ 0.162 0.123 0.081 0.072 0.084 0.051 0.045 0.033 0.039 0.021 0.027 0.018 0.018 0.027 0.027 0.171 
+ 0.508 0.108 0.072 0.042 0.045 0.039 0.003 0.033 0.018 0.012 0.009 0.012 0.006 0.018 0.015 0.060 
+ 0.662 0.087 0.060 0.021 0.027 0.024 0.006 0.012 0.009 0.006 0.012 0.009 0.018 0.012 0.012 0.024 
+ 0.444 0.106 0.071 0.045 0.052 0.038 0.018 0.026 0.022 0.013 0.016 0.013 0.014 0.019 0.018 0.085 

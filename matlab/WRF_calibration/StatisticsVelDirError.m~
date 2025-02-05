@@ -1,0 +1,59 @@
+
+function [MeanErrorVel StdErrorVel MeanErrorDir StdErrorDir ]=StatisticsVelDirError(VelFor,DirFor,VelObs,DirObs)
+
+%El error en velocidad, su media y su desvio lo calculamos directamente.
+
+VelError=VelFor-VelObs;
+
+MeanErrorVel=nanmean(VelError);
+
+StdErrorVel=nanstd(VelError);
+
+
+%El error en direccion, su media y su desvio lo calculamos transformando
+%Velocidad y direccion a U, V, tomando el U medio y V medio y luego
+%recuperando la direccion del vector Umedio Vmedio.
+
+
+
+
+
+
+
+%La desviacion estandard en direccion la estimo a partir de la muestra de
+%direcciones. Pero primero 
+
+
+DirError=DirFor-DirObs;
+
+
+    
+    for ii=1:size(DirError,1)
+       
+        if( DirError(ii) > 180 )
+            
+            DirError(ii)=360-DirError(ii);
+            
+        elseif( DirError(ii) < -180)
+            
+            DirError(ii)=360+DirError(ii);
+            
+        end
+        
+    end
+
+ 
+ StdErrorDir=nanstd(DirError);
+   
+    
+    
+ 
+
+
+
+
+
+
+
+
+end

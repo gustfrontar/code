@@ -1,0 +1,59 @@
+clear all
+close all
+%**************************************************************************
+% Este script genera una figura que compara los rank histograms obtenidos con
+% gts de los rank histograms obtenidos con cmorph para la calibracion
+% estatica.
+%**************************************************************************
+
+path='d:/trabajos/TrabajoSLAF/precipitacion/superensemble/matlab/slaf';
+
+load(strcat(path,'slaf2005_sur_cmogts.mat'));
+rank_hist_24_gts_sur=rank_hist_24_gts;
+rank_hist_24_cmo_sur=rank_hist_24_cmo;
+rank_hist_48_gts_sur=rank_hist_48_gts;
+rank_hist_48_cmo_sur=rank_hist_48_cmo;
+load(strcat(path,'slaf2005_norte_cmogts.mat'));
+rank_hist_24_gts_norte=rank_hist_24_gts;
+rank_hist_24_cmo_norte=rank_hist_24_cmo;
+rank_hist_48_gts_norte=rank_hist_48_gts;
+rank_hist_48_cmo_norte=rank_hist_48_cmo;
+
+
+umbral=[0.01 0.10 0.25 0.5 1 1.5 2]*25.4;
+
+figure
+axis_limits=[ 0 columnas24+1 -0.2 0.2]
+subplot(231)
+bar([rank_hist_24_gts_sur(1,:)-rank_hist_24_cmo_sur(1,:)],'stack')
+title('Low spread SR (a)');
+axis(axis_limits);
+
+subplot(232)
+bar([rank_hist_24_gts_sur(2,:)-rank_hist_24_cmo_sur(2,:)],'stack')
+title('Med. spread SR (b)');
+axis(axis_limits);
+
+subplot(233)
+bar([rank_hist_24_gts_sur(3,:)-rank_hist_24_cmo_sur(3,:)],'stack')
+title('Hi spread SR (c)');
+axis(axis_limits);
+
+subplot(234)
+bar([rank_hist_48_gts_norte(1,:)-rank_hist_48_cmo_norte(1,:)],'stack')
+title('Low spread NR (d)');
+axis(axis_limits);
+
+subplot(235)
+bar([rank_hist_48_gts_norte(2,:)-rank_hist_48_cmo_norte(2,:)],'stack')
+title('Med. Spread NR (e)');
+axis(axis_limits);
+
+subplot(236)
+bar([rank_hist_48_gts_norte(3,:)-rank_hist_48_cmo_norte(3,:)],'stack')
+title('Hi spread NR (f)');
+axis(axis_limits);
+
+
+ 
+   

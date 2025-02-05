@@ -1,0 +1,69 @@
+
+
+function [ radar , ref , dv , dadv , phidp , rhohv , kdp ] = read_radar_netcdf(filename)
+
+
+[present_ref]=test_netcdf_var(file,'dBZ');
+[present_dv]=test_netcdf_var(file,'V');
+[present_dadv]=test_netcdf_var(file,'VDA');
+[present_phidp]=test_netcdf_var(file,'PhiDP');
+[present_rhohv]=test_netcdf_var(file,'RhoHV');
+[present_kdp]=test_netcdf_var(file,'KDP');
+
+
+%Get dimensions
+    elevation  = read_netcdf_var(filename,'elevation',false);
+    azimuth    = read_netcdf_var(filename,'azimuth',false);
+    range      = read_netcdf_var(filename,'range',false);
+    time       = read_netcdf_var(filename,'time',false);
+
+%Get Radar location
+    radar.lon = read_netcdf_var(filename,'longitude',false);
+    radar.lat = read_netcdf_var(filename,'latitude',false);
+    radar.altitude = read_netcdf_var(filename,'altitude',false);
+    
+%Get Scan time 
+    radar.time_coverage_start = read_netcdf_var(filename,'time_coverage_start',false)';
+    radar.time_coverage_start([14 17])='_';
+    radar.time_coverage_start=radar.time_coverage_start(1:20);
+    
+  
+%Get Variable Data
+    input_ref = read_netcdf_var(filename,'dBZ',false);
+    input_dv = read_netcdf_var(filename,'V',false);
+    input_phidp = read_netcdf_var(filename,'PhiDP',false);
+    kdp = read_netcdf_var(filename,'KDP',true);
+    input_rhohv = read_netcdf_var(filename,'RhoHV',false);
+    input_cdv = read_netcdf_var(filename,'VDA',false);  
+    
+    
+    [ref , az , el]= order_variable(input_ref,azimuth,elevation) ;
+    [dv , az , el] = order_variable(input_dv,azimuth,elevation) ;
+    [phidp , az , el] = order_variable(input_phidp,azimuth,elevation) ;
+    [kdp , az , el]= order_variable(kdp,azimuth,elevation) ;
+    [rhohv , az , el] = order_variable(input_rhohv,azimuth,elevation) ;
+    [dadv , az , el] = order_variable(input_dadv,azimuth,elevation) ;
+    
+    
+    
+    radar.ne=length(el);
+    radar.na=size(az,1);
+    radar.nr=length(range);
+    
+    radar.elevation=el;
+    radar.azimuth=squeeze(mean(az,2));
+    radar.range=range;
+    radar.time=reshape(time,[radar.na radar.ne]);
+
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    

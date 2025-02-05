@@ -1,0 +1,128 @@
+function [Power TotalPower]=VelDirToPower(Vel,Dir,Parque,MaskTurbine,Option)
+%Esta funcion convierte valores de velocidad y direccion de viento en
+%valores de potencia producidas por un parque eolico.
+%INPUTS:
+%Vel -> Es un vector conteniendo valores de velocidad de viento.
+%Dir -> Es un vector conteniendo valores de direccion de viento.
+%Turbines -> Es una estructura que contiene la relacion entre el viento y
+%la potencia producida por todas las turbinas que componen el parque.
+%Contiene ademas la informacion del parque (numero de turbinas, etc).
+%MaskTurbines -> Es un array logico con dimension igual a la cantidad de
+%turbinas presentes en el parque. Se utiliza para determinar si una
+%determinada turbina esta prendida o apagada.
+%Option -> Es un string que contiene alguna de las siguientes opciones:
+%Mean, Mode, Median o Prct y que definen el tipo de ajuste que
+%se hara entre los valores de viento y la potencia. 
+
+%OUTPUTS:
+%Power -> Es la potencia producida por producida por cada aerogenerador en cada plazo
+%de pronostico (cada aerogenerador es una fila y cada plazo una columna del
+%array.
+%TotalPower es la potencia total producida por el parque en cada plazo de
+%pronostico.
+
+NTurbine=length(Turbine);
+
+NLead=length(Vel); %Cantidad de plazos de pronostico que tenemos que transformar a potencia.
+
+
+for i=1:NTurbine
+    
+    switch Option
+        case ('Mean')
+            %Obtengo para este caso, las matrices que me permiten obtener
+            %la potencia como funcion de la intensidad de viento y de la
+            %direccion.
+            
+            DirVel=Turbine(it).DirVelMean;    %El valor central de cada uno de los intervalos en los que dividimos el rango de velocidades.
+            DirPow=Turbine(it).DirPowerMean;  %El valor de la potencia que corresponde a cada uno de los intervalos de velocidad.
+            DirFit=Turbine(it).Dir;           %El valor central de los intervalos en los que dividimos el rango de direcciones.
+            
+        case ('Mode')
+            %Obtengo para este caso, las matrices que me permiten obtener
+            %la potencia como funcion de la intensidad de viento y de la
+            %direccion.
+            
+            DirVel=Turbine(it).DirVelMode;
+            DirPow=Turbine(it).DirPowerMode;
+            DirFit=Turbine(it).Dir;
+            
+        case ('Median')
+            %Obtengo para este caso, las matrices que me permiten obtener
+            %la potencia como funcion de la intensidad de viento y de la
+            %direccion.
+            
+            DirVel=Turbine(it).DirVelMedian;
+            DirPow=Turbine(it).DirPowerMedian;
+            DirFit=Turbine(it).Dir;
+            
+        case ('Parametric')
+            %En este caso, como el ajuste es parametrico lo que obtengo son
+            %los parametros de la funcion sigmoidea que ajustamos a la
+            %curva viento-potencia.
+            
+            DirParametric=Turbine(i).DirParametric;
+            DirFit=Turbine(it).Dir;
+            Fun=Turbine(it).DirFun;
+            
+            [struct.Vel(:,i)]=veldir_inter_function(forecast,obs.Turbine(i).DirParametric,obs.Turbine(i).DirFun,obs.Directions);
+    end  
+    
+    
+    switch Option
+        case('Mean','Mode','Median')
+   
+          %Tengo una curva de calibracion para cada una de las N
+          %direcciones en las que dividimos el rango de direcciones. Segun
+          %la direccion de cada plazo de pronostico tengo que seleccionar
+          %la curva correspondiente.
+          
+          for il=1:NLead
+          
+                DirDist=abs(Dir(il)-DirFit);
+                [TmpMin MinLoc]=min(DirDist);  %Busco que indice corresponde al bin de direcciones al cual pertenece el pronostico actual para este plazo.
+                
+                TmpVel=DirVel{MinLoc};
+                TmpPow=DirPow{MinLoc};
+            
+                %Uso interpolacion por Splines (podria ser tambien lineal)
+                %para determinar el valor de potencia que corresponde al
+                %valor de viento pronosticado en este plazo.
+                Power(i,il)=interp1(TmpVel,TmpPow,Vel(il),'spline');
+                       
+          end
+            
+            
+        case('Parametric')
+          %Tengo un conjunto de parametros para cada una de las N
+          %direcciones en las que dividimos el rango de direcciones. Segun
+          %la direccion de cada plazo de pronostico tengo que seleccionar
+          %los parametros correspondients.  
+            
+          for il=1:NLead
+          
+                DirDist=abs(Dir(il)-DirFit);
+                [TmpMin MinLoc]=min(DirDist);  %Busco que indice corresponde al bin de direcciones al cual pertenece el pronostico actual para este plazo.
+                
+                TmpParametric=DirParametric{MinLoc};
+                TmpFun=Fun{MinLoc};
+            
+                %Uso un evaluador de la funcion que toma como input los
+                %parametros del ajuste y la velocidad del viento.
+                Power(i,il)=TmpFun(TmpParametric,Vel(il));
+                       
+          end     
+            
+            
+    end
+    
+
+    
+end
+
+for il=1:NLead
+    TotalPower(il)=sum(squeeze(Power(:,il)).*MaskTurbine);
+end
+    
+
+return
