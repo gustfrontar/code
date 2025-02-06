@@ -1,0 +1,1018 @@
+running build
+running config_cc
+INFO: unifing config_cc, config, build_clib, build_ext, build commands --compiler options
+running config_fc
+INFO: unifing config_fc, config, build_clib, build_ext, build commands --fcompiler options
+running build_src
+INFO: build_src
+INFO: building extension "cletkf" sources
+INFO: f2py options: []
+INFO: f2py:> /tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkfmodule.c
+creating /tmp/tmplp8qwsjf/src.linux-x86_64-3.9
+rmbadname1: Replacing "max" with "max_bn".
+Reading fortran codes...
+	Reading file 'netlib.f90' (format:fix)
+Line #1582 in netlib.f90:"      PARAMETER (ONE=1.0D+0,ZERO=0.0D+0) "
+	get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+	Reading file 'SFMT.f90' (format:free)
+	Reading file 'common_tools.f90' (format:free)
+	Reading file 'common_mtx.f90' (format:free)
+	Reading file 'common_letkf.f90' (format:free)
+	Reading file 'common_da.f90' (format:free)
+Post-processing...
+	Block: cletkf
+			Block: dspdi
+			Block: dspfa
+			Block: pythag
+			Block: rs
+			Block: tql1
+			Block: tql2
+			Block: tred1
+			Block: tred2
+			Block: daxpy
+			Block: dcopy
+			Block: ddot
+			Block: dswap
+			Block: idamax
+			Block: dgemm
+In: :cletkf:netlib.f90:dgemm
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:netlib.f90:dgemm
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+			Block: lsame
+			Block: xerbla
+			Block: mod_sfmt
+			Block: rshift128
+			Block: lshift128
+			Block: do_recursion
+In: :cletkf:SFMT.f90:do_recursion
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:do_recursion
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:do_recursion
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+			Block: gen_rand_all
+In: :cletkf:SFMT.f90:gen_rand_all
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:gen_rand_all
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:gen_rand_all
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+			Block: period_certification
+In: :cletkf:SFMT.f90:period_certification
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:period_certification
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:period_certification
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+			Block: gen_rand32
+In: :cletkf:SFMT.f90:gen_rand32
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:gen_rand32
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:gen_rand32
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+			Block: gen_rand64
+In: :cletkf:SFMT.f90:gen_rand64
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:gen_rand64
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:gen_rand64
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+			Block: init_gen_rand
+In: :cletkf:SFMT.f90:init_gen_rand
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:init_gen_rand
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:SFMT.f90:init_gen_rand
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+			Block: genrand_res53
+			Block: common_tools
+In: :cletkf:common_tools.f90:common_tools
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_tools.f90:common_tools
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_tools.f90:common_tools
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_tools.f90:common_tools
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_tools.f90:common_tools
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_tools.f90:common_tools
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_tools.f90:common_tools
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_tools.f90:common_tools
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_tools.f90:common_tools
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_tools.f90:common_tools
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_tools.f90:common_tools
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: com_mean
+				Block: com_stdev
+				Block: com_covar
+				Block: com_correl
+				Block: com_anomcorrel
+				Block: com_l2norm
+				Block: com_rms
+				Block: com_filter_lanczos
+				Block: com_rand
+				Block: com_randn
+				Block: com_interp_spline
+			Block: common_mtx
+In: :cletkf:common_mtx.f90:common_mtx
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_mtx.f90:common_mtx
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_mtx.f90:common_mtx
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: mtx_eigen
+In: :cletkf:common_mtx.f90:common_mtx:mtx_eigen
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_mtx.f90:common_mtx:mtx_eigen
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_mtx.f90:common_mtx:mtx_eigen
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_eigen
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_eigen
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_eigen
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_eigen
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_eigen
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_eigen
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_eigen
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_eigen
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: mtx_inv
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: mtx_sqrt
+In: :cletkf:common_mtx.f90:common_mtx:mtx_sqrt
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_mtx.f90:common_mtx:mtx_sqrt
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_mtx.f90:common_mtx:mtx_sqrt
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_sqrt
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_sqrt
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_sqrt
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_sqrt
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_sqrt
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_sqrt
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_sqrt
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_sqrt
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: mtx_inv_rg
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv_rg
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv_rg
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv_rg
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv_rg
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv_rg
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv_rg
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv_rg
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv_rg
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv_rg
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv_rg
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_mtx.f90:common_mtx:mtx_inv_rg
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+			Block: common_letkf
+In: :cletkf:common_letkf.f90:common_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: letkf_core
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:letkf_core
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+				Block: weight_rtps
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtps
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtps
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtps
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtps
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtps
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtps
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtps
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtps
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtps
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtps
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtps
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: weight_rtpp
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtpp
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtpp
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtpp
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtpp
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtpp
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtpp
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtpp
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtpp
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtpp
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtpp
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_rtpp
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: weight_epes
+In: :cletkf:common_letkf.f90:common_letkf:weight_epes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf:weight_epes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf:weight_epes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_epes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_epes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_epes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_epes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_epes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_epes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_epes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_epes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: weight_modepes
+In: :cletkf:common_letkf.f90:common_letkf:weight_modepes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf:weight_modepes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_letkf.f90:common_letkf:weight_modepes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_modepes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_modepes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_modepes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_modepes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_modepes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_modepes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_modepes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_letkf.f90:common_letkf:weight_modepes
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+			Block: common_da
+In: :cletkf:common_da.f90:common_da
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_da.f90:common_da
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_da.f90:common_da
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: simple_letkf
+In: :cletkf:common_da.f90:common_da:simple_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_da.f90:common_da:simple_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_da.f90:common_da:simple_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:simple_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:simple_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:simple_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:simple_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:simple_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:simple_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:simple_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:simple_letkf
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: calc_ref_ens
+In: :cletkf:common_da.f90:common_da:calc_ref_ens
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_da.f90:common_da:calc_ref_ens
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_da.f90:common_da:calc_ref_ens
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref_ens
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref_ens
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref_ens
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref_ens
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref_ens
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref_ens
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref_ens
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref_ens
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+				Block: calc_ref
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 4
+In: :cletkf:common_da.f90:common_da:calc_ref
+get_parameters: got "eval() arg 1 must be a string, bytes or code object" on 8
+Post-processing (stage 2)...
+	Block: cletkf
+		Block: unknown_interface
+			Block: dspdi
+			Block: dspfa
+			Block: pythag
+			Block: rs
+			Block: tql1
+			Block: tql2
+			Block: tred1
+			Block: tred2
+			Block: daxpy
+			Block: dcopy
+			Block: ddot
+			Block: dswap
+			Block: idamax
+			Block: dgemm
+			Block: lsame
+			Block: xerbla
+			Block: mod_sfmt
+			Block: rshift128
+			Block: lshift128
+			Block: do_recursion
+			Block: gen_rand_all
+			Block: period_certification
+			Block: gen_rand32
+			Block: gen_rand64
+			Block: init_gen_rand
+			Block: genrand_res53
+			Block: common_tools
+				Block: com_mean
+				Block: com_stdev
+				Block: com_covar
+				Block: com_correl
+				Block: com_anomcorrel
+				Block: com_l2norm
+				Block: com_rms
+				Block: com_filter_lanczos
+				Block: com_rand
+				Block: com_randn
+				Block: com_interp_spline
+			Block: common_mtx
+				Block: mtx_eigen
+				Block: mtx_inv
+				Block: mtx_sqrt
+				Block: mtx_inv_rg
+			Block: common_letkf
+				Block: letkf_core
+				Block: weight_rtps
+				Block: weight_rtpp
+				Block: weight_epes
+				Block: weight_modepes
+			Block: common_da
+				Block: simple_letkf
+				Block: calc_ref_ens
+				Block: calc_ref
+Building modules...
+    Building module "cletkf"...
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "dspdi"...
+          dspdi(ap,n,kpvt,det,inert,work,job)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "dspfa"...
+          dspfa(ap,n,kpvt,info)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+		Creating wrapper for Fortran function "pythag"("pythag")...
+        Constructing wrapper function "pythag"...
+          pythag = pythag(a,b)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "rs"...
+          rs(a,w,matz,z,fv1,fv2,ierr,[nm,n])
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "tql1"...
+          tql1(d,e,ierr,[n])
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "tql2"...
+          tql2(d,e,z,ierr,[nm,n])
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "tred1"...
+          tred1(a,d,e,e2,[nm,n])
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "tred2"...
+          tred2(a,d,e,z,[nm,n])
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "daxpy"...
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+          daxpy(n,da,dx,incx,dy,incy)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "dcopy"...
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+          dcopy(n,dx,incx,dy,incy)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+		Creating wrapper for Fortran function "ddot"("ddot")...
+        Constructing wrapper function "ddot"...
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+          ddot = ddot(n,dx,incx,dy,incy)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "dswap"...
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+          dswap(n,dx,incx,dy,incy)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+		Creating wrapper for Fortran function "idamax"("idamax")...
+        Constructing wrapper function "idamax"...
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+          idamax = idamax(n,dx,incx)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "dgemm"...
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+getarrdims:warning: assumed shape array, using 0 instead of '*'
+          dgemm(transa,transb,m,n,k,alpha,a,b,beta,c,[lda,ldb,ldc])
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+		Creating wrapper for Fortran function "lsame"("lsame")...
+        Constructing wrapper function "lsame"...
+          lsame = lsame(ca,cb)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "xerbla"...
+          xerbla(srname,info)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "rshift128"...
+          outtop,outbtm = rshift128(intop,inbtm,shift)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "lshift128"...
+          outtop,outbtm = lshift128(intop,inbtm,shift)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "do_recursion"...
+          rtop,rbtm = do_recursion(atop,abtm,btop,bbtm,ctop,cbtm,dtop,dbtm)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "gen_rand_all"...
+          gen_rand_all()
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "period_certification"...
+          period_certification()
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+		Creating wrapper for Fortran function "gen_rand32"("gen_rand32")...
+        Constructing wrapper function "gen_rand32"...
+          gen_rand32 = gen_rand32()
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+		Creating wrapper for Fortran function "gen_rand64"("gen_rand64")...
+        Constructing wrapper function "gen_rand64"...
+          gen_rand64 = gen_rand64()
+    Generating possibly empty wrappers"
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(real = dict(r_size="<C typespec>")) in /home/jruiz/Dropbox/code/python/common_python/common_letkf/.f2py_f2cmap file).
+    Maybe empty "cletkf-f2pywrappers.f"
+        Constructing wrapper function "init_gen_rand"...
+          init_gen_rand(seed)
+    Generating possibly empty wrappers"
+    Maybe empty "cletkf-f2pywrappers.f"
+		Creating wrapper for Fortran function "genrand_res53"("genrand_res53")...
+        Constructing wrapper function "genrand_res53"...
+          genrand_res53 = genrand_res53()
+		Constructing F90 module support for "mod_sfmt"...
+		  Variables: mexp n n32 n64 psfmt32 psfmt64 idx initialized pos1 sl1 sl2 sr1 sr2 msk12 msk34 msk_l parity1 parity2 parity3 parity4 parity
+		Constructing F90 module support for "common_tools"...
+		  Variables: r_size r_dble r_sngl pi gg rd cp re r_omega t0c undef
+            Constructing wrapper function "common_tools.com_mean"...
+              amean = com_mean(var,[ndim])
+            Constructing wrapper function "common_tools.com_stdev"...
+              aout = com_stdev(var,[ndim])
+            Constructing wrapper function "common_tools.com_covar"...
+              cov = com_covar(var1,var2,[ndim])
+            Constructing wrapper function "common_tools.com_correl"...
+              cor = com_correl(var1,var2,[ndim])
+            Constructing wrapper function "common_tools.com_anomcorrel"...
+              cor = com_anomcorrel(var1,var2,varmean,[ndim])
+            Constructing wrapper function "common_tools.com_l2norm"...
+              anorm = com_l2norm(var,[ndim])
+            Constructing wrapper function "common_tools.com_rms"...
+              rmsv = com_rms(var,[ndim])
+            Constructing wrapper function "common_tools.com_filter_lanczos"...
+              com_filter_lanczos(fc,var,[ndim])
+            Constructing wrapper function "common_tools.com_rand"...
+              var = com_rand(ndim)
+            Constructing wrapper function "common_tools.com_randn"...
+              var = com_randn(ndim,seed)
+            Constructing wrapper function "common_tools.com_interp_spline"...
+              y5 = com_interp_spline(x,y,x5,[ndim,n])
+		Constructing F90 module support for "common_mtx"...
+            Constructing wrapper function "common_mtx.mtx_eigen"...
+              eival,eivec,nrank_eff = mtx_eigen(imode,a,[n])
+            Constructing wrapper function "common_mtx.mtx_inv"...
+              ainv = mtx_inv(a,[n])
+            Constructing wrapper function "common_mtx.mtx_sqrt"...
+              a_sqrt = mtx_sqrt(a,[n])
+            Constructing wrapper function "common_mtx.mtx_inv_rg"...
+              ff = mtx_inv_rg(aa,[n])
+		Constructing F90 module support for "common_letkf"...
+            Constructing wrapper function "common_letkf.letkf_core"...
+              trans,transm,pao = letkf_core(hdxb,rdiag,rloc,dep,parm_infl,minfl,[ne,nobsl])
+            Constructing wrapper function "common_letkf.weight_rtps"...
+              wrlx = weight_rtps(relax_alpha_spread,w,pa,xb,[ne])
+            Constructing wrapper function "common_letkf.weight_rtpp"...
+              wrlx = weight_rtpp(relax_alpha,w,[ne])
+            Constructing wrapper function "common_letkf.weight_epes"...
+              wrlx = weight_epes(relax_alpha_spreadw,w,[ne])
+            Constructing wrapper function "common_letkf.weight_modepes"...
+              wrlx = weight_modepes(relax_alpha_spreadw,w,[ne])
+		Constructing F90 module support for "common_da"...
+            Constructing wrapper function "common_da.simple_letkf"...
+              xa = simple_letkf(xfo,xf,dep,error,min_o,[nx,ny,nz,nbv,nvar])
+            Constructing wrapper function "common_da.calc_ref_ens"...
+              refens = calc_ref_ens(qrens,qsens,qgens,tens,pens,[nx,ny,nz,nbv])
+            Constructing wrapper function "common_da.calc_ref"...
+              ref = calc_ref(qr,qs,qg,t,p)
+    Wrote C/API module "cletkf" to file "/tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkfmodule.c"
+    Fortran 77 wrappers are saved to "/tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkf-f2pywrappers.f"
+    Fortran 90 wrappers are saved to "/tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkf-f2pywrappers2.f90"
+INFO:   adding '/tmp/tmplp8qwsjf/src.linux-x86_64-3.9/fortranobject.c' to sources.
+INFO:   adding '/tmp/tmplp8qwsjf/src.linux-x86_64-3.9' to include_dirs.
+copying /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/f2py/src/fortranobject.c -> /tmp/tmplp8qwsjf/src.linux-x86_64-3.9
+copying /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/f2py/src/fortranobject.h -> /tmp/tmplp8qwsjf/src.linux-x86_64-3.9
+INFO:   adding '/tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkf-f2pywrappers.f' to sources.
+INFO:   adding '/tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkf-f2pywrappers2.f90' to sources.
+INFO: build_src: building npy-pkg config files
+/home/jruiz/anaconda3/lib/python3.9/site-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+running build_ext
+INFO: customize UnixCCompiler
+INFO: customize UnixCCompiler using build_ext
+INFO: get_default_fcompiler: matching types: '['arm', 'gnu95', 'intel', 'lahey', 'pg', 'nv', 'absoft', 'nag', 'vast', 'compaq', 'intele', 'intelem', 'gnu', 'g95', 'pathf95', 'nagfor', 'fujitsu']'
+INFO: customize ArmFlangCompiler
+WARN: Could not locate executable armflang
+INFO: customize Gnu95FCompiler
+INFO: Found executable /usr/bin/gfortran
+INFO: customize Gnu95FCompiler
+INFO: customize Gnu95FCompiler using build_ext
+INFO: building 'cletkf' extension
+INFO: compiling C sources
+INFO: C compiler: gcc -pthread -B /home/jruiz/anaconda3/compiler_compat -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -Wall -fPIC -O2 -isystem /home/jruiz/anaconda3/include -I/home/jruiz/anaconda3/include -fPIC -O2 -isystem /home/jruiz/anaconda3/include -fPIC
+
+creating /tmp/tmplp8qwsjf/tmp
+creating /tmp/tmplp8qwsjf/tmp/tmplp8qwsjf
+creating /tmp/tmplp8qwsjf/tmp/tmplp8qwsjf/src.linux-x86_64-3.9
+INFO: compile options: '-DNPY_DISABLE_OPTIMIZATION=1 -I/tmp/tmplp8qwsjf/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
+INFO: gcc: /tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkfmodule.c
+INFO: gcc: /tmp/tmplp8qwsjf/src.linux-x86_64-3.9/fortranobject.c
+In file included from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h:1948,
+                 from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h:12,
+                 from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/arrayobject.h:5,
+                 from /tmp/tmplp8qwsjf/src.linux-x86_64-3.9/fortranobject.h:13,
+                 from /tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkfmodule.c:23:
+/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/npy_1_7_deprecated_api.h:17:2: warning: #warning "Using deprecated NumPy API, disable it with " "#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION" [-Wcpp]
+   17 | #warning "Using deprecated NumPy API, disable it with " \
+      |  ^~~~~~~
+In file included from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h:1948,
+                 from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h:12,
+                 from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/arrayobject.h:5,
+                 from /tmp/tmplp8qwsjf/src.linux-x86_64-3.9/fortranobject.h:13,
+                 from /tmp/tmplp8qwsjf/src.linux-x86_64-3.9/fortranobject.c:2:
+/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/npy_1_7_deprecated_api.h:17:2: warning: #warning "Using deprecated NumPy API, disable it with " "#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION" [-Wcpp]
+   17 | #warning "Using deprecated NumPy API, disable it with " \
+      |  ^~~~~~~
+/tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkfmodule.c:250:12: warning: ‘f2py_size’ defined but not used [-Wunused-function]
+  250 | static int f2py_size(PyArrayObject* var, ...)
+      |            ^~~~~~~~~
+INFO: compiling Fortran 90 module sources
+INFO: Fortran f77 compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -fPIC -fopenmp -lgomp
+Fortran f90 compiler: /usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp
+Fortran fix compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp
+INFO: compile options: '-I/tmp/tmplp8qwsjf/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
+extra options: '-J/tmp/tmplp8qwsjf/ -I/tmp/tmplp8qwsjf/'
+INFO: gfortran:f90: SFMT.f90
+SFMT.f90:34:33:
+
+   34 |     integer,parameter:: N = (MEXP / 128 + 1)
+      |                                 1
+Warning: Integer division truncated to constant ‘155’ at (1) [-Winteger-division]
+SFMT.f90:511:21:
+
+  511 |         gen_rand32 = ibits(psfmt64(idx/2),32,32)
+      |                     1
+Warning: Possible change of value in conversion from INTEGER(8) to INTEGER(4) at (1) [-Wconversion]
+SFMT.f90:513:21:
+
+  513 |         gen_rand32 = ibits(psfmt64(idx/2),0,32)
+      |                     1
+Warning: Possible change of value in conversion from INTEGER(8) to INTEGER(4) at (1) [-Wconversion]
+SFMT.f90:638:21:
+
+  638 |         psfmt32(i) = ibits( temp64, 0, 32 )
+      |                     1
+Warning: Possible change of value in conversion from INTEGER(8) to INTEGER(4) at (1) [-Wconversion]
+SFMT.f90:528:14:
+
+  528 |     integer::i
+      |              1
+Warning: Unused variable ‘i’ declared at (1) [-Wunused-variable]
+INFO: gfortran:f90: common_tools.f90
+common_tools.f90:60:14:
+
+   60 |   INTEGER :: i
+      |              1
+Warning: Unused variable ‘i’ declared at (1) [-Wunused-variable]
+INFO: gfortran:f90: common_mtx.f90
+INFO: gfortran:f90: common_letkf.f90
+common_letkf.f90:68:18:
+
+   68 |   INTEGER :: i,j,k
+      |                  1
+Warning: Unused variable ‘k’ declared at (1) [-Wunused-variable]
+INFO: gfortran:f90: common_da.f90
+common_da.f90:80:31:
+
+   80 |            xa(ix,iy,iz,:,iv) = xfmean(iv)
+      |                               1
+Warning: Possible change of value in conversion from REAL(8) to REAL(4) at (1) [-Wconversion]
+common_da.f90:83:36:
+
+   83 |                xa(ix,iy,iz,im,iv) = xa(ix,iy,iz,im,iv) &
+      |                                    1
+Warning: Possible change of value in conversion from REAL(8) to REAL(4) at (1) [-Wconversion]
+common_da.f90:145:21:
+
+  145 |   REAL(r_size)  :: p0
+      |                     1
+Warning: Unused variable ‘p0’ declared at (1) [-Wunused-variable]
+common_da.f90:137:28:
+
+  137 |   REAL(r_size)  :: qms , qmg !Melting species concentration (method 3)
+      |                            1
+Warning: Unused variable ‘qmg’ declared at (1) [-Wunused-variable]
+common_da.f90:137:22:
+
+  137 |   REAL(r_size)  :: qms , qmg !Melting species concentration (method 3)
+      |                      1
+Warning: Unused variable ‘qms’ declared at (1) [-Wunused-variable]
+common_da.f90:138:21:
+
+  138 |   REAL(r_size)  :: qt        !Total condensate mixing ratio (method 1)
+      |                     1
+Warning: Unused variable ‘qt’ declared at (1) [-Wunused-variable]
+common_da.f90:144:40:
+
+  144 |   REAL(r_size)  :: tmp_factor , rofactor
+      |                                        1
+Warning: Unused variable ‘rofactor’ declared at (1) [-Wunused-variable]
+common_da.f90:144:29:
+
+  144 |   REAL(r_size)  :: tmp_factor , rofactor
+      |                             1
+Warning: Unused variable ‘tmp_factor’ declared at (1) [-Wunused-variable]
+common_da.f90:20:64:
+
+   20 | SUBROUTINE simple_letkf(nx,ny,nz,nbv,nvar,xfo,xf,dep,error,min_o,xa)
+      |                                                                1
+Warning: Unused dummy argument ‘min_o’ at (1) [-Wunused-dummy-argument]
+INFO: compiling Fortran sources
+INFO: Fortran f77 compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -fPIC -fopenmp -lgomp
+Fortran f90 compiler: /usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp
+Fortran fix compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp
+INFO: compile options: '-I/tmp/tmplp8qwsjf/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
+extra options: '-J/tmp/tmplp8qwsjf/ -I/tmp/tmplp8qwsjf/'
+INFO: gfortran:fix: netlib.f90
+netlib.f90:633:72:
+
+  633 |   100 e(i-1) = e(i)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 100 at (1)
+netlib.f90:667:72:
+
+  667 |   140    d(i) = d(i) - h
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 140 at (1)
+netlib.f90:784:72:
+
+  784 |   100 e(i-1) = e(i)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 100 at (1)
+netlib.f90:818:72:
+
+  818 |   140    d(i) = d(i) - h
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 140 at (1)
+netlib.f90:947:72:
+
+  947 |   120    scale = scale + dabs(d(k))
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
+netlib.f90:975:72:
+
+  975 |   170    e(j) = 0.0d0
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 170 at (1)
+netlib.f90:1001:72:
+
+ 1001 |   250    e(j) = e(j) - h * d(j)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 250 at (1)
+netlib.f90:1008:72:
+
+ 1008 |   260       a(k,j) = a(k,j) - f * e(k) - g * d(k)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
+netlib.f90:1070:72:
+
+ 1070 |    80    z(j,i) = a(j,i)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 80 at (1)
+netlib.f90:1085:72:
+
+ 1085 |   120    scale = scale + dabs(d(k))
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
+netlib.f90:1110:72:
+
+ 1110 |   170    e(j) = 0.0d0
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 170 at (1)
+netlib.f90:1137:72:
+
+ 1137 |   250    e(j) = e(j) - hh * d(j)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 250 at (1)
+netlib.f90:1144:72:
+
+ 1144 |   260       z(k,j) = z(k,j) - f * e(k) - g * d(k)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
+netlib.f90:1161:72:
+
+ 1161 |   330    d(k) = z(k,i) / h
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 330 at (1)
+netlib.f90:1167:72:
+
+ 1167 |   340       g = g + z(k,i) * z(k,j)
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 340 at (1)
+netlib.f90:1169:72:
+
+ 1169 |             do 360 k = 1, l
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: Shared DO termination label 360 at (1)
+netlib.f90:1174:72:
+
+ 1174 |   400    z(k,i) = 0.0d0
+      |                                                                        1
+Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 400 at (1)
+INFO: gfortran:f90: /tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkf-f2pywrappers2.f90
+INFO: gfortran:f77: /tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkf-f2pywrappers.f
+INFO: /usr/bin/gfortran -Wall -g -Wall -g -shared /tmp/tmplp8qwsjf/tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkfmodule.o /tmp/tmplp8qwsjf/tmp/tmplp8qwsjf/src.linux-x86_64-3.9/fortranobject.o /tmp/tmplp8qwsjf/SFMT.o /tmp/tmplp8qwsjf/common_tools.o /tmp/tmplp8qwsjf/common_mtx.o /tmp/tmplp8qwsjf/common_letkf.o /tmp/tmplp8qwsjf/common_da.o /tmp/tmplp8qwsjf/netlib.o /tmp/tmplp8qwsjf/tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkf-f2pywrappers.o /tmp/tmplp8qwsjf/tmp/tmplp8qwsjf/src.linux-x86_64-3.9/cletkf-f2pywrappers2.o -L/usr/lib/gcc/x86_64-linux-gnu/10 -L/usr/lib/gcc/x86_64-linux-gnu/10 -lgomp -lgfortran -o ./cletkf.cpython-39-x86_64-linux-gnu.so
+Removing build directory /tmp/tmplp8qwsjf
