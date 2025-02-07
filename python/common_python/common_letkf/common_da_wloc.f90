@@ -68,10 +68,10 @@ DO ix = 1 , nx
        !Computing simple localization
        CALL simple_loc( ix , iy , iz , ox , oy , oz , locs , nobs , rloc )
 
-       rloc(:) = oerr(:) * rloc(:) 
+       rloc(:) = oerr(:) / rloc(:) 
 
-       CALL letkf_core(nbv,1,hxfpert,oerr_rsize,   &
-                    rloc,dep_rsize,infl,wa,wamean,pa,1.0d0)
+       CALL letkf_core(nbv,1,hxfpert,rloc,   &
+                    dep_rsize,infl,wa,wamean,pa,1.0d0)
 
        !Apply the weights and update the state variables. 
        DO iv=1,nvar
@@ -109,6 +109,7 @@ DO iobs = 1 , nobs
    IF ( locs(3) > 0.0 ) dist = dist + ((REAL(glz,r_sngl)-olz(iobs))/locs(3))**2
 
    rloc(iobs) = exp( -0.5*dist ) 
+   WRITE(*,*)dist,rloc(iobs)
 ENDDO
 
 END SUBROUTINE simple_loc

@@ -7,8 +7,8 @@ running build_src
 INFO: build_src
 INFO: building extension "cletkf_wloc" sources
 INFO: f2py options: []
-INFO: f2py:> /tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wlocmodule.c
-creating /tmp/tmpwrbw736o/src.linux-x86_64-3.9
+INFO: f2py:> /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wlocmodule.c
+creating /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9
 rmbadname1: Replacing "max" with "max_bn".
 Reading fortran codes...
 	Reading file 'netlib.f90' (format:fix)
@@ -786,7 +786,7 @@ getarrdims:warning: assumed shape array, using 0 instead of '*'
               ff = mtx_inv_rg(aa,[n])
 		Constructing F90 module support for "common_letkf"...
             Constructing wrapper function "common_letkf.letkf_core"...
-              trans,transm,pao = letkf_core(hdxb,rdiag,rloc,dep,parm_infl,minfl,[ne,nobsl])
+              trans,transm,pao = letkf_core(hdxb,rloc,dep,parm_infl,minfl,[ne,nobsl])
             Constructing wrapper function "common_letkf.weight_rtps"...
               wrlx = weight_rtps(relax_alpha_spread,w,pa,xb,[ne])
             Constructing wrapper function "common_letkf.weight_rtpp"...
@@ -804,15 +804,15 @@ getarrdims:warning: assumed shape array, using 0 instead of '*'
               refens = calc_ref_ens(qrens,qsens,qgens,tens,pens,[nx,ny,nz,nbv])
             Constructing wrapper function "common_da.calc_ref"...
               ref = calc_ref(qr,qs,qg,t,p)
-    Wrote C/API module "cletkf_wloc" to file "/tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wlocmodule.c"
-    Fortran 77 wrappers are saved to "/tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers.f"
-    Fortran 90 wrappers are saved to "/tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers2.f90"
-INFO:   adding '/tmp/tmpwrbw736o/src.linux-x86_64-3.9/fortranobject.c' to sources.
-INFO:   adding '/tmp/tmpwrbw736o/src.linux-x86_64-3.9' to include_dirs.
-copying /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/f2py/src/fortranobject.c -> /tmp/tmpwrbw736o/src.linux-x86_64-3.9
-copying /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/f2py/src/fortranobject.h -> /tmp/tmpwrbw736o/src.linux-x86_64-3.9
-INFO:   adding '/tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers.f' to sources.
-INFO:   adding '/tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers2.f90' to sources.
+    Wrote C/API module "cletkf_wloc" to file "/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wlocmodule.c"
+    Fortran 77 wrappers are saved to "/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers.f"
+    Fortran 90 wrappers are saved to "/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers2.f90"
+INFO:   adding '/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/fortranobject.c' to sources.
+INFO:   adding '/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9' to include_dirs.
+copying /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/f2py/src/fortranobject.c -> /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9
+copying /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/f2py/src/fortranobject.h -> /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9
+INFO:   adding '/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers.f' to sources.
+INFO:   adding '/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers2.f90' to sources.
 INFO: build_src: building npy-pkg config files
 /home/jruiz/anaconda3/lib/python3.9/site-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
   warnings.warn(
@@ -830,37 +830,37 @@ INFO: building 'cletkf_wloc' extension
 INFO: compiling C sources
 INFO: C compiler: gcc -pthread -B /home/jruiz/anaconda3/compiler_compat -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -Wall -fPIC -O2 -isystem /home/jruiz/anaconda3/include -I/home/jruiz/anaconda3/include -fPIC -O2 -isystem /home/jruiz/anaconda3/include -fPIC
 
-creating /tmp/tmpwrbw736o/tmp
-creating /tmp/tmpwrbw736o/tmp/tmpwrbw736o
-creating /tmp/tmpwrbw736o/tmp/tmpwrbw736o/src.linux-x86_64-3.9
-INFO: compile options: '-DNPY_DISABLE_OPTIMIZATION=1 -I/tmp/tmpwrbw736o/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
-INFO: gcc: /tmp/tmpwrbw736o/src.linux-x86_64-3.9/fortranobject.c
-INFO: gcc: /tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wlocmodule.c
+creating /tmp/tmpcwmg9yuy/tmp
+creating /tmp/tmpcwmg9yuy/tmp/tmpcwmg9yuy
+creating /tmp/tmpcwmg9yuy/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9
+INFO: compile options: '-DNPY_DISABLE_OPTIMIZATION=1 -I/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
+INFO: gcc: /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/fortranobject.c
+INFO: gcc: /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wlocmodule.c
 In file included from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h:1948,
                  from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h:12,
                  from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/arrayobject.h:5,
-                 from /tmp/tmpwrbw736o/src.linux-x86_64-3.9/fortranobject.h:13,
-                 from /tmp/tmpwrbw736o/src.linux-x86_64-3.9/fortranobject.c:2:
+                 from /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/fortranobject.h:13,
+                 from /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wlocmodule.c:23:
 /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/npy_1_7_deprecated_api.h:17:2: warning: #warning "Using deprecated NumPy API, disable it with " "#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION" [-Wcpp]
    17 | #warning "Using deprecated NumPy API, disable it with " \
       |  ^~~~~~~
 In file included from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h:1948,
                  from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h:12,
                  from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/arrayobject.h:5,
-                 from /tmp/tmpwrbw736o/src.linux-x86_64-3.9/fortranobject.h:13,
-                 from /tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wlocmodule.c:23:
+                 from /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/fortranobject.h:13,
+                 from /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/fortranobject.c:2:
 /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/npy_1_7_deprecated_api.h:17:2: warning: #warning "Using deprecated NumPy API, disable it with " "#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION" [-Wcpp]
    17 | #warning "Using deprecated NumPy API, disable it with " \
       |  ^~~~~~~
-/tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wlocmodule.c:250:12: warning: ‘f2py_size’ defined but not used [-Wunused-function]
+/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wlocmodule.c:250:12: warning: ‘f2py_size’ defined but not used [-Wunused-function]
   250 | static int f2py_size(PyArrayObject* var, ...)
       |            ^~~~~~~~~
 INFO: compiling Fortran 90 module sources
 INFO: Fortran f77 compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -fPIC -fopenmp -lgomp
 Fortran f90 compiler: /usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp
 Fortran fix compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp
-INFO: compile options: '-I/tmp/tmpwrbw736o/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
-extra options: '-J/tmp/tmpwrbw736o/ -I/tmp/tmpwrbw736o/'
+INFO: compile options: '-I/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
+extra options: '-J/tmp/tmpcwmg9yuy/ -I/tmp/tmpcwmg9yuy/'
 INFO: gfortran:f90: SFMT.f90
 SFMT.f90:34:33:
 
@@ -895,11 +895,26 @@ common_tools.f90:60:14:
 Warning: Unused variable ‘i’ declared at (1) [-Wunused-variable]
 INFO: gfortran:f90: common_mtx.f90
 INFO: gfortran:f90: common_letkf.f90
+common_letkf.f90:66:38:
+
+   66 |   REAL(r_size) :: parm(4),sigma_o,gain
+      |                                      1
+Warning: Unused variable ‘gain’ declared at (1) [-Wunused-variable]
 common_letkf.f90:68:18:
 
    68 |   INTEGER :: i,j,k
       |                  1
 Warning: Unused variable ‘k’ declared at (1) [-Wunused-variable]
+common_letkf.f90:66:25:
+
+   66 |   REAL(r_size) :: parm(4),sigma_o,gain
+      |                         1
+Warning: Unused variable ‘parm’ declared at (1) [-Wunused-variable]
+common_letkf.f90:66:33:
+
+   66 |   REAL(r_size) :: parm(4),sigma_o,gain
+      |                                 1
+Warning: Unused variable ‘sigma_o’ declared at (1) [-Wunused-variable]
 INFO: gfortran:f90: common_da_wloc.f90
 common_da_wloc.f90:78:30:
 
@@ -911,42 +926,42 @@ common_da_wloc.f90:81:36:
    81 |                xa(ix,iy,iz,im,iv) = xa(ix,iy,iz,im,iv) &
       |                                    1
 Warning: Possible change of value in conversion from REAL(8) to REAL(4) at (1) [-Wconversion]
-common_da_wloc.f90:162:21:
+common_da_wloc.f90:163:21:
 
-  162 |   REAL(r_size)  :: p0
+  163 |   REAL(r_size)  :: p0
       |                     1
 Warning: Unused variable ‘p0’ declared at (1) [-Wunused-variable]
-common_da_wloc.f90:154:28:
+common_da_wloc.f90:155:28:
 
-  154 |   REAL(r_size)  :: qms , qmg !Melting species concentration (method 3)
+  155 |   REAL(r_size)  :: qms , qmg !Melting species concentration (method 3)
       |                            1
 Warning: Unused variable ‘qmg’ declared at (1) [-Wunused-variable]
-common_da_wloc.f90:154:22:
+common_da_wloc.f90:155:22:
 
-  154 |   REAL(r_size)  :: qms , qmg !Melting species concentration (method 3)
+  155 |   REAL(r_size)  :: qms , qmg !Melting species concentration (method 3)
       |                      1
 Warning: Unused variable ‘qms’ declared at (1) [-Wunused-variable]
-common_da_wloc.f90:155:21:
+common_da_wloc.f90:156:21:
 
-  155 |   REAL(r_size)  :: qt        !Total condensate mixing ratio (method 1)
+  156 |   REAL(r_size)  :: qt        !Total condensate mixing ratio (method 1)
       |                     1
 Warning: Unused variable ‘qt’ declared at (1) [-Wunused-variable]
-common_da_wloc.f90:161:40:
+common_da_wloc.f90:162:40:
 
-  161 |   REAL(r_size)  :: tmp_factor , rofactor
+  162 |   REAL(r_size)  :: tmp_factor , rofactor
       |                                        1
 Warning: Unused variable ‘rofactor’ declared at (1) [-Wunused-variable]
-common_da_wloc.f90:161:29:
+common_da_wloc.f90:162:29:
 
-  161 |   REAL(r_size)  :: tmp_factor , rofactor
+  162 |   REAL(r_size)  :: tmp_factor , rofactor
       |                             1
 Warning: Unused variable ‘tmp_factor’ declared at (1) [-Wunused-variable]
 INFO: compiling Fortran sources
 INFO: Fortran f77 compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -fPIC -fopenmp -lgomp
 Fortran f90 compiler: /usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp
 Fortran fix compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp
-INFO: compile options: '-I/tmp/tmpwrbw736o/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
-extra options: '-J/tmp/tmpwrbw736o/ -I/tmp/tmpwrbw736o/'
+INFO: compile options: '-I/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
+extra options: '-J/tmp/tmpcwmg9yuy/ -I/tmp/tmpcwmg9yuy/'
 INFO: gfortran:fix: netlib.f90
 netlib.f90:633:72:
 
@@ -1033,7 +1048,7 @@ netlib.f90:1174:72:
  1174 |   400    z(k,i) = 0.0d0
       |                                                                        1
 Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 400 at (1)
-INFO: gfortran:f90: /tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers2.f90
-INFO: gfortran:f77: /tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers.f
-INFO: /usr/bin/gfortran -Wall -g -Wall -g -shared /tmp/tmpwrbw736o/tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wlocmodule.o /tmp/tmpwrbw736o/tmp/tmpwrbw736o/src.linux-x86_64-3.9/fortranobject.o /tmp/tmpwrbw736o/SFMT.o /tmp/tmpwrbw736o/common_tools.o /tmp/tmpwrbw736o/common_mtx.o /tmp/tmpwrbw736o/common_letkf.o /tmp/tmpwrbw736o/common_da_wloc.o /tmp/tmpwrbw736o/netlib.o /tmp/tmpwrbw736o/tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers.o /tmp/tmpwrbw736o/tmp/tmpwrbw736o/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers2.o -L/usr/lib/gcc/x86_64-linux-gnu/10 -L/usr/lib/gcc/x86_64-linux-gnu/10 -lgomp -lgfortran -o ./cletkf_wloc.cpython-39-x86_64-linux-gnu.so
-Removing build directory /tmp/tmpwrbw736o
+INFO: gfortran:f90: /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers2.f90
+INFO: gfortran:f77: /tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers.f
+INFO: /usr/bin/gfortran -Wall -g -Wall -g -shared /tmp/tmpcwmg9yuy/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wlocmodule.o /tmp/tmpcwmg9yuy/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/fortranobject.o /tmp/tmpcwmg9yuy/SFMT.o /tmp/tmpcwmg9yuy/common_tools.o /tmp/tmpcwmg9yuy/common_mtx.o /tmp/tmpcwmg9yuy/common_letkf.o /tmp/tmpcwmg9yuy/common_da_wloc.o /tmp/tmpcwmg9yuy/netlib.o /tmp/tmpcwmg9yuy/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers.o /tmp/tmpcwmg9yuy/tmp/tmpcwmg9yuy/src.linux-x86_64-3.9/cletkf_wloc-f2pywrappers2.o -L/usr/lib/gcc/x86_64-linux-gnu/10 -L/usr/lib/gcc/x86_64-linux-gnu/10 -lgomp -lgfortran -o ./cletkf_wloc.cpython-39-x86_64-linux-gnu.so
+Removing build directory /tmp/tmpcwmg9yuy

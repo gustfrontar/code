@@ -3,6 +3,7 @@
 #export LD_LIBRARY_PATH=/share/anaconda3/lib/:$LD_LIBRARY_PATH
 
 export FC=gfortran
+export F77=gfortran
 export F90=gfortran
 
 #Optimized

@@ -14,16 +14,13 @@ sys.path.append('../../common_python/common_letkf/')
 import numpy as np
 #import matplotlib.pyplot as plt
 import datetime as dt
-import ctl_reader as ctlr
-import binary_io  as bio
 import os
 import matplotlib.pyplot as plt
 
-from common_functions import common_functions as comm
 from cletkf_wloc      import common_da        as cda
 
 
-root_data_path=''
+root_data_path='./'
 
 
 truth_ens_member = 0 #Which ensemble member will be considered as the true state.
@@ -39,6 +36,8 @@ obs_loc_z = [50]     #List of z coordinate of observations
 
 obs_error = 5.0      #Standard deviation of the observation error.
 
+loc_scales = np.array([2.5,2.5,2.5])  #Localization scales in x,y and z. 
+
 #=========================================================
 #  READ DATA
 #=========================================================
@@ -50,7 +49,7 @@ input_ens = np.ones(( 100 , 1 , 100 , 41 , 3 ))
 
 #TODO This random ensemble is for testing only.
 for ii in range( input_ens.shape[3] ) :
-    input_ens[:,:,:,ii,:]  = 1.0e-4 * np.abs( np.random.randn(1) )
+    input_ens[:,:,:,ii,:]  = 1.0e-3 * np.abs( np.random.randn(1) )
 
 input_ens[:,:,:,:,1] = input_ens[:,:,:,:,1] + 273.0   #This variable will represent the temperature
 input_ens[:,:,:,:,2] = input_ens[:,:,:,:,2] + 1000.0  #This variable will represent the pressure
@@ -59,16 +58,15 @@ input_ens[:,:,:,:,2] = input_ens[:,:,:,:,2] + 1000.0  #This variable will repres
 #  SEPARATE THE TRUE STATE AND THE FORECAST ENSEMBLE
 #=========================================================
 
-tmp_mask = np.false( nbv ) 
+tmp_mask = np.zeros( input_ens.shape[3] ).astype(bool) 
 tmp_mask[truth_ens_member] = True
 
-true_state = input_ens[:,:,:,tmp_mask,:]
+true_state = input_ens[:,:,:,tmp_mask,:][:,:,:,0,:]
 xf = input_ens[:,:,:,~tmp_mask,:]
 
 #Get the size of the forecast ensemble (as will be used in the DA)
 [nx , ny , nz , nbv , nvar] = xf.shape
 
-xf = xf.astype('float32')   #Transform data type 
 
 #=========================================================
 #  GET THE OBSERVATIONS
@@ -120,12 +118,28 @@ dep = yo - np.mean( hxf , 1 )
 #Compute the simple analysis update
 print('Computing the letkf update')
 
-xa=cda.simple_letkf_wloc(nx=nx,ny=ny,nz=nz,nbv=nbv,nvar=nvar,hxf=hxf,xf=xf,dep=dep,error=obs_error).astype('float32')
+xf = np.asfortranarray( xf.astype('float32') )   #Transform data type 
+hxf = np.asfortranarray( hxf.astype('float32') )
+dep = dep.astype('float32')
+obs_error = obs_error.astype('float32')
+
+xa=cda.simple_letkf_wloc(nx=nx,ny=ny,nz=nz,nbv=nbv,nvar=nvar,nobs=nobs,
+                         hxf=hxf,xf=xf,dep=dep,ox=obs_loc_x,
+                         oy=obs_loc_y ,oz=obs_loc_z,
+                         locs=loc_scales,
+                         oerr=obs_error
+                         ).astype('float32')
+
+#(nx,ny,nz,nbv,nvar,nobs,hxf,xf,dep,ox,oy,oz,locs,oerr,xa)
 
 #Write the analysis for the update variables
 print('Writing data')
 
-np.savez_compressed(root_data_path + '/output.npz',xa=xa,xf=xf,yo=yo,hxf=hxf,obs_error=obs_error,obs_loc_x,obs_loc_y,obs_loc_z)
+np.savez_compressed(root_data_path + '/output.npz',xa=xa,xf=xf,yo=yo,
+                    hxf=hxf,obs_error=obs_error,
+                    obs_loc_x=obs_loc_x,
+                    obs_loc_y=obs_loc_y,
+                    obs_loc_z=obs_loc_z)
 
 print ( "We are done" )
 
