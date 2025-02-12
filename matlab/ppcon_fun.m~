@@ -1,0 +1,52 @@
+%funcion q me genera los graficos de contornos para cada pronosticos 
+
+function [ ] = ppcon_fun(latvar,lonvar,variable,titulo)
+%**************************************************************************
+aux=round(max(max(variable))); %redondea los varoles maximo de la variable
+nlevels=12;
+maxlevel=50;
+%levellist=round(0:(maxlevel/nlevels):maxlevel); %Genera los valores de la escala de colores
+%*************************************GRAFICOS DE CONTORNOS*******************
+levellist=[1 5 10 15 20 30 40 50 60 70]
+figure
+
+lat_max=max(latvar);
+lat_min=min(latvar);
+lon_max=max(lonvar);
+lon_min=min(lonvar);
+
+axesm(...
+         'MapProjection','mercator',...
+         'MapLatLimit',[lat_min lat_max],...
+         'MapLonLimit',[lon_min lon_max],...
+         'labelformat','compass',...
+         'grid','on',...
+         'fontsize',8);
+     
+         load coast
+                                                                                                                             
+                                                                                                                             
+                                                                                                                             
+plotm(lat,long,'k')
+hold on
+
+contourfm(latvar,lonvar,variable,levellist)
+contourm(latvar,.
+title(titulo)
+xlabel('longitud')
+ylabel('latitud')
+%set(gca,'YTick',[1 2 3 4 5 6]);
+%set(gca,'YTickLabel',{'900';'850';'700';'500';'300';'200'})
+%set(gca,'XTick',[1 10 20 30]);
+%set(gca,'XTickLabel', )
+
+%caxis([levellist(1) levellist(length(levellist))]);
+
+colormap(jet(length(levellist)-1));
+set(gca,'ZTick',levellist)
+colorbar('YTick',levellist);
+
+%archivo=strcat('cont',nombre,tiempo);
+%print('-depsc',archivo)
+%close 1;
+

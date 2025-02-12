@@ -1,0 +1,50 @@
+function [xa xasmooth]=RUN_4DVAR(yo,x0b,p,dim,H,R,B0,ntimes,dt,bst)
+
+%---------------------------------------------
+%  apply ETKF to update analysis state
+%
+%  input:
+%       p - total observations
+%       yo(1,p) - observations
+%       x0b      - background state at the begining of the window.
+%       H - observation operator
+%       R - observation error covariance
+%       B0- matriz inicial de covarianza de los errores del background.
+%       ntimes - number of times in the assimilation window.
+%       dt -time step to compute the nonlinear evolution and the adjoint
+%       model.
+%       bst - timep between two observations (in number of time steps).
+%  output:
+%       xa(dim) - analysis state at the end of the assimilation
+%       window.
+%       xasmooth(dim,ntimes+1) - analysis state inside the assimilation
+%       window. (anal
+%---------------------------------------------
+
+%Le indicamos a la funcion fminunc que el gradiente esta disponible para la
+%minimizacion, entonces la funcion aplica el metodo del gradiente
+%conjugado.
+options = optimset('GradObj','on');
+
+invB0=inv(B0);
+invR=inv(R);
+
+[minX,minJ,minnablaJ,info] = fminunc('j_and_gradj',x0b,options,x0b,y,H,invR,invB0,dt,bst,ntimes);
+
+%minX es el x0 que produce el minimo de la funcion de costo. Ahora lo que
+%tenemos que hacer es integrar desde este x0 hasta xf para obtener el
+%analisis en el tiempo final de la ventana.
+
+x=minX;
+xasmooth(1,:)=minX;  %Este es el analysis smooth obtenido al inicio de la ventana de asimilacion.
+for ii=1:ntimes
+   for it=1:bst
+       x=stepit(x,dt);
+   end
+   xasmooth(ii+1,:); 
+end
+
+xa=x;
+
+return
+

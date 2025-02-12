@@ -1,0 +1,10 @@
+clear all
+close all
+
+load pp_promedio_cuenca.mat
+
+
+
+stem(promedio(:,6))
+hold on 
+stem(promedio(:,6))

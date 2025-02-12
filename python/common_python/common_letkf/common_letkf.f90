@@ -41,12 +41,12 @@ CONTAINS
 !     transm(ne)       : (optional) transformation matrix mean                   !GYL
 !     pao(ne,ne)       : (optional) analysis covariance matrix in ensemble space !GYL
 !=======================================================================
-SUBROUTINE letkf_core(ne,nobsl,hdxb,rdiag,rloc,dep,parm_infl,trans,transm,pao,minfl)
+SUBROUTINE letkf_core(ne,nobsl,hdxb,rloc,dep,parm_infl,trans,transm,pao,minfl)
   IMPLICIT NONE
   INTEGER,INTENT(IN) :: ne                      !GYL
   INTEGER,INTENT(IN) :: nobsl
   REAL(r_size),INTENT(IN) :: hdxb(1:nobsl,1:ne)
-  REAL(r_size),INTENT(IN) :: rdiag(1:nobsl)
+  !REAL(r_size),INTENT(IN) :: rdiag(1:nobsl)
   REAL(r_size),INTENT(IN) :: rloc(1:nobsl)
   REAL(r_size),INTENT(IN) :: dep(1:nobsl)
   REAL(r_size),INTENT(INOUT) :: parm_infl
@@ -89,7 +89,7 @@ SUBROUTINE letkf_core(ne,nobsl,hdxb,rdiag,rloc,dep,parm_infl,trans,transm,pao,mi
 !-----------------------------------------------------------------------
     DO j=1,ne                                     !GYL
       DO i=1,nobsl                                !GYL
-        hdxb_rinv(i,j) = hdxb(i,j) / rdiag(i)     !GYL
+        hdxb_rinv(i,j) = hdxb(i,j) / rloc(i)      !GYL
       END DO                                      !GYL
     END DO                                        !GYL
 !-----------------------------------------------------------------------
@@ -200,22 +200,22 @@ SUBROUTINE letkf_core(ne,nobsl,hdxb,rdiag,rloc,dep,parm_infl,trans,transm,pao,mi
 !-----------------------------------------------------------------------
 !  Inflation estimation
 !-----------------------------------------------------------------------
-  parm = 0.0d0
-    DO i=1,nobsl                                  !GYL
-      parm(1) = parm(1) + dep(i)*dep(i)/rdiag(i)  !GYL
-    END DO                                        !GYL
-  DO j=1,ne
-    DO i=1,nobsl
-      parm(2) = parm(2) + hdxb_rinv(i,j) * hdxb(i,j)
-    END DO
-  END DO
-  parm(2) = parm(2) / REAL(ne-1,r_size)
-  parm(3) = SUM(rloc(1:nobsl))
-  parm(4) = (parm(1)-parm(3))/parm(2) - parm_infl
-!  sigma_o = 1.0d0/REAL(nobsl,r_size)/MAXVAL(rloc(1:nobsl))
-  sigma_o = 2.0d0/parm(3)*((parm_infl*parm(2)+parm(3))/parm(2))**2
-  gain = sigma_b**2 / (sigma_o + sigma_b**2)
-  parm_infl = parm_infl + gain * parm(4)
+!   parm = 0.0d0
+!     DO i=1,nobsl                                  !GYL
+!       parm(1) = parm(1) + dep(i)*dep(i)/rdiag(i)  !GYL
+!     END DO                                        !GYL
+!   DO j=1,ne
+!     DO i=1,nobsl
+!       parm(2) = parm(2) + hdxb_rinv(i,j) * hdxb(i,j)
+!     END DO
+!   END DO
+!   parm(2) = parm(2) / REAL(ne-1,r_size)
+!   parm(3) = SUM(rloc(1:nobsl))
+!   parm(4) = (parm(1)-parm(3))/parm(2) - parm_infl
+! !  sigma_o = 1.0d0/REAL(nobsl,r_size)/MAXVAL(rloc(1:nobsl))
+!   sigma_o = 2.0d0/parm(3)*((parm_infl*parm(2)+parm(3))/parm(2))**2
+!   gain = sigma_b**2 / (sigma_o + sigma_b**2)
+!   parm_infl = parm_infl + gain * parm(4)
 
   RETURN
   END IF

@@ -1,0 +1,55 @@
+clear all
+close all
+%**************************************************************************
+% Este script grafica resultados de la verificacion de la calibracion del
+% pron�stico probabilistico del ensemble.
+% GRAFICO UN RELIABILITY DIAGRAM
+%**************************************************************************
+
+path='d:/trabajos/TrabajoSLAF/precipitacion/slaf2006/matlab/';
+
+archivo{1}=strcat(path,'slaf2006_verifprob_sur_gtsgts_24.mat');
+archivo{2}=strcat(path,'slaf2006_verifprob_sur_gtsgts_48.mat');
+archivo{3}=strcat(path,'slaf2006_verifprob_norte_gtsgts_24.mat');
+archivo{4}=strcat(path,'slaf2006_verifprob_norte_gtsgts_48.mat');
+
+for i=1:4
+load(archivo{i});
+slaf_spread{i}=spread;
+slaf_mse{i}=mean_mse;
+end
+
+path='d:/trabajos/TrabajoSLAF/precipitacion/superensemble/matlab/';
+
+archivo{1}=strcat(path,'superensemble_verifprob_sur_gtsgts_24.mat');
+archivo{2}=strcat(path,'superensemble_verifprob_sur_gtsgts_48.mat');
+archivo{3}=strcat(path,'superensemble_verifprob_norte_gtsgts_24.mat');
+archivo{4}=strcat(path,'superensemble_verifprob_norte_gtsgts_48.mat');
+
+for i=1:4
+load(archivo{i});
+smes_spread{i}=spread;
+smes_mse{i}=mean_mse;
+end
+
+umbral=[0.01 0.10 0.25 0.5 1 1.5 2]*25.4;
+
+for i=1:4
+aux(i,1)=slaf_spread{i};
+aux(i,2)=smes_spread{i};
+end
+
+for i=1:4
+aux(i,3)=slaf_mse{i};
+aux(i)=smes_mse{i};
+end
+
+subplot(211)
+bar(aux(:,1:2),'group')
+
+subplot(212)
+bar(aux)
+
+
+ 
+   

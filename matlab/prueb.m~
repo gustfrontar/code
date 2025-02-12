@@ -1,0 +1,11 @@
+% umbral=1;
+% 
+% a=find(prob_nocal_aux(:,umbral)>0)
+% 
+% prob_nocal_aux(a,umbral)=1
+% c=sum(prob_nocal_aux(:,umbral))
+
+
+d=prob_nocal_aux(:,:)*15
+
+pcolor()

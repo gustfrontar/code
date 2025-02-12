@@ -1,0 +1,303 @@
+Warning: Unable to open display , MATLAB is starting without a display.
+  You will not be able to display graphics on the screen.
+
+                              < M A T L A B >
+                  Copyright 1984-2004 The MathWorks, Inc.
+                         Version 7.0.0.19901 (R14)
+                                May 06, 2004
+
+ 
+  To get started, type one of these: helpwin, helpdesk, or demo.
+  For product information, visit www.mathworks.com.
+ 
+>> >> >> >> >> >> >> >> >> >> >> >> >> >> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> >> >> >> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> >> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> >> >> >> >> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> >> >> >> 
+cc =
+
+   963
+
+
+titulo =
+
+Desde02/04 hasta17/04
+
+>> >> >> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> >> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> 
+cc =
+
+   963
+
+
+absisas =
+
+Dias desde Apr.02 00Z a Apr.17 00Z
+
+>> >> 

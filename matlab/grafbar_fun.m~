@@ -1,0 +1,49 @@
+
+function [ ] = grafbar_fun(variable,nombre,nivel)
+
+%Genera la fecha q va  aparecer en en el titulo
+load rmset.mat
+p=fecha_archivo';
+a=size(p);
+b=a(1);
+bb=a(1)-6;
+c=a(1)-12;
+cc=a(1)-18;
+d=a(1)-24;
+e=a(1)-30;
+f=p(b,:);
+ff=p(bb,:);
+g=p(c,:);
+gg=p(cc,:);
+h=p(d,:);
+i=p(e,:);
+j=[f 0 0];
+jj=[ff 0 0];
+k=[g 0 0];
+kk=[gg 0 0];
+l=[h 0 0];
+m=[i 0 0];
+tempo_treinta=datestr(m, 'dd/mm-HHZ'); %genera la fecha de hoy menos 15 dias
+tempo_veinte=datestr(l, 'dd/mm-HHZ'); %genera la fecha de hoy menos 10 dias
+tempo_diez=datestr(k, 'dd/mm-HHZ'); %genera la fecha de hoy menos 5 dias
+tempo_cero=datestr(j, 'dd/mm-HHZ'); %genera la fecha de hoy
+
+temptreinta=datestr(m, 'dd/mm'); %genera la fecha de hoy menos 15 dias
+tempveinticuatro=datestr(l, 'dd/mm'); %genera la fecha de hoy menos 10 dias
+tempdieciocho=datestr(kk, 'dd/mm'); %genera la fecha de hoy menos 10 dias
+tempdoce=datestr(k, 'dd/mm'); %genera la fecha de hoy menos 5 dias
+tempseis=datestr(jj, 'dd/mm'); %genera la fecha de hoy menos 10 dias
+tempcero=datestr(j, 'dd/mm'); %genera la fecha de hoy
+%*************************************GRAFICOS DE BARRAS*******************
+figure
+bar(squeeze(variable(2:7,:)))
+titulo=strcat(tempo_treinta, ' hasta  ', tempo_cero)
+title(titulo)
+xlabel('Pronosticos')
+ylabel(nombre)
+set(gca,'XTick',[1 2 3 4 5 6])
+set(gca,'XTickLabel',{'12';'24';'36';'48';'60';'72'})
+colorbar ('YTick',[0 3 6 ],'YTickLabel',{temptreinta,tempveinticuatro,tempdieciocho,tempdoce,tempseis,tempcero})
+archivo=strcat('barras',nombre,nivel);
+%print('-depsc',archivo)
+%close 1;

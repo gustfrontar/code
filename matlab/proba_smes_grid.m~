@@ -1,0 +1,867 @@
+% Script q lee los datos de probabilidad del Superensamble y grafica un
+% campo de probabilidades calibradas interpolando a partir de la funcion griddata de
+% matlab.
+% Grafica la probabilidad a 24 y 48 para los pronosticos del dia de hoy
+% Guarda los graficos con el nombre: prob+la fecha a la cual verifica y si
+% es de la zona centro-este tiene una _c al final. Si los datos no estan
+% para ese dia no grafica nada.
+
+clear all
+close all
+
+
+% Abro un archivo donde tengo la latitud y longitud de las estaciones para
+% graficarlas en los mapas q siguen a continuacion
+datos=load('-ascii', 'estac.txt');
+lat_est=datos(:,2);
+lon_est=datos(:,3);
+
+
+
+
+
+%**********************************ARGENTINA*******************************
+% Me defino una reticula de latitud y longitud para interpolar los datos de
+% las estaciones del superensamble
+N=20;
+lat(1,1)=-5;
+long(1,1)=-70;
+
+for i=0:N
+   for j=0:N
+       long(i+1,j+1)=long(1,1)+(2*j);
+   end
+end
+
+for j=0:N
+   for i=0:N
+       lat(i+1,j+1)=lat(1,1)-(2*i);
+   end
+end
+
+
+
+% Abro el archivo de txt donde tengo guardada la probabilidad calibrada de
+% la precipitacion
+Proba_s=load('-ascii', 'prob_smes_s.txt');
+Proba_n=load('-ascii', 'prob_smes_n.txt');
+
+% Me fijo si el archivo tiene datos, sino tiene no hace nada
+largo_s=size(Proba_s,1);
+nan_s=sum(isnan(Proba_s(:,5)));
+largo_s=num2str(largo_s);
+nan_s=num2str(nan_s);
+
+
+if (largo_s~=nan_s)
+
+% Renombro la fecha q aparece en el archivo txt asi puedo usarla como
+% titulo en los graficos
+a=num2str(Proba_s(1,1));
+b=datenum(a,'yyyymmdd');
+bb=b+1;
+bbb=b+2;
+c=datevec(bb);
+cc=datevec(bbb);
+tiempo_24=datestr(c,' dd mmmm'); % Fecha q se usa en los titulos de los graficos
+tie_24=datestr(c,'yyyymmdd'); % Fecha q se usa en el nombre de los graficos
+tiempo_48=datestr(cc,' dd mmmm');
+tie_48=datestr(cc,'yyyymmdd');
+
+
+for i=5:2:19
+    % Interpolo los datos de las estaciones a la reticula q me arme
+    % anteriormente, para el pronostico a 24 y 48 horas. Tomo el umbral de
+    % 2,54mm
+    proba_24_s(:,:,i)=griddata(Proba_s(:,4),Proba_s(:,3),Proba_s(:,i),long,lat);
+    proba_48_s(:,:,i)=griddata(Proba_s(:,4),Proba_s(:,3),Proba_s(:,i+1),long,lat);
+    proba_24_n(:,:,i)=griddata(Proba_n(:,4),Proba_n(:,3),Proba_n(:,i),long,lat);
+    proba_48_n(:,:,i)=griddata(Proba_n(:,4),Proba_n(:,3),Proba_n(:,i+1),long,lat);
+
+
+
+    % Cambio los NaN por cero para poder graficar
+    faltan_24_s=(isnan(proba_24_s)==1);
+    proba_24_s(faltan_24_s)=0;
+    faltan_48_s=(isnan(proba_48_s)==1);
+    proba_48_s(faltan_48_s)=0;
+    faltan_24_n=(isnan(proba_24_n)==1);
+    proba_24_n(faltan_24_n)=0;
+    faltan_48_n=(isnan(proba_48_n)==1);
+    proba_48_n(faltan_48_n)=0;
+
+
+    % Calculo la probabilidad para toda Argentina, i.e uno los campos Sur y
+    % Norte para poder graficar
+    proba_24=proba_24_s+proba_24_n;
+    proba_48=proba_48_s+proba_48_n;
+end
+
+
+% Renombro la lattitud y la longitud para no q no me sobre-escriba la
+% matriz
+lonvar=long;
+latvar=lat;
+
+
+
+
+
+%***************************Graficos para Argentina**********************
+carga_mapa
+v=[5 10 20 30 40 50 60 70 80 90 100];
+%vcol=[2 31 41 43 45 47 55 57 59 27 ];
+vcol=[2 55 53 45 42 32 21 24 27 29];
+
+load coast
+
+
+
+%***************************Probabilidad calibrada***********************
+figure
+contourf(lonvar,latvar,proba_24(:,:,5)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_24);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+archivo=strcat('prob','_24_1');
+print('-depsc',archivo)
+close 1
+
+
+figure
+contourf(lonvar,latvar,proba_48(:,:,5)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_48);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+archivo=strcat('prob','_48_1');
+print('-depsc',archivo)
+close 1
+
+figure
+contourf(lonvar,latvar,proba_24(:,:,7)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_24);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+archivo=strcat('prob','_24_2');
+print('-depsc',archivo)
+close 1
+
+
+figure
+contourf(lonvar,latvar,proba_48(:,:,7)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_48);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+archivo=strcat('prob','_48_2');
+print('-depsc',archivo)
+close 1
+
+figure
+contourf(lonvar,latvar,proba_24(:,:,9)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_24);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+archivo=strcat('prob','_24_5');
+% print('-depsc',archivo)
+% close 1
+
+
+figure
+contourf(lonvar,latvar,proba_48(:,:,9)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_48);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+archivo=strcat('prob','_48_5');
+% print('-depsc',archivo)
+% close 1
+
+figure
+contourf(lonvar,latvar,proba_24(:,:,11)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_24);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+archivo=strcat('prob','_24_7');
+% print('-depsc',archivo)
+% close 1
+
+
+figure
+contourf(lonvar,latvar,proba_48(:,:,11)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_48);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+archivo=strcat('prob','_48_7');
+% print('-depsc',archivo)
+% close 1
+
+
+
+
+
+%***************************Probabilidad NO calibrada***********************
+
+figure
+contourf(lonvar,latvar,proba_24(:,:,13)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_24);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+archivo=strcat('probnocal','_24_1');
+% print('-depsc',archivo)
+% close 1
+
+
+figure
+contourf(lonvar,latvar,proba_48(:,:,13)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_48);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+archivo=strcat('probnocal','_48_1');
+% print('-depsc',archivo)
+% close 1
+
+
+
+figure
+contourf(lonvar,latvar,proba_24(:,:,15)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_24);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+archivo=strcat('probnocal','_24_2');
+% print('-depsc',archivo)
+% close 1
+
+
+figure
+contourf(lonvar,latvar,proba_48(:,:,15)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_48);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+archivo=strcat('probnocal','_48_2');
+% print('-depsc',archivo)
+% close 1
+
+
+
+figure
+contourf(lonvar,latvar,proba_24(:,:,17)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_24);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+archivo=strcat('probnocal','_24_5');
+% print('-depsc',archivo)
+% close 1
+
+
+figure
+contourf(lonvar,latvar,proba_48(:,:,17)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_48);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+archivo=strcat('probnocal','_48_5');
+% print('-depsc',archivo)
+% close 1
+
+
+figure
+contourf(lonvar,latvar,proba_24(:,:,19)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_24);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+archivo=strcat('probnocal','_24_7');
+% print('-depsc',archivo)
+% close 1
+
+
+figure
+contourf(lonvar,latvar,proba_48(:,:,19)*100,'LineStyle','none')
+hold on
+plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+plot(lon_costa,lat_costa,'k')
+plot(lon_pais,lat_pais,'k')
+plot(lon_rios,lat_rios,'b')
+plot(lon_lagos,lat_lagos,'b')
+plot(lon_ciudad,lat_ciudad,'ro')
+tit=strcat('Valido para el ', tiempo_48);
+title(tit,'FontSize',13)
+xlabel('Longitud','FontSize',12)
+ylabel('Latitud','FontSize',12)
+[colores] = plot_jrcol(v,vcol,0);
+archivo=strcat('probnocal','_48_7');
+% print('-depsc',archivo)
+% close 1
+
+end     % end del if
+
+
+
+
+
+%********************************Region Centro-Este************************
+% Me defino una reticula de latitud y longitud para interpolar los datos de
+% las estaciones del superensamble
+%M=10;
+%lat_c(1,1)=-20;
+%long_c(1,1)=-70;
+
+%for i=0:M
+%   for j=0:M
+%       long_c(i+1,j+1)=long_c(1,1)+(2*j);
+%   end
+%end
+
+%for j=0:M
+%   for i=0:M
+%       lat_c(i+1,j+1)=lat_c(1,1)-(2*i);
+%   end
+%end
+
+
+
+% Abro el archivo de txt donde tengo guardada la probabilidad
+% calibrada de la precipitacion
+%Proba_c=load('-ascii', 'prob_smes_s.txt');
+
+
+%for i=5:2:19
+    % Interpolo los datos de las estaciones a la reticula q me arme
+    % anteriormente, para el pronostico a 24 y 48 horas
+%    proba_24_c=griddata(Proba_c(:,4),Proba_c(:,3),Proba_c(:,7),long_c,lat_c);
+%    proba_48_c=griddata(Proba_c(:,4),Proba_c(:,3),Proba_c(:,8),long_c,lat_c);
+
+
+    % Cambio los NaN por cero para poder graficar
+%    faltan_24_c=(isnan(proba_24_c)==1);
+%    proba_24_c(faltan_24_c)=0;
+%    faltan_48_c=(isnan(proba_48_c)==1);
+%    proba_48_c(faltan_48_c)=0;
+%end
+
+
+
+% Renombro la lattitud y la longitud para no q no me sobre-escriba la
+% matriz
+%lonvar_c=long_c;
+%latvar_c=lat_c;
+
+
+
+
+
+%*********************Graficos para la region Centro-Este********************
+%***************************Probabilidad calibrada***********************
+%figure
+%contourf(lonvar,latvar,proba_24_c(:,:,5)*100,'LineStyle','none')
+%hold on
+%plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+%plot(lon_costa,lat_costa,'k')
+%plot(lon_pais,lat_pais,'k')
+%plot(lon_rios,lat_rios,'b')
+%plot(lon_lagos,lat_lagos,'b')
+%plot(lon_ciudad,lat_ciudad,'ro')
+%tit=strcat('Valido para el ', tiempo_24);
+%title(tit,'FontSize',13)
+%xlabel('Longitud','FontSize',12)
+%ylabel('Latitud','FontSize',12)
+%[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+%archivo=strcat('prob','_24_1','_c');
+%print('-depsc',archivo)
+%close 1
+
+
+%figure
+%contourf(lonvar,latvar,proba_48_c(:,:,5)*100,'LineStyle','none')
+%hold on
+%plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+%plot(lon_costa,lat_costa,'k')
+%plot(lon_pais,lat_pais,'k')
+%plot(lon_rios,lat_rios,'b')
+%plot(lon_lagos,lat_lagos,'b')
+%plot(lon_ciudad,lat_ciudad,'ro')
+%tit=strcat('Valido para el ', tiempo_48);
+%title(tit,'FontSize',13)
+%xlabel('Longitud','FontSize',12)
+%ylabel('Latitud','FontSize',12)
+%[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob','_48_1','_c');
+%print('-depsc',archivo)
+%close 1
+
+%figure
+%contourf(lonvar,latvar,proba_24_c(:,:,7)*100,'LineStyle','none')
+%hold on
+%plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+%plot(lon_costa,lat_costa,'k')
+%plot(lon_pais,lat_pais,'k')
+%plot(lon_rios,lat_rios,'b')
+%plot(lon_lagos,lat_lagos,'b')
+%plot(lon_ciudad,lat_ciudad,'ro')
+%tit=strcat('Valido para el ', tiempo_24);
+%title(tit,'FontSize',13)
+%xlabel('Longitud','FontSize',12)
+%ylabel('Latitud','FontSize',12)
+%[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+%archivo=strcat('prob','_24_2','_c');
+%print('-depsc',archivo)
+%close 1
+
+
+%figure
+%contourf(lonvar,latvar,proba_48_c(:,:,7)*100,'LineStyle','none')
+%hold on
+%plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+%plot(lon_costa,lat_costa,'k')
+%plot(lon_pais,lat_pais,'k')
+%plot(lon_rios,lat_rios,'b')
+%plot(lon_lagos,lat_lagos,'b')
+%plot(lon_ciudad,lat_ciudad,'ro')
+%tit=strcat('Valido para el ', tiempo_48);
+%title(tit,'FontSize',13)
+%xlabel('Longitud','FontSize',12)
+%ylabel('Latitud','FontSize',12)
+%[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob','_48_2','_c');
+%print('-depsc',archivo)
+%close 1
+
+%figure
+%contourf(lonvar,latvar,proba_24_c(:,:,9)*100,'LineStyle','none')
+%hold on
+%plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+%plot(lon_costa,lat_costa,'k')
+%plot(lon_pais,lat_pais,'k')
+%plot(lon_rios,lat_rios,'b')
+%plot(lon_lagos,lat_lagos,'b')
+%plot(lon_ciudad,lat_ciudad,'ro')
+%tit=strcat('Valido para el ', tiempo_24);
+%title(tit,'FontSize',13)
+%xlabel('Longitud','FontSize',12)
+%ylabel('Latitud','FontSize',12)
+%[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+%archivo=strcat('prob','_24_5','_c');
+%print('-depsc',archivo)
+%close 1
+
+
+%figure
+%contourf(lonvar,latvar,proba_48_c(:,:,9)*100,'LineStyle','none')
+%hold on
+%plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+%plot(lon_costa,lat_costa,'k')
+%plot(lon_pais,lat_pais,'k')
+%plot(lon_rios,lat_rios,'b')
+%plot(lon_lagos,lat_lagos,'b')
+%plot(lon_ciudad,lat_ciudad,'ro')
+%tit=strcat('Valido para el ', tiempo_48);
+%title(tit,'FontSize',13)
+%xlabel('Longitud','FontSize',12)
+%ylabel('Latitud','FontSize',12)
+%[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob','_48_5','_c');
+%print('-depsc',archivo)
+%close 1
+
+%figure
+%contourf(lonvar,latvar,proba_24_c(:,:,11)*100,'LineStyle','none')
+%hold on
+%plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+%plot(lon_costa,lat_costa,'k')
+%plot(lon_pais,lat_pais,'k')
+%plot(lon_rios,lat_rios,'b')
+%plot(lon_lagos,lat_lagos,'b')
+%plot(lon_ciudad,lat_ciudad,'ro')
+%tit=strcat('Valido para el ', tiempo_24);
+%title(tit,'FontSize',13)
+%xlabel('Longitud','FontSize',12)
+%ylabel('Latitud','FontSize',12)
+%[colores] = plot_jrcol(v,vcol,0);
+%archivo=strcat('prob',tie_24,'_1');
+%archivo=strcat('prob','_24_7','_c');
+%print('-depsc',archivo)
+%close 1
+
+
+%figure
+% contourf(lonvar,latvar,proba_48_c(:,:,11)*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% tit=strcat('Valido para el ', tiempo_48);
+% title(tit,'FontSize',13)
+% xlabel('Longitud','FontSize',12)
+% ylabel('Latitud','FontSize',12)
+% [colores] = plot_jrcol(v,vcol,0);
+% archivo=strcat('prob','_48_7','_c');
+% print('-depsc',archivo)
+% close 1
+
+
+
+
+
+%*************************Probabilidad NO calibrada***********************
+
+% figure
+% contourf(lonvar,latvar,proba_24_c(:,:,13)*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% tit=strcat('Valido para el ', tiempo_24);
+% title(tit,'FontSize',13)
+% xlabel('Longitud','FontSize',12)
+% ylabel('Latitud','FontSize',12)
+% [colores] = plot_jrcol(v,vcol,0);
+% %archivo=strcat('prob',tie_24,'_1');
+% archivo=strcat('probnocal','_24_1','_c');
+% print('-depsc',archivo)
+% close 1
+% 
+% 
+% figure
+% contourf(lonvar,latvar,proba_48_c(:,:,13)*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% tit=strcat('Valido para el ', tiempo_48);
+% title(tit,'FontSize',13)
+% xlabel('Longitud','FontSize',12)
+% ylabel('Latitud','FontSize',12)
+% [colores] = plot_jrcol(v,vcol,0);
+% archivo=strcat('probnocal','_48_1','_c');
+% print('-depsc',archivo)
+% close 1
+% 
+% 
+% 
+% figure
+% contourf(lonvar,latvar,proba_24_c(:,:,15)*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% tit=strcat('Valido para el ', tiempo_24);
+% title(tit,'FontSize',13)
+% xlabel('Longitud','FontSize',12)
+% ylabel('Latitud','FontSize',12)
+% [colores] = plot_jrcol(v,vcol,0);
+% %archivo=strcat('prob',tie_24,'_1');
+% archivo=strcat('probnocal','_24_2','_c');
+% print('-depsc',archivo)
+% close 1
+% 
+% 
+% figure
+% contourf(lonvar,latvar,proba_48_c(:,:,15)*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% tit=strcat('Valido para el ', tiempo_48);
+% title(tit,'FontSize',13)
+% xlabel('Longitud','FontSize',12)
+% ylabel('Latitud','FontSize',12)
+% [colores] = plot_jrcol(v,vcol,0);
+% archivo=strcat('probnocal','_48_2','_c');
+% print('-depsc',archivo)
+% close 1
+% 
+% 
+% 
+% figure
+% contourf(lonvar,latvar,proba_24_c(:,:,17)*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% tit=strcat('Valido para el ', tiempo_24);
+% title(tit,'FontSize',13)
+% xlabel('Longitud','FontSize',12)
+% ylabel('Latitud','FontSize',12)
+% [colores] = plot_jrcol(v,vcol,0);
+% %archivo=strcat('prob',tie_24,'_1');
+% archivo=strcat('probnocal','_24_5','_c');
+% print('-depsc',archivo)
+% close 1
+% 
+% 
+% figure
+% contourf(lonvar,latvar,proba_48_c(:,:,17)*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% tit=strcat('Valido para el ', tiempo_48);
+% title(tit,'FontSize',13)
+% xlabel('Longitud','FontSize',12)
+% ylabel('Latitud','FontSize',12)
+% [colores] = plot_jrcol(v,vcol,0);
+% archivo=strcat('probnocal','_48_5','_c');
+% print('-depsc',archivo)
+% close 1
+% 
+% 
+% figure
+% contourf(lonvar,latvar,proba_24_c(:,:,19)*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% tit=strcat('Valido para el ', tiempo_24);
+% title(tit,'FontSize',13)
+% xlabel('Longitud','FontSize',12)
+% ylabel('Latitud','FontSize',12)
+% [colores] = plot_jrcol(v,vcol,0);
+% %archivo=strcat('prob',tie_24,'_1');
+% archivo=strcat('probnocal','_24_7','_c');
+% print('-depsc',archivo)
+% close 1
+% 
+% 
+% figure
+% contourf(lonvar,latvar,proba_48_c(:,:,19)*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% tit=strcat('Valido para el ', tiempo_48);
+% title(tit,'FontSize',13)
+% xlabel('Longitud','FontSize',12)
+% ylabel('Latitud','FontSize',12)
+% [colores] = plot_jrcol(v,vcol,0);
+% archivo=strcat('probnocal','_48_7','_c');
+% print('-depsc',archivo)
+% close 1
+% 
+
+
+
+
+
+
+
+%*******************************Opcional*****************************
+
+% figure
+% subplot (2,2,1)
+% contourf(lonvar,latvar,proba_24*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% [colores] = plot_jrcol(v,vcol,0);
+% 
+% 
+% subplot (2,2,2)
+% contourf(lonvar,latvar,proba_48*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% [colores] = plot_jrcol(v,vcol,0);
+% 
+% subplot (2,2,3)
+% contourf(lonvar_c,latvar_c,proba_24_c*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% [colores] = plot_jrcol(v,vcol,0);
+% 
+% 
+% subplot (2,2,4)
+% contourf(lonvar_c,latvar_c,proba_48_c*100,'LineStyle','none')
+% hold on
+% plot(lon_est,lat_est,'LineStyle','none','Marker','o','MarkerSize',6,'MarkerEdgeColor',[0 0 1],'MarkerFaceColor',[1 0 0.2])
+% plot(lon_costa,lat_costa,'k')
+% plot(lon_pais,lat_pais,'k')
+% plot(lon_rios,lat_rios,'b')
+% plot(lon_lagos,lat_lagos,'b')
+% plot(lon_ciudad,lat_ciudad,'ro')
+% 
+% [colores] = plot_jrcol(v,vcol,0);
+% 
+% close 1

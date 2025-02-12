@@ -1,0 +1,50 @@
+%**************************************************************************
+%       CALCULA EL BRIER SCORE DE LA CLIMATOLOGIA Y DE PRONOSTICOS
+%       DETERMINISTICOS.
+%**************************************************************************
+
+function [brier_clim brier_ens] = brier_fun2(obs,ens,umbral)
+%**************************************************************************
+%Calculo el BRIER para la climatologia
+%***********************************************************************
+
+
+   n_umb=length(umbral);
+   ndatos=length(find(obs>=0)); %Busco los que no son NAN.
+   i_obs=find(obs>=0);
+ 
+ %Brier de la climatologia
+   
+   for i_umb=1:n_umb
+       %Para cada umbral primero calculo la probabilidad climatologica.
+       
+       aux=zeros(ndatos,1);
+       aux(find(obs(i_obs) >= umbral(i_umb)))=1; %Aux representa la observacion que es 0 o 1.
+       clim_prob=sum(aux)/ndatos;
+       brier_clim(i_umb)=nanmean((clim_prob-aux).^2);
+       clear aux  
+   end
+   
+   %Fin del calculo del BRIER SCORE para la climatologia.
+   
+  
+  %Brier de los miembros del ensemble
+  [filas columnas]=size(ens);
+  
+  for ens=1:filas
+  for i_umb=1:n_umb
+     
+      
+      
+      
+  end
+  end
+  
+  
+%**************************************************************************
+
+
+
+
+
+

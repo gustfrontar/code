@@ -1,0 +1,25 @@
+
+function [var]=write_file(open_file,nx,ny,nz,data,cond)
+
+
+% open file tiene que venir de afuera (string)
+% nx ny y nz son las dimensiones de la matriz y tienen que venir de afuera
+% data es la matriz que viene de afuera
+
+bin = fopen(open_file,'w');
+
+if (cond==1)
+    for j=1:nz
+    fwrite(bin,data(:,:,j),'float32',0,'ieee-le');
+    end
+    fclose(bin);
+else 
+    narch=fopen(arch,'r','l');
+    for i=1:nz
+    var(:,:,i+nz)=fread(bin,[nx ny],'float32',0,'ieee-le')';
+    end
+    fclose(bin);
+end
+                                                                                                                             
+                                                                                                                             
+

@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Python files #
+################
+# setup.py working directory
+build
+# setup.py dist directory
+dist
+# Egg metadata
+*.egg-info
+MANIFEST
+
+# Editor temporary/working/backup files #
+#########################################
+*~
+*-checkpoint.ipynb
+.*.sw[nop]
+.sw[nop]
+
+# Importante: se pueden ignorar archivos de prueba particulares
+# Ejemplo abajo
+# datos/EZE-PPIVol-20151014-232005.hdf
+
+datos/datos_martin
+Pruebas
+QC/Datos
+version.py

@@ -1,0 +1,23 @@
+clear all
+close all
+
+%En este experimento vamos a calcular el RMSE del estado y del parametro al
+%igual que su dispersion analizar si funciona el metodo de estimacion de la
+%inflacion y como es su desempenio para distintos tamanios del ensamble y
+%spread iniciales.
+
+ensemble_members=[3 6 10 15 20 30 40 50 75 100 200];
+sigma_factor=[0.01 0.1 0.5 0.75 1.0 1.25 1.5 2];
+
+ekf_sigmapar=[0.24 0.03 0.1];  %Spread de referencia que obtuvimos con el EKF (usando el modelo adjunto).
+
+
+for ii=1:length(sigma_factor)
+    
+    for jj=1:length(ensemble_members)
+   
+        [rmse_a(ii,jj,:),rmse_f(ii,jj,:),sprd_a(ii,jj,:,:),sprd_f(ii,jj,:,:),mean_inflation(ii,jj)]=etkf_parameters_parfixedsprd(K,sigmapar);
+        [rmse_a(ii,jj,:),rmse_f(ii,jj,:),sprd_a(ii,jj,:,:),sprd_f(ii,jj,:,:),mean_inflation(ii,jj)]=etkf_parameters_parfixedsprd(K,sigmapar);
+        
+    end
+end

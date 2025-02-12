@@ -1,0 +1,16 @@
+% Two coupled Lorenz '63 systems
+
+function [x_dot,TL] = lorenz(xnl,x)
+
+%xnl es el estado de la trayectoria no lineal alrededor de la cual se c
+
+a      = par(1);
+r      = par(2);
+b      = par(3);
+
+TL=[-a a 0;-xnl(3)+r -r -xnl(1);xnl(2) xnl(1) -b];
+
+x_dot=TL*x;
+
+
+
