@@ -1,0 +1,93 @@
+Relase notes, 3 April 2016
+Marc Bocquet, ENPC/CEREA
+
+These are demo codes for the EnKF(-N) algorithm.
+
+run: "python enkf.py"
+(meant for python3)
+
+
+Files:
+------
+
+enkf.py is the driver code,
+enkf_call.py runs the data assimilation experiments,
+enkf_analysis.py is the collection of analysis methods,
+l95.py a typical model.
+
+
+Methods:
+--------
+
+Analysis 1:
+Standard EnKF in its ETKF implementation
+
+Analysis 2:
+Primal EnKF-N
+
+Analysis 3:
+Dual EnKF-N
+
+
+
+
+Where these algorithms are taken from:
+--------------------------------------
+
+All these schemes use algorithms developed in:
+
+@article{hunt2007,
+author = "Hunt, B. R. and Kostelich, E. J. and Szunyogh, I.",
+title =	 "Efficient data assimilation for spatiotemporal chaos: {A} local ensemble transform 
+{K}alman filter",
+journal = "Physica D",
+year = "2007",
+volume = "230",
+pages =	 "112--126"
+}
+
+@article{bocquet2011,
+author = "Bocquet, M.",
+journal = "Nonlin. Processes Geophys.",
+title = "Ensemble {K}alman filtering without the intrinsic need for inflation",
+volume = "18",
+pages = "735--750",
+year = "2011",
+doi = "10.5194/npg-18-735-2011",
+url = "http://www.nonlin-processes-geophys.net/18/735/2011/npg-18-735-2011.pdf"
+}
+
+@article{bocquet2012,
+author = "Bocquet, M. and Sakov, P.",
+journal = "Nonlin. Processes Geophys.",
+title = "Combining inflation-free and iterative ensemble {K}alman filters for strongly nonlinear systems",
+volume = "19",
+pages = "383--399",
+year = "2012",
+doi = "10.5194/npg-19-383-2012",
+url = "http://www.nonlin-processes-geophys.net/19/383/2012/npg-19-383-2012.pdf"
+}
+
+@article{bocquet2015,
+title = "Expanding the validity of the ensemble {K}alman filter without the intrinsic need for inflation",
+author = "Bocquet, M. and Raanes, P. N. and Hannart, A.",
+journal = npg,
+pages = "645--662",
+volume = "22",
+year = "2015",
+url = "http://www.nonlin-processes-geophys.net/22/645/2015/npg-22-645-2015.pdf",
+doi = "10.5194/npg-22-645-2015"
+}
+
+
+The lorenz-95 model is taken from:
+
+@article{lorenz1998,
+title = "Optimal sites for supplementary weather observations:
+simulation with a small model",
+author = "Lorenz, E. N. and Emanuel, K. A.",
+journal = jas,
+volume = "55",
+pages = "399--414",
+year = 1998
+}

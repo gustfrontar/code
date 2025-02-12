@@ -1,0 +1,865 @@
+### QC Radar Configuracion ###
+[Base]
+INSTRUMENT_LIST=ANG,RMA1,RMA2,RMA3,RMA4,RMA5,RMA6,RMA7,RMA8,RMA10,RMA11,PAR
+VARLIST=reflectivity,cross_correlation_ratio
+VARLISTMIN=reflectivity
+SAVE_NETCDF=True
+NETCDF_OUTPATH=/data/OBS/qc-radar/tiemporeal
+
+FILTERS=InterferenceFilter,EchoTopFilter,RhoFilter,RefSpeckleFilter,BlockingFilter,AttenuationFilter,MissingRefFilter
+#FILTERS=LowDopplerFilter,InterferenceFilter,EchoTopFilter,RhoFilter,RefSpeckleFilter,BlockingFilter,AttenuationFilter,MissingRefFilter,DealiasingFilter,DopplerSpatialCoherenceFilter,DealiasingEdgeFilter
+
+# Posibles extensiones de los datos de radar a leer
+DATA_EXT=H5,vol,nc
+
+# Opcion para realizar los graficos de los filtros y variables corregidas
+FILTERS_PLOT=False
+# Ruta donde se guardaran estos graficos intermedios
+PLOTS_OUTPATH=${NETCDF_OUTPATH}/Plots/
+# Elevaciones que se graficaran
+PLOTS_ELEVS=0,1
+
+# Valor de reflectividad que reprenta la no precipitacion
+NO_RAIN_REF_VALUE=-0.1
+
+
+
+# Si es verdadero se agregaran campos adicionales corregidos al archivo de
+# salida NETCDF. Si es falso, los campos corregidos se guardaran con los
+# nombres originales
+SAVE_KEEP_ORIGINAL=True
+
+[AttenuationFilter]
+#Estos parametros no se usan
+FLAG=True
+NX=0
+NY=0
+NZ=0
+
+# Si esta en True se guardara el indice,  el peso y el valor de undef para este filtro en el output
+SAVE=True
+
+#Determinan la funcion de peso
+IFY=1,1,0,0,0
+
+#Determinan el umbral del indice de atenuacion a partir del cual se filtraran los pixeles
+IFX=-100,-10,-9,-1,0
+
+#Parametro de peso si se aplica la logica difursa
+W=1.0
+
+#Se utiliza el codigo para saber que pixeles fueron eliminados por el filtro
+CODE=17
+
+#Error de calibracion
+ATTCALERROR=1
+
+#Si es True se corregiran los valores atenuados
+ATTENUATION_CORRECTION=True
+
+#Si el input esta en mm^6/m^3 este parametro se debe setear como True
+IS_POWER=False
+
+#Coeficientes para el calculo de la atenuacion (ver a continuacion)
+ATT_COEFS=543,1.36,1.55e-3,1.30
+
+#True si rechazaremos los datos basados solo en este filtro
+FORCE=True
+
+#Umbral a partir del cual seran filtrados los datos por este filtro
+FORCE_VALUE=0.5
+
+#Este parametro no se usa
+ORDER=50
+
+#Variables a las que se les aplicara el filtro
+VAR_UPDATE_LIST=ref
+
+#True si este filtro se corre de manera secuencial
+SEQUENTIAL=True
+
+#Posibles valores: undef, min_ref o fill value
+FILLVALUE=undef
+
+#Coefficients for C-Band radars based on
+##Quantification of Path-Integrated Attenuation for X- and C-Band Weather
+##Radar Systems Operating in Mediterranean Heavy Rainfall
+##Delrieu, Andreiu, Creutin 1999 , Journal of Applied Meteorology
+##a_coef=543
+##b_coef=1.36
+##c_coef=1.55e-3
+##d_coef=1.30
+
+
+[BlockingFilter]
+#Enable / Disable filter
+flag=True
+#Wether correction will be applied for partially blocked beams.
+blocking_correction=True
+#Save blocking factor into qc_output dictionary.
+save=True
+#Importance function ynp.array([])
+ify=0,0,1,1
+#Importance function xnp.array([])
+ifx=0,0.49,0.5,100
+#Relative parameter weigth.
+w=1.0
+#Filter QC code
+code=17
+#Wether we will reject data based on this filter alone.
+force=True
+#Threshold for force
+force_value=0.5
+order=40
+#Which variables will be filtered.
+var_update_list=ref
+#Wheter this filter will affect the following filters.
+sequential=True
+fill_value=undef
+
+[DealiasingFilter]
+flag=True
+interval_split=3
+skip_between_ray=30
+skip_along_ray=200
+nx=3
+ny=3
+nz=0
+code=43
+#Wheter this filter will affect the following filters.
+sequential=True
+order=100
+var_update_list=v
+fill_value=undef
+
+[DealiasingEdgeFilter]
+#Enable / Disable filter
+flag=True
+
+#NX
+nx=3
+
+#NY
+ny=3
+
+#NZ
+nz=0
+
+#Save filter aux fields to output?
+save=True
+
+#Importance function y
+ify=0,1.0
+
+#Importance function x
+ifx=0,1.0
+
+#Relative parameter weigth.
+w=1.0
+code=22
+
+#Wether we will reject data based on this filter alone
+force=True
+
+#Threshold for force
+force_value=0.5
+order=115
+
+#Which variables will be filtered.
+var_update_list=v
+
+#Wheter this filter will affect the following filters.
+sequential=True
+
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+
+[DopplerLocalStdFilter]
+#Enable / Disable filter
+flag=False
+
+#NX
+nx=1
+
+#NY
+ny=1
+
+#NZ
+nz=0
+
+#Importance function y
+ify=0,0,1,1
+
+#Importance function x
+ifx=0,3,4,10
+
+#Save filter aux fields to output?
+save=True
+
+#Relative parameter weigth.
+w=1.0
+code=23
+
+#Wether we will reject data based on this filter alone.
+force=True
+
+#Threshold for force
+force_value=0.5
+order=116
+
+#Which variables will be filtered.
+var_update_list=v
+
+#Wheter this filter will affect the following filters.
+sequential=True
+
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+[DopplerSpatialCoherenceFilter]
+#Enable / Disable filter
+flag=True
+
+#NX
+nx=2
+
+#NY
+ny=2
+
+#NZ
+nz=0
+
+#Minimum percentage of valid points required
+threshold_undef=0.05
+
+#Minimum correlation required to keep a ray.
+threshold_corr=0.3
+
+#Threshold to decied which pixels will be removed.
+threshold_coherence_index=1
+
+#Flag to consider coherence in azimuth.
+compute_horizontal_coherence=True
+
+#Flag to consider coherence in elevation
+compute_vertical_coherence=False
+
+#Number of applications of the issolated data filter.
+npass_filter=1
+
+#Apply issolated data filter in azimuth.
+azimuthfilter=True
+
+#Apply issolated data filter in range.
+rangefilter=True
+
+#Apply issolated data filter in elevation
+elevationfilter=False
+
+#Wether speckle filter will be applied to the remaining data.
+enable_speckle=True
+
+#Threshold to discard pixels based on speckle index.
+speckle_threshold=0.3
+
+#Possible values are Ransac or Constant
+consistency_metric=constant
+
+#Consecutive values which are farther than this threshold will be flagged.
+constant_consistency_threshold=5.0
+
+#Importance function y
+ify=0,0.9,20
+
+#Importance function x
+ifx=0,1,1
+
+#Save filter aux fields to output?
+save=True
+
+#Relative parameter weigth.
+w=1.0
+code=34
+
+#Wether we will reject data based on this filter alone.
+force=True
+
+#Threshold for force
+force_value=0.5
+order=111
+
+#Which variables will be filtered.
+var_update_list=v
+
+#Wheter this filter will affect the following filters.
+sequential=True
+
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+[DopplerNoiseFilter]
+#Enable / Disable filter
+flag=False
+
+#NX
+nx=1,10
+
+#NY
+ny=1,10
+
+#NZ
+nz=0,0
+threshold=2.0,15.0
+
+#Filter repetition
+n_filter_pass=3,3
+
+#Save filter aux fields to output?
+save=True
+
+#Importance function y
+ify=0,1
+
+#Importance function x
+ifx=0,1
+
+#Relative parameter weigth.
+w=1.0
+code=1
+
+#Wether we will reject data based on this filter alone.
+force=True
+
+#Threshold for force
+force_value=0.5
+order=101
+
+#Which variables will be filtered.
+var_update_list=v
+
+#Wheter this filter will affect the following filters.
+sequential=True
+
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+[DopplerSpeckleFilter]
+#Enable/disable filter
+flag=False
+
+#NX
+nx=2
+
+#NY
+ny=2
+
+#NZ
+nz=0
+
+#Save filter aux fields to output?
+save=True
+
+#Importance function y
+ify=1,1,0,0
+
+#Importance function x
+ifx=0,0.2,0.4,1
+
+#Relative parameter weigth.
+w=1.0
+code=14
+
+#Wind threshold.
+dvtr=0.0
+
+#Wether we will reject data based on this filter alone.
+force=True
+
+#Threshold for force
+force_value=0.5
+order=117
+
+#Which variables will be filtered.
+var_update_list=v
+
+#Wheter this filter will affect the following filters.
+sequential=True
+
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+[LowDopplerFilter]
+#Enable / Disable filter
+flag=True
+
+#NX
+nx=0
+
+#NY
+ny=0
+
+#NZ
+nz=0
+
+#Save filter aux fields to output?
+save=True
+
+#Importance function y
+ify=1,1,0,0
+
+#Importance function x
+ifx=0,0.5,0.51,200
+
+#Relative parameter weigth.
+w=1.0
+code=19
+
+#Wether we will reject data based on this filter alone.
+force=True
+
+#Threshold for force
+force_value=0.5
+
+#Height threshold.
+height_thr=1000
+order=12
+
+#Which variables will be filtered.
+var_update_list=v
+
+#Wheter this filter will affect the following filters.
+sequential=True
+
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+[EchoTopFilter]
+#Enable/disable filter
+flag=True
+
+#NX
+nx=10
+
+#NY
+ny=10
+
+#NZ
+nz=0
+
+#Enable fast version of echo top computation.
+fast_computation=True
+
+#Save filter aux fields to output?
+save=True
+
+#Importance function y
+ify=1,1,0,0
+
+#Importance function x
+ifx=0,999,1000,20000
+
+#Relative parameter weigth.
+w=1.0
+code=11
+
+#Do not use this filter if volume height is lower than this threshold
+heigthtr=1000
+
+#Wether we will reject data based on this filter alone.
+force=True
+force_value=0.5
+
+#Which variables will be filtered.
+var_update_list=ref
+
+#Wheter this filter will affect the following filters.
+sequential=True
+
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+[EchoDepthFilter]
+#Enable / disable filter
+flag=False
+#NX
+nx=2
+#NY
+ny=2
+#NZ
+nz=0
+#Save filter aux fields to output?
+save=True
+#Importance function y
+ify=1,1,0,0
+#Importance function x
+ifx=0,2500,3000,20000
+#Relative parameter weigth.
+w=1.0
+code=12
+#Do not use this filter if volume height
+heigthtr=3000
+#Wether we will reject data based on this filter alone.
+force=True
+#Threshold for force
+force_value=0.5
+order=5
+#Which variables will be filtered.
+var_update_list=ref
+#Wheter this filter will affect the following filters.
+sequential=True
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+
+[InterferenceFilter]
+#Este parametro no se usa
+flag=True
+#Si esta en True se guardara el indice,  el peso y el valor de undef para este filtro en el output
+save=True
+#Cantidad de pixeles en azimuth. Esta cantidad se utilizara para calcular el promedio de la reflectividad en esta direccion. El promedio se realizara sobre un total de (2*nx)+1
+nx=0
+#Cantidad de pixeles en rango. Esta cantidad se utilizara para calcular el promedio de la reflectividad en esta direccion. El promedio se realizara sobre un total de (2*ny)+1
+ny=4
+#Cantidad de pixeles en elevaciones.Esta cantidad se utilizara para calcular el promedio de la reflectividad en esta direccion. El promedio se realizara sobre un total de (2*nz)+1
+nz=0
+#Se utiliza el codigo para saber que pixeles fueron eliminados por el filtro
+code=20
+#Determinan la funcion de peso
+ify=0,1.0
+#Determinan el umbral del indice de atenuacion a partir del cual se filtraran los pixeles
+ifx=0,1.0
+#True si rechazaremos los datos basados solo en este filtro
+force=True
+#Umbral a partir del cual seran filtrados los datos por este filtro
+force_value=0.5
+#Constante de atenuacion de gases (dB/km )
+att=0.01e-3
+#Si es True se aplica un suavizado de la reflectividad antes de comenzar con los calculos del filtro
+Smooth_Ref=True
+#Este parametro no se usa
+Power_Regression=True
+#Number of pixels from radar location that will be ignored in the regression.
+offset=100
+#Si es True se eliminaran los pixeles aislados en azimut.
+AzimuthFilter=True
+#Si es True se eliminaran los pixeles aislados en elevacion.
+ElevationFilter=False
+#Numero de pasadas del filtro de continuidad en azimut.
+npass_filter=3
+#Se examinaran los haces con pixeles validos sobre este porcentaje
+percent_valid_threshold=0.2
+#Los haces que se correlacionen bien con el patron de interferencia entonces estara contaminado
+corr_threshold=0.97,0.9,0.8
+#Si mas de este porcentaje del rayo se correlaciona bien con el patron de interferencia, entonces esta contaminado.
+azimuth_ref_diff_threshold=0.1,0.15,0.2
+#Umbral de reflectividad para contar pixeles que estan cerca del patron de interferencia.
+ref_threshold=7.0
+#Si mas de este porcentaje del rayo se correlaciona bien con el patron de interferencia, entonces el rayo se marca como contaminado por interferencia.
+percent_ref_threshold=0.3
+#Este parametro no se usa
+order=14
+#Variables a las que se les aplicara el filtro.
+var_update_list=ref
+#Si es True este filtro se aplicara de manera secuencial.
+sequential=True
+#Posibles valores undef, min_ref o fill value
+fill_value=undef
+
+
+[LowElevFilter]
+#Enable/Disable filter
+flag=False
+#NX
+nx=0
+#NY
+ny=0
+#NZ
+nz=0
+#Save filter aux fields to output?
+save=True
+#Minimun angle
+min_angle=2.0
+#Heights above this wont be affected.
+height_thr=20000.0
+#Relative parameter weigth.
+w=1.0
+code=1
+#Importance function y
+ify=0,1
+#Importance function x
+ifx=0,1
+#Wether we will reject data based on this filter alone.
+force=True
+#Threshold for force
+force_value=0.5
+order=12
+#Which variables will be filtered.
+var_update_list=ref
+#Wheter this filter will affect the following filters.
+sequential=True
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+
+[MissingRefFilter]
+#Enable / Disable filter
+flag=True
+#Threshold to detect sudden jumps in reflectivity between two consecutive pixels.
+threshold=10
+#Maximum number of missing values in a radial beam.
+nmissing_max=15
+#Save filter aux fields to output?
+save=True
+#Relative parameter weigth.
+w=1.0
+#Importance function y
+ify=0,1.0
+#Importance function x
+ifx=0,1.0
+code=32
+#Wether we will reject data based on this filter alone.
+force=True
+#Threshold for force
+force_value=0.5
+order=60
+#Which variables will be filtered.
+var_update_list=ref
+#Wheter this filter will affect the following  filters
+sequential=True
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+[PowerFilter]
+#Constante de la ec de radar
+a=0.01
+#Constante de la ec de radar
+C=0
+#Umbral minimo de potencia
+qc_pot_thr=-200
+#Variables a las que se les aplica este filtro
+var_update_list=ref
+#Si es True el filtro se aplica de manera secuencial
+sequential=True
+#Codigo del filtro utilizado para identificar los pixeles eliminados por este filtro
+code=1
+
+[DopplerRefFilter]
+flag=False
+#Wheter gates with undef reflectivity will be flagged.
+filter_undef=True
+#Gates with reflectivities below this threshold will be flaged.
+threshold=5.0
+#nx for reflectivity smoothing.
+nx=3
+#ny for reflectivity smoothing.
+ny=3
+#nz for reflectivity smoothing.
+nz=0
+save=True
+#Importance function y
+ify=0,1
+#Importance function x
+ifx=0,1
+code=44
+#Wheter this filter will affect the following filters.
+sequential=True
+#Which variables will be filtered.
+var_update_list=v
+#Wether we will reject data based on this filter alone.
+force=True
+#Threshold for force
+force_value=0.5
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+
+[DopplerRangeFilter]
+#Enable / Disable filter
+flag=False
+#Threshold to detect sudden jumps in reflectivity between two consecutive pixels.
+min=-100
+#Maximum number of missing values in a radial beam.
+max=100
+#Save filter aux fields to output?
+save=True
+#Relative parameter weigth.
+w=1.0
+#Importance function y
+ify=0,1.0
+#Importance function x
+ifx=0,1.0
+code=33
+#Wether we will reject data based on this filter alone.
+force=True
+#Threshold for force
+force_value=0.5
+#Which variables will be filtered.
+var_update_list=v
+#Wheter this filter will affect the following  filters
+sequential=True
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+
+[RefRangeFilter]
+#Enable / Disable filter
+flag=False
+#Threshold to detect sudden jumps in reflectivity between two consecutive pixels.
+min=-10.0
+#Maximum number of missing values in a radial beam.
+max=80.0
+#Save filter aux fields to output?
+save=True
+#Relative parameter weigth.
+w=1.0
+#Importance function y
+ify=0,1.0
+#Importance function x
+ifx=0,1.0
+code=32
+#Wether we will reject data based on this filter alone.
+force=True
+#Threshold for force
+force_value=0.5
+#Which variables will be filtered.
+var_update_list=ref
+#Wheter this filter will affect the following  filters
+sequential=True
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+
+[RefSpeckleFilter]
+#Enable/disable filter
+flag=True
+#NX
+nx=2
+#NY
+ny=2
+#NZ
+nz=0
+#Save filter aux fields to output?
+save=True
+#Importance function y
+ify=1,1,0,0
+#Importance function x
+ifx=0,0.2,0.4,1
+#Relative parameter weigth.
+w=1.0
+code=13
+#Reflectivity threshold
+reftr=5.0
+#Wether we will reject data based on this filter alone.
+force=True
+#Threshold for force
+force_value=0.5
+#Which variables will be filtered.
+var_update_list=ref
+#Wheter this filter will affect the following filters.
+sequential=True
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+
+[RhoFilter]
+#Enable/disable filter
+flag=True
+#NX
+nx=5
+#NY
+ny=5
+#NZ
+nz=0
+#Save filter aux fields to output?
+save=True
+#Importance function y
+ify=1,1,0,0
+#Importance function x
+ifx=-2,0.5,0.8,2
+#Relative parameter weigth.
+w=1.0
+code=10
+#Wether we will reject data based on this filter alone.
+force=True
+#Threshold for force
+force_value=0.5
+#Which variables will be filtered.
+var_update_list=ref
+#Wheter this filter will affect the following filters.
+sequential=True
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+#Smoothed reflectivities over this threshold wont be affected b
+ref_threshold=40.0
+
+
+[DopplerTextureFilter]
+#Enable / disable filter
+flag=False
+#NX
+nx=1
+#NY
+ny=2
+#NZ
+nz=0
+#Save filter aux fields to output?
+save=True
+#Importance function y
+ify=0,0,1,1
+#Importance function x
+ifx=0,2.5,10,200
+#Relative parameter weigth.
+w=1.0
+code=15
+#Wether we will reject data based on this filter alone.
+force=True
+#Threshold for force
+force_value=0.5
+#Which variables will be filtered.
+var_update_list=v
+#Wheter this filter will affect the following filters.
+sequential=True
+#Possible values, undef, min_ref or fill value
+fill_value=undef
+
+
+[ReflectivityTextureFilter]
+#Enable/disable filter
+flag=False
+#NX for texture
+index_nx=3
+#NY for texture
+index_ny=5
+#NZ for texture
+index_nz=0
+#NX for ref smoothing
+nx=0
+#NY for ref smoothing
+ny=0
+#NZ for ref smoothing
+nz=0
+#Wether high reflectivity cores will be protected.
+use_smooth_ref=True
+#Reflectivity above this threshold wont be affected by this filter.
+smooth_ref_tr=20.0
+#Save filter aux fields to output?
+save=True
+#Importance function y
+ify=0,0,1,1
+#Importance function x
+ifx=0,15,20,200
+#Relative parameter weigth
+w=1.0
+code=16
+#Wether we will reject data based on this filter alone.
+force=True
+#Threshold for force
+force_value=0.5
+order=[9]
+#Which variables will be filtered.
+var_update_list=ref
+#Wheter this filter will affect the following filters.
+sequential=True
+#Possible values, undef, min_ref or fill value
+fill_value=undef

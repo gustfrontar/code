@@ -1,0 +1,106 @@
+#!/usr/bin/env python
+# -*- coding: iso-8859-15 -*-h
+
+
+#################################################################
+#
+#      (c) Marc Bocquet
+#      Programme enkf_call.py
+#      Cleansed release version for Alex Ayet and Alexis Hannart
+#      Dernière modification: 03/04/2016
+#
+##################################################################
+
+
+import numpy as np
+from numpy import linalg
+import random, time
+import matplotlib.pyplot as plt
+import enkf_analysis
+
+
+def enkf_call(model, Dt, Nt, Nts, N, sig_obs, infl):
+
+    ########################
+    #  Setup and Spinup    #
+    ########################
+
+    M = model.M
+    D = model.D
+    xt = model.NewState()
+    
+
+    print("> truth spinup")
+    Ntsu = 1000
+    model.ForecastState(xt, Ntsu*Dt)
+
+
+    print("> generate ensemble")
+    E = model.NewEnsemble(N, xt)
+
+
+    xar = np.zeros([Nt,M])
+    xtr = np.zeros([Nt,M])
+    zetar = np.zeros(Nt)
+    xa = np.zeros(M)
+    spreadr = np.zeros([Nt])
+
+
+    ###########################
+    #  Data Assimilation Run  #
+    ###########################
+
+
+    print("> data assimilation run")
+    
+    tpr_beg = time.clock()
+    #tpr_beg = time.process_time()
+    #twc_beg = time.perf_counter()
+
+    for t in range(Nt):
+
+        yt = model.Obs(xt);
+        y = yt + np.random.normal(0,sig_obs,D)
+        
+        # enkf_analysis.Inflation(E, infl)
+        
+        #zeta = enkf_analysis.Analysis1(model, y, E, sig_obs, xa)
+        zeta = enkf_analysis.Analysis2(model, y, E, sig_obs, xa)
+        #zeta = enkf_analysis.Analysis3(model, y, E, sig_obs, xa)
+
+
+        # enkf_analysis.Inflation(E, infl)
+        
+        xtr[t] = xt
+        xar[t] = xa
+        zetar[t] = zeta
+
+        X = E - xa
+        spreadr[t] = linalg.norm(X)/np.sqrt(N*M)
+        
+        print(" - step", t, "%3.2f" %zeta)
+
+        model.ForecastState(xt, Dt)
+        model.ForecastEnsemble(E, Dt)
+
+
+
+   # tpr_end = time.process_time()
+    #twc_end = time.perf_counter()
+    prtime = float((time.clock() - tpr_beg))
+    #wctime = twc_end-twc_beg
+    #prtime = tpr_end-tpr_beg
+
+    dx = xar - xtr
+    statistics = model.ComputeStat(dx[Nts:Nt])
+    
+    
+    infa_mean = np.mean(zetar)
+    infa_median = np.median(zetar)
+
+    spread_mean = np.mean(spreadr)
+    spread_median = np.median(spreadr)
+
+    return statistics, infa_mean, infa_median, spread_mean, spread_median, prtime
+#wctime, prtime
+

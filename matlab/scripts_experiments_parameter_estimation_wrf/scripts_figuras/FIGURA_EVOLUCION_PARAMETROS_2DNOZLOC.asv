@@ -1,0 +1,22 @@
+clear all
+close all
+
+load ../EXPERIMENTOS/QFX2DNOZLOC40M_MEMNC/parameters.mat 
+
+paraveqfx2dnozloc=parameter_time_mean;
+parvarqfx2dnozloc=parameter_time_mean;
+
+partsqfx2dnozloc=parameter_spatial_average;
+
+
+figure
+
+
+hold on
+plot(partsqfx2dnozloc(:,2),'b','LineWidth',3)
+plot([1 300],[1 1],'k--','K)
+%legend('W/O VERT. LOC.','W. VERT. LOC.')
+title('2D parameter estimation')
+axis([1 225 0.1 1.5])
+grid on
+

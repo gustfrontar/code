@@ -1,0 +1,27 @@
+clear all
+close all
+
+load ../EXPERIMENTOS/QFX2DNOZLOC40M_IDEAL_CONSTANTPAR_MEMNC/parameters.mat 
+
+parperfect=parameter_time_mean;
+
+parperfects=parameter_spatial_average;
+
+load ../EXPERIMENTOS/QFX2DNOZLOC40M_IDEAL_CONSTANTPARIMOD_MEMNC/parameters.mat 
+
+parimperfect=parameter_time_mean;
+
+parperfects=parameter_spatial_average;
+
+figure
+
+subplot(1,2,1)
+hold on
+plot(parperfect(:,2),'r','LineWidth',3)
+plot(parperfects(:,2),'b','LineWidth',3)
+title('Global parameter estimation')
+legend('W/O VERT. LOC.','W. VERT. LOC.')
+grid on
+axis([1 225 0.1 1.5])
+
+

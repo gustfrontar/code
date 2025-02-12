@@ -1,0 +1,8 @@
+. Numba module accelerates functions compiling them, using the autojit to provide numpy arrays.
+
+. It uses wrappers or decorators , which modifiy  a function to give another function. Syntax: 
+@wrapper
+def func:
+  function to be wrapped or decorated
+
+. 

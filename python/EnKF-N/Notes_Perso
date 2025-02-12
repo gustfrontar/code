@@ -1,0 +1,10 @@
+. Numba module accelerates functions compiling them, using the autojit to provide numpy arrays.
+
+. It uses wrappers or decorators , which modifiy  a function to give another function. Syntax: 
+@wrapper
+def func:
+  function to be wrapped or decorated
+
+. When importing model in Enkf.py, we import all the variables for the lorentz89. 
+
+.L95 computes a run for Dt (timestep of the assimilation), with a timestep of dt.

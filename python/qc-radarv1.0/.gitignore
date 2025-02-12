@@ -1,0 +1,32 @@
+# Archivos extra
+df_qc-radar.template
+tareasSlurm.pkl
+
+# Directorios de Slurm
+logs/
+slurm-scripts/
+logs.tar
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Python files #
+################
+# setup.py working directory
+build
+# setup.py dist directory
+dist
+# Egg metadata
+*.egg-info
+MANIFEST
+
+# Editor temporary/working/backup files #
+#########################################
+*~
+*-checkpoint.ipynb
+.*.sw[nop]
+.sw[nop]
+.vscode
+
