@@ -7,8 +7,8 @@ running build_src
 INFO: build_src
 INFO: building extension "cletkf" sources
 INFO: f2py options: []
-INFO: f2py:> /tmp/tmp5icx2vmu/src.linux-x86_64-3.9/cletkfmodule.c
-creating /tmp/tmp5icx2vmu/src.linux-x86_64-3.9
+INFO: f2py:> /tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/cletkfmodule.c
+creating /tmp/tmp6wqwrsvg/src.linux-x86_64-3.9
 rmbadname1: Replacing "max" with "max_bn".
 Reading fortran codes...
 	Reading file 'netlib.f90' (format:fix)
@@ -778,15 +778,15 @@ getctype: "real(kind=r_size)" is mapped to C "float" (to override define dict(re
               refens = calc_ref_ens(qrens,qsens,qgens,tens,pens,[nx,ny,nz,nbv])
             Constructing wrapper function "common_da.calc_ref"...
               ref = calc_ref(qr,qs,qg,t,p)
-    Wrote C/API module "cletkf" to file "/tmp/tmp5icx2vmu/src.linux-x86_64-3.9/cletkfmodule.c"
-    Fortran 77 wrappers are saved to "/tmp/tmp5icx2vmu/src.linux-x86_64-3.9/cletkf-f2pywrappers.f"
-    Fortran 90 wrappers are saved to "/tmp/tmp5icx2vmu/src.linux-x86_64-3.9/cletkf-f2pywrappers2.f90"
-INFO:   adding '/tmp/tmp5icx2vmu/src.linux-x86_64-3.9/fortranobject.c' to sources.
-INFO:   adding '/tmp/tmp5icx2vmu/src.linux-x86_64-3.9' to include_dirs.
-copying /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/f2py/src/fortranobject.c -> /tmp/tmp5icx2vmu/src.linux-x86_64-3.9
-copying /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/f2py/src/fortranobject.h -> /tmp/tmp5icx2vmu/src.linux-x86_64-3.9
-INFO:   adding '/tmp/tmp5icx2vmu/src.linux-x86_64-3.9/cletkf-f2pywrappers.f' to sources.
-INFO:   adding '/tmp/tmp5icx2vmu/src.linux-x86_64-3.9/cletkf-f2pywrappers2.f90' to sources.
+    Wrote C/API module "cletkf" to file "/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/cletkfmodule.c"
+    Fortran 77 wrappers are saved to "/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/cletkf-f2pywrappers.f"
+    Fortran 90 wrappers are saved to "/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/cletkf-f2pywrappers2.f90"
+INFO:   adding '/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/fortranobject.c' to sources.
+INFO:   adding '/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9' to include_dirs.
+copying /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/f2py/src/fortranobject.c -> /tmp/tmp6wqwrsvg/src.linux-x86_64-3.9
+copying /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/f2py/src/fortranobject.h -> /tmp/tmp6wqwrsvg/src.linux-x86_64-3.9
+INFO:   adding '/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/cletkf-f2pywrappers.f' to sources.
+INFO:   adding '/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/cletkf-f2pywrappers2.f90' to sources.
 INFO: build_src: building npy-pkg config files
 /home/jruiz/anaconda3/lib/python3.9/site-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
   warnings.warn(
@@ -804,37 +804,37 @@ INFO: building 'cletkf' extension
 INFO: compiling C sources
 INFO: C compiler: gcc -pthread -B /home/jruiz/anaconda3/compiler_compat -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -Wall -fPIC -O2 -isystem /home/jruiz/anaconda3/include -I/home/jruiz/anaconda3/include -fPIC -O2 -isystem /home/jruiz/anaconda3/include -fPIC
 
-creating /tmp/tmp5icx2vmu/tmp
-creating /tmp/tmp5icx2vmu/tmp/tmp5icx2vmu
-creating /tmp/tmp5icx2vmu/tmp/tmp5icx2vmu/src.linux-x86_64-3.9
-INFO: compile options: '-DNPY_DISABLE_OPTIMIZATION=1 -I/tmp/tmp5icx2vmu/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
-INFO: gcc: /tmp/tmp5icx2vmu/src.linux-x86_64-3.9/cletkfmodule.c
-INFO: gcc: /tmp/tmp5icx2vmu/src.linux-x86_64-3.9/fortranobject.c
+creating /tmp/tmp6wqwrsvg/tmp
+creating /tmp/tmp6wqwrsvg/tmp/tmp6wqwrsvg
+creating /tmp/tmp6wqwrsvg/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9
+INFO: compile options: '-DNPY_DISABLE_OPTIMIZATION=1 -I/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
+INFO: gcc: /tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/fortranobject.c
+INFO: gcc: /tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/cletkfmodule.c
 In file included from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h:1948,
                  from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h:12,
                  from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/arrayobject.h:5,
-                 from /tmp/tmp5icx2vmu/src.linux-x86_64-3.9/fortranobject.h:13,
-                 from /tmp/tmp5icx2vmu/src.linux-x86_64-3.9/fortranobject.c:2:
+                 from /tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/fortranobject.h:13,
+                 from /tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/fortranobject.c:2:
 /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/npy_1_7_deprecated_api.h:17:2: warning: #warning "Using deprecated NumPy API, disable it with " "#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION" [-Wcpp]
    17 | #warning "Using deprecated NumPy API, disable it with " \
       |  ^~~~~~~
 In file included from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h:1948,
                  from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h:12,
                  from /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/arrayobject.h:5,
-                 from /tmp/tmp5icx2vmu/src.linux-x86_64-3.9/fortranobject.h:13,
-                 from /tmp/tmp5icx2vmu/src.linux-x86_64-3.9/cletkfmodule.c:23:
+                 from /tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/fortranobject.h:13,
+                 from /tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/cletkfmodule.c:23:
 /home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include/numpy/npy_1_7_deprecated_api.h:17:2: warning: #warning "Using deprecated NumPy API, disable it with " "#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION" [-Wcpp]
    17 | #warning "Using deprecated NumPy API, disable it with " \
       |  ^~~~~~~
-/tmp/tmp5icx2vmu/src.linux-x86_64-3.9/cletkfmodule.c:250:12: warning: ‘f2py_size’ defined but not used [-Wunused-function]
+/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9/cletkfmodule.c:250:12: warning: ‘f2py_size’ defined but not used [-Wunused-function]
   250 | static int f2py_size(PyArrayObject* var, ...)
       |            ^~~~~~~~~
 INFO: compiling Fortran 90 module sources
 INFO: Fortran f77 compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -fPIC -fopenmp -lgomp
 Fortran f90 compiler: /usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp
 Fortran fix compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp
-INFO: compile options: '-I/tmp/tmp5icx2vmu/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
-extra options: '-J/tmp/tmp5icx2vmu/ -I/tmp/tmp5icx2vmu/'
+INFO: compile options: '-I/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c'
+extra options: '-J/tmp/tmp6wqwrsvg/ -I/tmp/tmp6wqwrsvg/'
 INFO: gfortran:f90: SFMT.f90
 SFMT.f90:34:33:
 
@@ -905,4 +905,4 @@ common_da.f90:83:36:
    83 |                xa(ix,iy,iz,im,iv) = xa(ix,iy,iz,im,iv) &
       |                                    1
 Warning: Possible change of value in conversion from REAL(8) to REAL(4) at (1) [-Wconversion]
-error: Command "/usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp -I/tmp/tmp5icx2vmu/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c -c common_da.f90 -o /tmp/tmp5icx2vmu/common_da.o -J/tmp/tmp5icx2vmu/ -I/tmp/tmp5icx2vmu/" failed with exit status 1
+error: Command "/usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -fopenmp -lgomp -I/tmp/tmp6wqwrsvg/src.linux-x86_64-3.9 -I/home/jruiz/anaconda3/lib/python3.9/site-packages/numpy/core/include -I/home/jruiz/anaconda3/include/python3.9 -c -c common_da.f90 -o /tmp/tmp6wqwrsvg/common_da.o -J/tmp/tmp6wqwrsvg/ -I/tmp/tmp6wqwrsvg/" failed with exit status 1

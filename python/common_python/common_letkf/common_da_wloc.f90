@@ -109,7 +109,7 @@ DO iobs = 1 , nobs
    IF ( locs(3) > 0.0 ) dist = dist + ((REAL(glz,r_sngl)-olz(iobs))/locs(3))**2
 
    rloc(iobs) = exp( -0.5*dist ) 
-   WRITE(*,*)dist,rloc(iobs)
+   !WRITE(*,*)dist,rloc(iobs)
 ENDDO
 
 END SUBROUTINE simple_loc

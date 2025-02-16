@@ -4,6 +4,8 @@ This is a python driver for the simple_letkf_wloc fortran routine.
 This code provides a way to run simple assimilation experiments with
 realistic priors. 
 
+This version uses tempering (iterative) LETKF to compute the update
+ 
 @author:
 """
 import sys
@@ -13,7 +15,6 @@ sys.path.append('../../common_python/common_letkf/')
 
 import numpy as np
 #import matplotlib.pyplot as plt
-import datetime as dt
 import os
 import matplotlib.pyplot as plt
 
@@ -36,7 +37,10 @@ obs_loc_z = [50]     #List of z coordinate of observations
 
 obs_error = 5.0      #Standard deviation of the observation error.
 
-loc_scales = np.array([2.5,2.5,2.5])  #Localization scales in x,y and z. 
+loc_scales = np.array([2.5,2.5,2.5])  #Localization scales in x,y and z.
+
+NTemp  = 1            #Number of tempering iterations 
+Alpha  = 1            #Parameter controling the size of tempering steps. 
 
 #=========================================================
 #  READ DATA
@@ -91,53 +95,77 @@ for ii in range( nobs )  :
 
     obs_error = obs_error * np.ones( nobs )
 
+#=========================================================
+#  COMPUTE THE TEMPERING STEPS
+#=========================================================
 
+#NTemp is the number of tempering steps to be performed.
+#Alpha is a slope coefficient. Larger alpha means only a small part of the information
+#will be assimilated in the first step (and the largest part will be assimilated in the last step).
+
+dt=1.0/float(NTemp+1)
+steps = np.exp( 1.0 * Alpha / np.arange( dt , 1.0-dt/100.0 , dt ) )
+steps = steps / np.sum(steps)
+#Compute normalized pseudo_time tempering steps:
+steps = ( 1.0 / steps ) /  np.sum( 1.0 / steps )
+
+#=========================================================
+#  ALLOCATE THE SPACE FOR THE ANALYSIS STEPS
+#=========================================================
+
+xatemp = np.zeros( (nx,ny,nz,nbv,nvar,NTemp+1) )
+xatemp[:,:,:,:,:,0] = xf[:]
 
 #=========================================================
 #  APPLY OBSERVATION OPERATOR
 #=========================================================
 
-for ii in range( nobs ) :
-    #Loop over the ensemble members
-    for jj in range( nbv ) :
+for it in range(NTemp) :
 
-       qr = xf[ox,oy,oz,jj,qr_index]
-       qg = xf[ox,oy,oz,jj,qg_index]
-       qs = xf[ox,oy,oz,jj,qs_index]
-       tt = xf[ox,oy,oz,jj,tt_index]
-       pp = xf[ox,oy,oz,jj,pp_index]
+   for ii in range( nobs ) :
+       #Loop over the ensemble members
+       for jj in range( nbv ) :
+
+          qr = xatemp[ox,oy,oz,jj,qr_index,it]
+          qg = xatemp[ox,oy,oz,jj,qg_index,it]
+          qs = xatemp[ox,oy,oz,jj,qs_index,it]
+          tt = xatemp[ox,oy,oz,jj,tt_index,it]
+          pp = xatemp[ox,oy,oz,jj,pp_index,it]
  
-       hxf[ii,jj] = cda.calc_ref( qr , qs , qg , tt , pp )
+          hxf[ii,jj] = cda.calc_ref( qr , qs , qg , tt , pp )
 
-#Get the ensemble mean observation departure.
+   #Get the ensemble mean observation departure.
+   dep = yo - np.mean( hxf , 1 ) 
 
-dep = yo - np.mean( hxf , 1 ) 
+   #=========================================================
+   #  COMPUTE THE ANALYSIS UPDATE
+   #=========================================================
 
-#=========================================================
-#  COMPUTE THE ANALYSIS UPDATE
-#=========================================================
+   #Compute the simple analysis update
+   print('Computing the letkf update')
 
-#Compute the simple analysis update
-print('Computing the letkf update')
+   
+   xatemp = np.asfortranarray( xatemp.astype('float32') )   #Transform data type 
+   hxf = np.asfortranarray( hxf.astype('float32') )
+   dep = dep.astype('float32')
+   obs_error = obs_error.astype('float32')
+   
+   obs_error_temp = obs_error * ( 1.0 / steps[it] )
 
-xf = np.asfortranarray( xf.astype('float32') )   #Transform data type 
-hxf = np.asfortranarray( hxf.astype('float32') )
-dep = dep.astype('float32')
-obs_error = obs_error.astype('float32')
-
-xa=cda.simple_letkf_wloc(nx=nx,ny=ny,nz=nz,nbv=nbv,nvar=nvar,nobs=nobs,
-                         hxf=hxf,xf=xf,dep=dep,ox=obs_loc_x,
+   xatemp[:,:,:,:,:,it+1]=cda.simple_letkf_wloc(nx=nx,ny=ny,nz=nz,
+                         nbv=nbv,nvar=nvar,nobs=nobs,
+                         hxf=hxf,xf=xatemp[:,:,:,:,:,it],
+                         dep=dep,ox=obs_loc_x,
                          oy=obs_loc_y ,oz=obs_loc_z,
                          locs=loc_scales,
-                         oerr=obs_error
+                         oerr=obs_error_temp
                          ).astype('float32')
 
-#(nx,ny,nz,nbv,nvar,nobs,hxf,xf,dep,ox,oy,oz,locs,oerr,xa)
+   #(nx,ny,nz,nbv,nvar,nobs,hxf,xf,dep,ox,oy,oz,locs,oerr,xa)
 
-#Write the analysis for the update variables
+   #Write the analysis for the update variables
 print('Writing data')
-
-np.savez_compressed(root_data_path + '/output.npz',xa=xa,xf=xf,yo=yo,
+np.savez_compressed(root_data_path + '/output.npz',xatemp=xatemp,xf=xf,yo=yo,
                     hxf=hxf,obs_error=obs_error,
                     obs_loc_x=obs_loc_x,
                     obs_loc_y=obs_loc_y,
@@ -146,6 +174,6 @@ np.savez_compressed(root_data_path + '/output.npz',xa=xa,xf=xf,yo=yo,
 print ( "We are done" )
 
 
-plt.pcolor( np.mean( xa - xf , 3 )[:,0,:,0] )
+plt.pcolor( np.mean( xatemp[:,:,:,:,:,-1] - xf , 3 )[:,0,:,0] )
 
 
