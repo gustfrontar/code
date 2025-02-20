@@ -944,8 +944,10 @@ def find_prev_post_files( datapath , radar_ext , radar_id , radar_time , time_th
               time_before = my_time
 
     print('==========================================')
-    print('File after :', os.path.basename( file_after ))
-    print('File before :', os.path.basename( file_before ))
+    if file_after is not None :
+       print('File after :', os.path.basename( file_after ))
+    if file_before is not None :
+       print('File before :', os.path.basename( file_before ))
     return file_before , file_after 
 
 

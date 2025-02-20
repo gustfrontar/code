@@ -63,32 +63,43 @@ def SecondTripFilter( sradar , radar , opt , boxx=2 , boxy=2 , boxz= 0 ) :
 
       #Compute reference relfectivity from files found
       proceed = False
-      if common_elev_af == common_elev_bf :
-         if file_after is not None and file_before is not None and np.array_equal( order_ref_af.shape , order_ref_bf.shape ) :
+      if file_after is not None and file_before is not None  :
+         if (common_elev_af == common_elev_bf) & np.array_equal( order_ref_af.shape , order_ref_bf.shape ) :
             order_ref_ctrl = 0.5*( order_ref_bf + order_ref_af )   
             order_ran_ctrl = radar_af.range['data'].data
-            proceed = True   
-         elif file_after is None and file_before is not None :
-            order_ref_ctrl = order_ref_af
-            order_ran_ctrl = radar_af.range['data'].data
-            print( 'Warning : no file before ' )
-            proceed = True
-         elif file_after is not None and file_before is None :
-            order_ref_ctrl = order_ref_bf
-            order_ran_ctrl = radar_bf.range['data'].data
-            print( 'Warning : no file after ' )
-            proceed = True
-         elif file_after is None and file_before is None :
-            print( 'Warning : no file after or before' )
-      else :
-         print('Warning: common elevations do not conform, skiping this file')
-         print('Common elevation before' , common_elev_bf )
-         print('Common elevation after ' , common_elev_af )
-         #Apply mask to relfectivity 
+            common_elev = common_elev_af
+         else :
+            print('Warning: common elevations do not conform')
+            print('Common elevation before' , common_elev_bf )
+            print('Common elevation after ' , common_elev_af )
+            if len( common_elev_af ) > len( common_elev_bf ) :
+               order_ref_ctrl = order_ref_af[:]
+               order_ran_ctrl = radar_af.range['data'].data
+               common_elev = common_elev_af
+            else :     
+               order_ref_ctrl = order_ref_bf[:]
+               order_ran_ctrl = radar_bf.range['data'].data
+               common_elev = common_elev_bf
+         proceed = True
+      elif file_after is None and file_before is not None :
+         order_ref_ctrl = order_ref_bf
+         order_ran_ctrl = radar_bf.range['data'].data
+         common_elev = common_elev_bf
+         print( 'Warning : no file before ' )
+         proceed = True
+      elif file_after is not None and file_before is None :
+         order_ref_ctrl = order_ref_af
+         order_ran_ctrl = radar_af.range['data'].data
+         common_elev = common_elev_af
+         print( 'Warning : no file after ' )
+         proceed = True
+      elif file_after is None and file_before is None :
+         print( 'Warning : no file after or before' )
+       
       if proceed:
          #Interpolate ctrl_ref to the reference    
          order_ref_ctrl_120 = np.zeros( np.shape( order_ref ) )
-         for ilev in range(len(common_elev_bf)):  
+         for ilev in range(len(common_elev)):  
          
             interpolator = interp2d( ( order_ran_ctrl , order_azimuth ) , order_ref_ctrl[:,:,ilev].T 
                                     , method='linear', bounds_error=False )  
