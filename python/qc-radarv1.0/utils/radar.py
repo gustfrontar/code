@@ -1,9 +1,10 @@
 import os
+import re
 import gc
 import sys
 import glob
 import pickle
-from datetime import datetime
+from datetime import datetime , timedelta
 import numpy as np
 import numpy.ma as ma
 import pyart
@@ -107,8 +108,6 @@ def genero_nc(files, radar_id, ext, date):
     if isinstance(files, str):
         files = [files]
     files.sort()
-    print(files)
-
     for j in np.arange(len(files)):
         basename = os.path.basename(files[j])
         bs = basename.split('_')
@@ -117,28 +116,25 @@ def genero_nc(files, radar_id, ext, date):
         #print(radar) 
         #quit()
         if j == 0:
-            #try:
-            if True :
+            try:
                 radar = read_radar(file, ext)
                 campo = [x for x in radar.fields.keys()][0]
                 # Estos datos de azimuth y rango los guardo para completar
                 # de ser necesario con datos vacios las variables que tienen
                 # menos datos
                 azi_todos, rango = radar.fields[campo]['data'].shape
-                print(radar.azimuth['data'][0],radar.azimuth['data'][1])
-                print( azi_todos , rango)
                 # Si no puede crear el radar, se pasa un Error
-            #except ValueError:
-            #    print('VALUE ERROR - No se pudo crear el objeto Radar de',
-            #          basename, sep='\t')
-            #except AttributeError:
-            #    print('ATT ERROR - No se pudo crear el objeto Radar de',
-            #          basename, sep='\t')
-            ## Puede venir mal convertido el archivo H5 desde el BUFR
-            #except KeyError as e:
-            #    print(e)
-            #    print('KEY ERROR - Se convirtio mal de BUFR',
-            #          basename, sep='\t')
+            except ValueError:
+                print('VALUE ERROR - No se pudo crear el objeto Radar de',
+                      basename, sep='\t')
+            except AttributeError:
+                print('ATT ERROR - No se pudo crear el objeto Radar de',
+                      basename, sep='\t')
+            # Puede venir mal convertido el archivo H5 desde el BUFR
+            except KeyError as e:
+                print(e)
+                print('KEY ERROR - Se convirtio mal de BUFR',
+                      basename, sep='\t')
         else:
             try:
                 radar_prov = read_radar(file, ext)
@@ -196,6 +192,8 @@ def genero_nc(files, radar_id, ext, date):
         else:
             radar.metadata['date'] = date.strftime('%Y%m%d_%H%M%S')
         set_instrument_parameters(file, radar_id, levels, radar)
+        #Add the filename to the radar object. So the second trip filter can identify the path where the radar data is.
+        radar.metadata['radarfile'] = file 
     except AttributeError as e:
         print(e, 'x - No se pudo crear el objeto Radar de',
               basename, sep='\t')
@@ -871,3 +869,144 @@ def set_per_time(radar):
         ray_e+=360
 
     radar.time['data'] = new_time
+
+
+def get_file_list( datapath , init_time , end_time , time_search_type = None , file_type_list = None , instrument_type_list = None )     :
+   #datapath : base path of radar data
+   #init time: datetime object beginning of the time window
+   #end time : datetune object end of the time window
+   #time_search_type : [filename] or [timestamp]
+   #file_types_list  : a list with file extensions that will be included in the file_list
+
+   if time_search_type == None :
+      time_search_type = 'timestamp'
+
+   #date_min = datetime.strptime( init_time , '%Y%m%d%H%M%S')
+   #date_max = datetime.strptime( end_time  , '%Y%m%d%H%M%S')
+   file_list=[]
+
+   for (dirpath, dirnames, filenames) in os.walk( datapath ):
+      for filename in filenames            :
+         current_filename = '/'.join([dirpath,filename])
+         if time_search_type == 'filename'   :
+            date_c = get_time_from_filename( current_filename )
+         if time_search_type == 'timestamp'  :
+            date_c = fromtimestamp( os.stat(current_filename).st_ctime )
+         if date_c is not None  :
+            if date_c >= init_time and date_c <= end_time  :
+               file_list.append( current_filename )
+   #Keep only some file names and some paths.
+   tmp_file_list = []
+   if file_type_list is not None :
+      for my_file in file_list  :
+         filename = os.path.basename( my_file )
+         if any(ft in filename for ft in file_type_list ):
+            tmp_file_list.append( my_file )
+      file_list = tmp_file_list[:]
+   tmp_file_list = []
+
+   if instrument_type_list != None :
+      for my_file in file_list :
+         if any(it in my_file for it in instrument_type_list ):
+            tmp_file_list.append( my_file )
+      file_list = tmp_file_list[:]
+
+   return file_list
+
+def find_prev_post_files( datapath , radar_ext , radar_id , radar_time , time_threshold = 600 ) :
+
+    ini_time = radar_time - timedelta( seconds = 2 * time_threshold )
+    end_time = radar_time + timedelta( seconds = 2 * time_threshold )
+    #Get the file list corresponding to the current instrument.
+    file_list = get_file_list( datapath , ini_time , end_time , time_search_type='filename' , file_type_list = [radar_ext], instrument_type_list=[radar_id])
+    #Find the previous and/or next volumes 301_01 or _0240
+    file_before = None
+    file_after  = None
+    seconds_before = time_threshold
+    seconds_after  = time_threshold
+
+    #Get the closest previous and posterior files 
+    #with a 240km strategy.
+    for my_file in file_list :
+       if 'nc.OK' in my_file :
+           continue
+       strat = get_strategy_from_filename( my_file )
+       if strat == '240' :
+           my_time = get_time_from_filename( my_file )
+           time_delta = ( my_time - radar_time ).total_seconds()
+           if np.abs( time_delta ) <= seconds_after  :
+              seconds_after = time_delta 
+              file_after = my_file
+              time_after = my_time
+           if time_delta < 0 and np.abs( time_delta ) <= seconds_before  :
+              seconds_before = time_delta 
+              file_before = my_file
+              time_before = my_time
+
+    print('==========================================')
+    print('File after :', os.path.basename( file_after ))
+    print('File before :', os.path.basename( file_before ))
+    return file_before , file_after 
+
+
+
+
+def get_time_from_filename( file_complete_path )    :
+   #import datetime as dt
+   #import os 
+   filename = os.path.basename( file_complete_path )
+   file_time = None
+
+   format = get_format_from_filename( file_complete_path )
+   if format == 'h5'    :
+      file_time  = datetime.strptime(filename.split('_')[-1][:15], '%Y%m%dT%H%M%S')
+   if format == 'vol'   :
+      file_time  = datetime.strptime(filename[:14], '%Y%m%d%H%M%S')
+   if format == 'nc'   :
+      file_time  = datetime.strptime( filename.split('.')[1] , 's%Y%m%d_%H%M%S')
+   if format == 'letkf'   :
+      file_time  = datetime.strptime(filename.split('_')[-1][:14], '%Y%m%d%H%M%S')
+   if format == 'pickle'  :
+      file_time  = datetime.strptime(filename.split('_')[-1][:14], '%Y%m%d%H%M%S')
+   if format == 'letkf'   :
+      file_time  = datetime.strptime(filename.split('_')[-1][:14], '%Y%m%d%H%M%S')
+   if format == 'tgz'     :
+      file_time  = datetime.strptime(filename[:10], '%Y%m%d_%H')
+
+
+   return file_time
+
+
+def get_format_from_filename( filename )            :
+   file_format = None
+   if ('.h5' in filename ) or ( '.H5' in filename )    :
+      file_format = 'h5'
+   if ( '.vol' in filename ) or ( '.VOL' in filename ) :
+      file_format = 'vol'
+   if ( '.nc'  in filename ) or ( '.NC' in filename )  or ( 'cfrad' in filename ) :
+      file_format = 'nc'
+   if ( '.dat' in filename ) or ( '.DAT' in filename)  :
+      file_format = 'letkf'
+   if ( '.pkl' in filename ) or ( '.PKL' in filename)  :
+      file_format = 'pickle'
+   if ( '.tar.gz' in filename ) or ( '.TAR.GZ' in filename ) :
+      file_format = 'tgz'
+
+   return file_format
+
+def get_strategy_from_filename(filename):
+
+   s = re.search(r'_\w{4}_\w{2}\.',filename).group()
+   if '_01.' in s or '0240' in s:
+       strategy = '240'
+   elif '_02.' in s or '0120' in s:
+      strategy = '120'
+   else:
+      #print('Strategy not coded', s)
+      strategy = None
+
+   return strategy
+
+
+
+    

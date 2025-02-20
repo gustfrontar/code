@@ -12,10 +12,10 @@ import argparse
 import copy
 import glob
 
-ncores=20
+ncores=40
 qc_dict=dict()
-radars=['RMA11','RMA12','RMA13','RMA14','RMA15']
-qc_dict['root_data_path']='/home/jruiz/datosmunin3/datos/DATOS_RADAR/'
+radars=['RMA1','RMA2','RMA3','RMA4','RMA5','RMA6','RMA7','RMA8','RMA9','RMA10','RMA11','RMA12','RMA13','RMA14','RMA15','ANG','PAR','PER']
+qc_dict['root_data_path']='/home/ra000007/a04037/data/DATOS_RADAR/'
 qc_dict['vol_conf']='asimilacion_yaka.qcr'
 qc_dict['opt']=BaseOptions(qc_dict['vol_conf']) 
 

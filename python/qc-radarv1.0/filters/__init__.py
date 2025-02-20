@@ -13,6 +13,7 @@ from filters.range_filter import RefRangeFilter, DopplerRangeFilter
 from filters.ref_speckle_filter import RefSpeckleFilter
 from filters.rho_filter import RhoFilter
 from filters.texture_filter import ReflectivityTextureFilter, DopplerTextureFilter
+from filters.second_trip_filter import SecondTripFilter
 from utils.super_radar import SuperRadar
 import numpy as np
 from datetime import datetime
@@ -102,4 +103,37 @@ def run_all_filters(radar, opt, vol_date=None):
         # Guardar el archivo
         save_cfradial(opt.netcdf_output_path, cradar, vol_date)
     return cradar, output        
+
+
+def run_2nd_trip(radar, opt, vol_date=None):
+    """
+    Esta función corre el filtro de 2nd trip.
+    Este filtro es un poco particular porque requiere
+    acceder a datos previos y posteriores. 
+
+    Parametros
+    ----------
+    radar : objeto
+        Objeto radar a actualizar
+    opt : objeto
+        Clase con las configuraciones
+    vol_date : tupla (opc)
+        Tupla con fecha de inicio del escaneo y fecha de final.
+
+    Salida
+    ------
+    cradar : object
+        Objeto radar con los campos corregidos
+
+  """
+    super_radar = SuperRadar(radar, opt)
+    cradar = SecondTripFilter( super_radar, radar , opt)
+    if opt.save_netcdf:
+        # chequear si existe el path de guardado, sino lo creo
+        os.makedirs(opt.netcdf_output_path , exist_ok = True )
+        # Guardar el archivo
+        save_cfradial(opt.netcdf_output_path , cradar, vol_date)
+    return cradar
+
+
 
