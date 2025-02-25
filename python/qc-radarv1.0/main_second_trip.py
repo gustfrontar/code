@@ -12,13 +12,14 @@ import argparse
 import copy
 import glob
 
-ncores=20
+ncores=40
 qc_dict=dict()
-radars=['RMA1']
+radars=['RMA2','RMA1','RMA3','RMA4','RMA5','RMA6','RMA7','RMA8','RMA9','RMA10','RMA11','RMA12','RMA13','RMA14','RMA15','ANG','PAR','PER']
 qc_dict['root_data_path']='/home/ra000007/a04037/data/DATOS_RADAR/'
 qc_dict['vol_conf']='asimilacion_yaka.qcr'
 qc_dict['opt']=BaseOptions(qc_dict['vol_conf']) 
 
+input_list = []
 for my_radar in radars :
    qc_dict['radar'] = my_radar
    qc_dict['radar_path']=qc_dict['root_data_path'] + '/' + qc_dict['radar'] + '/QC/'
@@ -27,7 +28,6 @@ for my_radar in radars :
    qc_dict['opt'].netcdf_output_path=qc_dict['qc_radar_path']
    file_list=glob.glob( qc_dict['radar_path'] + '*.nc' )
    
-   input_list = []
    for my_file in file_list :
       qc_dict['radar_file'] = my_file
       input_list.append( copy.deepcopy( qc_dict ) )
@@ -36,11 +36,11 @@ def radar_2ndt_qc( qc_dict ) :
 
    opt=qc_dict['opt']
    ext= qc_dict['radar_file'].split('.')[-1]
+  
    print('Processing radar file' + qc_dict['radar_file'] )
    if os.path.isfile( qc_dict['radar_file'] + '.OK' ) :
       print('This file has been processed, continue to the next file')
       return
-
    date = get_time_from_filename( qc_dict['radar_file'] )
 
    radar = genero_nc( qc_dict['radar_file'] , qc_dict['radar'] , ext , date )
