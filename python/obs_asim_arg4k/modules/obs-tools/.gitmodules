@@ -1,0 +1,6 @@
+[submodule "utils/sh-lib"]
+	path = utils/sh-lib
+	url = https://gitlab.smn.gov.ar/dmsr/utils/sh-utils.git
+[submodule "utils/py-lib"]
+	path = utils/py-lib
+	url = https://gitlab.smn.gov.ar/dmsr/utils/py-utils.git

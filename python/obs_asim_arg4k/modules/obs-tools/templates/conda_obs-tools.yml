@@ -1,0 +1,12 @@
+name: obs-tools
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - arm_pyart=1.18.6
+  - ipython=8.26.0
+  - metpy=1.6.2
+  - netcdf4=1.7.1
+  - pandas=2.2.2
+  - s3fs=2024.6.1
+  - podaac-data-subscriber=1.14.0

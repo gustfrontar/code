@@ -1,0 +1,20 @@
+#!/bin/bash
+
+### MAIN DIRECTORY
+test ! $MAINDIR && export MAINDIR=$(realpath $PWD/../..)
+
+### ANACONDA
+export CONDADIR=/home/opt/conda/bin
+export CONDAOBS=obs-tools
+export CONDAENVS="$CONDAOBS"
+
+### GLOBAL DIRECTORIES AND COMPILATIONS
+
+### LOCAL DIRECTORIES
+export BINDIR=$(realpath $MAINDIR/bin)
+export CONFIGDIR=$(realpath $MAINDIR/config_exp)
+export MODULESDIR=$(realpath $MAINDIR/modules)
+export RUNDIR=$(realpath $MAINDIR/RUNs)
+
+### RUN DIRECTORIES
+export HISTDIR=$RUNDIR/HIST

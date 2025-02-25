@@ -1,0 +1,23 @@
+#!/bin/bash
+
+### HPC PARAMETERS
+export ICORE=32                 # Maximum cores per node [default=32]
+export INODE=128                # Maximum nodes [default=128]
+export QPARTITION="normal"      # Queue partition [normal | hipri]
+
+### PROCESS PROPERTIES
+# PROC: number of processors                     
+# THREADS: number of threads per process         
+# EXCLU: flag to run job exclussively [0: no | 1: yes]
+# LIMIT: number of simultaneous SLURM arrays [ empty: all | number > 0]     
+# MAXFAIL: Number of maximum failures [-1: +inf] 
+# WALLTIME: Maximum time for process (HH:MM:SS)  
+
+# PROCESS
+export OBSPROC=16
+export OBSTHREADS=1
+export OBSEXCLU=0
+export OBSLIMIT=4
+export OBSMAXFAIL=-1
+export OBSWALLTIME="00:05:00"
+
