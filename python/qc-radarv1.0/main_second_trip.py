@@ -1,6 +1,6 @@
 from options.base_options import BaseOptions
 from utils import filter_data, save_cfradial
-from utils.radar import genero_nc , get_time_from_filename
+from utils.radar import genero_nc , get_time_from_filename , get_strategy_from_filename
 from filters import run_2nd_trip
 from multiprocessing import Pool
 from datetime import datetime, timedelta
@@ -35,25 +35,25 @@ for my_radar in radars :
 def radar_2ndt_qc( qc_dict ) :
 
    opt=qc_dict['opt']
-   ext= qc_dict['radar_file'].split('.')[-1]
   
    print('Processing radar file' + qc_dict['radar_file'] )
    if os.path.isfile( qc_dict['radar_file'] + '.OK' ) :
       print('This file has been processed, continue to the next file')
       return
-   date = get_time_from_filename( qc_dict['radar_file'] )
-
-   radar = genero_nc( qc_dict['radar_file'] , qc_dict['radar'] , ext , date )
    
-   radar_strat= radar.instrument_parameters['strategy']
    if not '.nc.OK' in qc_dict['radar_file'] :
-      if not ( '_02' in radar_strat or '0120_IN' in radar_strat ) :
+      radar_strat= get_strategy_from_filename( qc_dict['radar_file'] )
+      if not ( '120' in radar_strat ) :
          #If the file is not a 120 km range strategy, then I copy the file to the final dir.
          #no second trip qc is applied on this file. 
          print('This is not a 120km strategy ' + qc_dict['radar_file'] )
          os.system('cp ' + qc_dict['radar_file'] + ' ' + qc_dict['qc_radar_path'] )
          os.system('touch ' + qc_dict['radar_file'] + '.OK')
       else :
+         ext= qc_dict['radar_file'].split('.')[-1]
+         date = get_time_from_filename( qc_dict['radar_file'] )
+         radar = genero_nc( qc_dict['radar_file'] , qc_dict['radar'] , ext , date )
+         radar_strat= get_strategy_from_filename( qc_dict['radar_file'] )
          c_radar = run_2nd_trip( radar, opt )
          os.system('touch ' + qc_dict['radar_file'] + '.OK')
    

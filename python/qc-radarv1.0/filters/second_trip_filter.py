@@ -42,24 +42,26 @@ def SecondTripFilter( sradar , radar , opt , boxx=2 , boxy=2 , boxz= 0 ) :
       if file_before != None :
          time_before = rt.get_time_from_filename( file_before )
          radar_bf = rt.genero_nc( file_before , radar_id ,  radar_ext , time_before )
-         common_elev_bf = get_common_elev_idx( radar_bf , radar )
-         #print('Common elevation angles in bf file are: ', common_elev_bf)
-
-         if opt.name_ref in radar_bf.fields:
-            sradar_bf     = SuperRadar( radar_bf , opt )
-            order_ref_bf  = sradar_bf.order_variable( radar_bf.fields[ opt.name_ref ]['data'] , undef_ref )
-            order_ref_bf  = order_ref_bf[:,:,common_elev_bf]
+         if radar_bf is None :
+            file_before = None #Radar reading may fail
+         else :
+            common_elev_bf = get_common_elev_idx( radar_bf , radar )
+            if opt.name_ref in radar_bf.fields:
+               sradar_bf     = SuperRadar( radar_bf , opt )
+               order_ref_bf  = sradar_bf.order_variable( radar_bf.fields[ opt.name_ref ]['data'] , undef_ref )
+               order_ref_bf  = order_ref_bf[:,:,common_elev_bf]
 
       if file_after != None :
          time_after = rt.get_time_from_filename( file_after )
          radar_af = rt.genero_nc( file_after , radar_id ,  radar_ext , time_after )
-         common_elev_af = get_common_elev_idx( radar_af , radar )
-         #print('Common elevation angles in af file are: ',common_elev_af)
-
-         if opt.name_ref in radar_af.fields :
-            sradar_af     = SuperRadar( radar_af , opt )
-            order_ref_af  = sradar_af.order_variable( radar_af.fields[ opt.name_ref ]['data'] , undef_ref )
-            order_ref_af  = order_ref_af[:,:,common_elev_af]
+         if radar_af is None :
+            file_after = None #Radar reading may fail
+         else  :
+            common_elev_af = get_common_elev_idx( radar_af , radar )
+            if opt.name_ref in radar_af.fields :
+               sradar_af     = SuperRadar( radar_af , opt )
+               order_ref_af  = sradar_af.order_variable( radar_af.fields[ opt.name_ref ]['data'] , undef_ref )
+               order_ref_af  = order_ref_af[:,:,common_elev_af]
 
       #Compute reference relfectivity from files found
       proceed = False
