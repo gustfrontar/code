@@ -12,7 +12,7 @@ import argparse
 import copy
 import glob
 
-ncores=40
+ncores=20
 qc_dict=dict()
 radars=['RMA2','RMA1','RMA3','RMA4','RMA5','RMA6','RMA7','RMA8','RMA9','RMA10','RMA11','RMA12','RMA13','RMA14','RMA15','ANG','PAR','PER']
 qc_dict['root_data_path']='/home/ra000007/a04037/data/DATOS_RADAR/'
@@ -59,9 +59,12 @@ def radar_2ndt_qc( qc_dict ) :
    
    gc.collect()
 
-#radar_2ndt_qc( input_list[0] )
-p = Pool(ncores)
-p.map( radar_2ndt_qc , input_list )
+if ncores == 1 :
+   for my_input in input_list :
+      radar_2ndt_qc( my_input )
+else :
+   p = Pool(ncores)
+   p.map( radar_2ndt_qc , input_list )
 
 
 

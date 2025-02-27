@@ -46,10 +46,13 @@ def SecondTripFilter( sradar , radar , opt , boxx=2 , boxy=2 , boxz= 0 ) :
             file_before = None #Radar reading may fail
          else :
             common_elev_bf = get_common_elev_idx( radar_bf , radar )
-            if opt.name_ref in radar_bf.fields:
+            if opt.name_ref in radar_bf.fields :
                sradar_bf     = SuperRadar( radar_bf , opt )
                order_ref_bf  = sradar_bf.order_variable( radar_bf.fields[ opt.name_ref ]['data'] , undef_ref )
                order_ref_bf  = order_ref_bf[:,:,common_elev_bf]
+            else :
+               file_before = None #Reflectivity may not be present in this file.
+               
 
       if file_after != None :
          time_after = rt.get_time_from_filename( file_after )
@@ -62,6 +65,8 @@ def SecondTripFilter( sradar , radar , opt , boxx=2 , boxy=2 , boxz= 0 ) :
                sradar_af     = SuperRadar( radar_af , opt )
                order_ref_af  = sradar_af.order_variable( radar_af.fields[ opt.name_ref ]['data'] , undef_ref )
                order_ref_af  = order_ref_af[:,:,common_elev_af]
+            else :
+               file_after = None #Reflectivity may not be present in this file.
 
       #Compute reference relfectivity from files found
       proceed = False
