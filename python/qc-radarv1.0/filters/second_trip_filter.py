@@ -15,6 +15,11 @@ def SecondTripFilter( sradar , radar , opt , boxx=2 , boxy=2 , boxz= 0 ) :
    radar_ext  = filename.split('.')[-1] 
    radar_id   = radar.metadata['instrument_name']
    radar_strat= radar.instrument_parameters['strategy']
+
+   if not opt.name_ref in radar.fields :
+      print('Warning: 120 strat radar do not contain the requested reflectivity field')
+      print('Second trip correction is not applied')
+      return radar 
    
    #1)For each file in the list identify those with the strategy 120 (RMA:_02 or INTA: _0120)
    #2)Get the volume after and before this one with the strategy 240 (RMA: _01 or INTA: _0240)

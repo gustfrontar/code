@@ -12,12 +12,16 @@ import argparse
 import copy
 import glob
 
-ncores=20
+ncores=1
 qc_dict=dict()
 radars=['RMA2','RMA1','RMA3','RMA4','RMA5','RMA6','RMA7','RMA8','RMA9','RMA10','RMA11','RMA12','RMA13','RMA14','RMA15','ANG','PAR','PER']
 qc_dict['root_data_path']='/home/ra000007/a04037/data/DATOS_RADAR/'
 qc_dict['vol_conf']='asimilacion_yaka.qcr'
 qc_dict['opt']=BaseOptions(qc_dict['vol_conf']) 
+
+qc_dict['opt'].name_ref = 'cref'
+qc_dict['opt'].name_vr  = 'cv'
+
 
 input_list = []
 for my_radar in radars :
@@ -53,6 +57,11 @@ def radar_2ndt_qc( qc_dict ) :
          ext= qc_dict['radar_file'].split('.')[-1]
          date = get_time_from_filename( qc_dict['radar_file'] )
          radar = genero_nc( qc_dict['radar_file'] , qc_dict['radar'] , ext , date )
+         if radar is None :
+            print('Warning: Could not read radar file')
+            os.system('cp ' + qc_dict['radar_file'] + ' ' + qc_dict['qc_radar_path'] )
+            os.system('touch ' + qc_dict['radar_file'] + '.OK')
+            return
          radar_strat= get_strategy_from_filename( qc_dict['radar_file'] )
          c_radar = run_2nd_trip( radar, opt )
          os.system('touch ' + qc_dict['radar_file'] + '.OK')
