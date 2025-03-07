@@ -12,7 +12,7 @@ import argparse
 import copy
 import glob
 
-ncores=1
+ncores=20
 qc_dict=dict()
 radars=['RMA2','RMA1','RMA3','RMA4','RMA5','RMA6','RMA7','RMA8','RMA9','RMA10','RMA11','RMA12','RMA13','RMA14','RMA15','ANG','PAR','PER']
 qc_dict['root_data_path']='/home/ra000007/a04037/data/DATOS_RADAR/'
@@ -47,7 +47,7 @@ def radar_2ndt_qc( qc_dict ) :
    
    if not '.nc.OK' in qc_dict['radar_file'] :
       radar_strat= get_strategy_from_filename( qc_dict['radar_file'] )
-      if not ( '120' in radar_strat ) :
+      if (radar_strat is None) or (not ( '120' in radar_strat ) ) :
          #If the file is not a 120 km range strategy, then I copy the file to the final dir.
          #no second trip qc is applied on this file. 
          print('This is not a 120km strategy ' + qc_dict['radar_file'] )
@@ -69,9 +69,11 @@ def radar_2ndt_qc( qc_dict ) :
    gc.collect()
 
 if ncores == 1 :
+   print('Serial execution')
    for my_input in input_list :
       radar_2ndt_qc( my_input )
 else :
+   print('Parallel execution')
    p = Pool(ncores)
    p.map( radar_2ndt_qc , input_list )
 
