@@ -220,8 +220,8 @@ def main_asim(args):
 
    exit_code = 0
 
-   REPODIR = os.environ['REPODIR_RADARC']
-   OBSDIR = ENVVARS['OBSDIR_RADARC']
+   REPODIR = os.environ['REPODIR'] 
+   OBSDIR = ENVVARS['OBSDIR']
    MODEL = ENVVARS['MODEL']
 
    # Parse input parameters into date
@@ -238,15 +238,15 @@ def main_asim(args):
       print('NWP model not coded yet')
       sys.exit(common_obs.EC_ERROR)
 
-   pathobs = f'{REPODIR}/{ctlg["name"]}'
-   pathout = f'{OBSDIR}/'
+   pathobs = f'{REPODIR}/{ctlg["name"]}/'
+   pathout = f'{OBSDIR}/{ctlg["name"]}/'
    os.makedirs(pathout, exist_ok=True)
 
    # Set variables for monitoring
    monit_file = None
    if ENVVARS['MONIT']:
-      MONITDIR = ENVVARS['MONITDIR_RADARC']
-      monit_path = f'{MONITDIR}/'
+      MONITDIR = ENVVARS['MONITDIR']
+      monit_path = f'{MONITDIR}/{ctlg["name"]}/MONIT/'
       os.makedirs(monit_path, exist_ok=True)
 
       # Create files 
