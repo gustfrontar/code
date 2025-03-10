@@ -18,8 +18,14 @@ do
    #Loop over different data types.
    for MY_DATA_SOURCE in "${SOURCES[@]}"
    do
-     echo Processing: $MY_DATA_SOURCE
      export $MY_DATA_SOURCE
+     if [ $DOWNLOAD -eq 1 ] 
+       then
+       echo Downloading: $MY_DATA_SOURCE
+       python -u $SRCDIR/download/download_${MY_DATA_SOURCE}.py $(date -d "$CDATE" +"%Y%m%d%H%M%S")
+     fi
+
+     echo Processing: $MY_DATA_SOURCE
      python -u $SRCDIR/process/process_${MY_DATA_SOURCE}.py $(date -d "$CDATE" +"%Y%m%d%H%M%S")
    done 
 
