@@ -1,0 +1,82 @@
+from options.base_options import BaseOptions
+from utils import filter_data, save_cfradial
+from utils.radar import genero_nc , get_time_from_filename , get_strategy_from_filename
+from filters import run_2nd_trip
+from multiprocessing import Pool
+from datetime import datetime, timedelta
+import os
+import gc
+import pickle
+import numpy as np
+import argparse
+import copy
+import glob
+
+ncores=20
+qc_dict=dict()
+radars=['RMA2','RMA1','RMA3','RMA4','RMA5','RMA6','RMA7','RMA8','RMA9','RMA10','RMA11','RMA12','RMA13','RMA14','RMA15','ANG','PAR','PER']
+qc_dict['root_data_path']='/home/ra000007/a04037/data/DATOS_RADAR/'
+qc_dict['vol_conf']='asimilacion_yaka.qcr'
+qc_dict['opt']=BaseOptions(qc_dict['vol_conf']) 
+
+qc_dict['opt'].name_ref = 'cref'
+qc_dict['opt'].name_vr  = 'cv'
+
+
+input_list = []
+for my_radar in radars :
+   qc_dict['radar'] = my_radar
+   qc_dict['radar_path']=qc_dict['root_data_path'] + '/' + qc_dict['radar'] + '/QC/'
+   qc_dict['qc_radar_path']=qc_dict['root_data_path'] + '/' + qc_dict['radar'] + '/2NDTQC/'
+   os.makedirs( qc_dict['qc_radar_path'] , exist_ok=True )
+   qc_dict['opt'].netcdf_output_path=qc_dict['qc_radar_path']
+   file_list=glob.glob( qc_dict['radar_path'] + '*.nc' )
+   
+   for my_file in file_list :
+      qc_dict['radar_file'] = my_file
+      input_list.append( copy.deepcopy( qc_dict ) )
+
+def radar_2ndt_qc( qc_dict ) :
+
+   opt=qc_dict['opt']
+  
+   print('Processing radar file' + qc_dict['radar_file'] )
+   if os.path.isfile( qc_dict['radar_file'] + '.OK' ) :
+      print('This file has been processed, continue to the next file')
+      return
+   
+   if not '.nc.OK' in qc_dict['radar_file'] :
+      radar_strat= get_strategy_from_filename( qc_dict['radar_file'] )
+      if (radar_strat is None) or (not ( '120' in radar_strat ) ) :
+         #If the file is not a 120 km range strategy, then I copy the file to the final dir.
+         #no second trip qc is applied on this file. 
+         print('This is not a 120km strategy ' + qc_dict['radar_file'] )
+         os.system('cp ' + qc_dict['radar_file'] + ' ' + qc_dict['qc_radar_path'] )
+         os.system('touch ' + qc_dict['radar_file'] + '.OK')
+      else :
+         ext= qc_dict['radar_file'].split('.')[-1]
+         date = get_time_from_filename( qc_dict['radar_file'] )
+         radar = genero_nc( qc_dict['radar_file'] , qc_dict['radar'] , ext , date )
+         if radar is None :
+            print('Warning: Could not read radar file')
+            os.system('cp ' + qc_dict['radar_file'] + ' ' + qc_dict['qc_radar_path'] )
+            os.system('touch ' + qc_dict['radar_file'] + '.OK')
+            return
+         radar_strat= get_strategy_from_filename( qc_dict['radar_file'] )
+         c_radar = run_2nd_trip( radar, opt )
+         os.system('touch ' + qc_dict['radar_file'] + '.OK')
+   
+   gc.collect()
+
+if ncores == 1 :
+   print('Serial execution')
+   for my_input in input_list :
+      radar_2ndt_qc( my_input )
+else :
+   print('Parallel execution')
+   p = Pool(ncores)
+   p.map( radar_2ndt_qc , input_list )
+
+
+
+

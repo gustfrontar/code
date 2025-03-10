@@ -1,0 +1,31 @@
+#!/bin/bash 
+
+####################
+# EXPERIMENT ALIAS #
+####################
+export WRF_DET="DET"
+export WRF_ENS="ENS"
+export WRF_ANA="ASIM"
+export GFS_DET="GFS"
+export GFS_ENS="GEFS"
+
+##############
+# EXIT CODES #
+##############
+export EC_OK=0
+export EC_ERROR=1
+export EC_WARNING=2
+export S_OK="OK"
+export S_ERROR="ERROR"
+export S_WARNING="WARNING"
+
+################
+# DATES FORMAT #
+################
+export DATEFOLDER_fmt="%Y/%m/%d/%H%M%S"
+export DATEFILE_fmt="%Y%m%d_%H%M%S"
+
+#######
+# HPC #
+#######
+export DEFAULT_QPARTITION=normal
