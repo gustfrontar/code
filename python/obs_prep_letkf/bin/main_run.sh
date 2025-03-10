@@ -2,7 +2,7 @@
 source $HOME/.bashrc
 source activate obs-tools
 
-export TEMPLATE="RADAR5MIN"  #Which configuration are we going to use?
+export TEMPLATE="TEST"  #Which configuration are we going to use?
 
 source ../config_exp/$TEMPLATE/experiment.dirs
 ### START JOB
@@ -29,6 +29,7 @@ do
        then
        echo Downloading: $MY_DATA_SOURCE
        python -u $SRCDIR/download/download_${MY_DATA_SOURCE}.py $(date -d "$CDATE" +"%Y%m%d%H%M%S")
+       exit
      fi
 
      echo Processing: $MY_DATA_SOURCE

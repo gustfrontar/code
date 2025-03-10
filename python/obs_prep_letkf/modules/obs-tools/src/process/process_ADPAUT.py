@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 import sys, os
 from datetime import datetime, timedelta
-sys.path += [os.environ['RUNDIR'], f'{os.environ["UTILSDIR"]}/py-lib']
+sys.path += [os.environ['CONFIGDIR'],f'{os.environ["UTILSDIR"]}/py-lib']
 import common
 ENVVARS = common.load_config_exp()
 
 import common_obs
-import catalog_process as ctlg_process
+import catalog_obs as ctlg_process
 from superobbing import so_th
 from ADPAUT import get_files, get_data
 
-ctlg = common.merge_catalog(ctlg_process.adpaut, 'obs', 'adpaut')
+ctlg = ctlg_process.adpaut
 
 ###############
 # ASIMILACION #
