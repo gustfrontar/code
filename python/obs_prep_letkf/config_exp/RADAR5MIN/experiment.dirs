@@ -1,0 +1,33 @@
+#!/bin/bash
+### MAIN DIRECTORY
+test ! $MAINDIR && export MAINDIR=$(realpath $PWD/..)
+
+#######################
+# CONF. & SOURCE      #
+#######################
+export BINDIR=$MAINDIR/bin
+export CONFIGDIR=$MAINDIR/config_exp/$TEMPLATE/
+export TOOLSDIR=$MAINDIR/modules/obs-tools
+export SRCDIR=$TOOLSDIR/src
+export UTILSDIR=$TOOLSDIR/utils
+
+#######################
+# LETKF OBS DIRS      #
+#######################
+#Path were the pre-procesed observations in the LETKF format will be created.
+#Folders with the name of each obs type will be created in this folder.
+export OBSDIR=/home/ra000007/a04037/data/OBS5MIN/
+export MONITDIR=$OBSDIR
+
+#######################
+# RAW OBS DIRECTORIES #
+#######################
+#Path were raw data (before pre-procesing is stored). This is the main path.
+#We assume that folders with the name of each obs type will be present in this path.
+export REPODIR=/home/ra000007/a04037/data/RAWOBS/
+
+#######################
+# AUX. DATA           #
+#######################
+export DOMAIN_GEO_EM=/home/ra000007/a04037/data/data_assimilation_exps/PREVENIR_LOWRESOLUTION_DA_FUGAKU_2024031900/WPS/geogrid/geo_em.d01.nc  #geo_em file corresponding to the model domain. Will be used to filter observations.
+

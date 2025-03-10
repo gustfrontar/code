@@ -6,7 +6,7 @@ test ! $MAINDIR && export MAINDIR=$(realpath $PWD/..)
 # CONF. & SOURCE      #
 #######################
 export BINDIR=$MAINDIR/bin
-export CONFIGDIR=$MAINDIR/config_exp
+export CONFIGDIR=$MAINDIR/config_exp/$TEMPLATE/
 export TOOLSDIR=$MAINDIR/modules/obs-tools
 export SRCDIR=$TOOLSDIR/src
 export UTILSDIR=$TOOLSDIR/utils
@@ -14,17 +14,20 @@ export UTILSDIR=$TOOLSDIR/utils
 #######################
 # LETKF OBS DIRS      #
 #######################
-export OBSDIR_RADARC=/home/ra000007/a04037/data/OBSwVR/RADARC/
-export MONITDIR_RADARC=/home/ra000007/a04037/data/OBSDATA/RADARC/MONIT/
+#Path were the pre-procesed observations in the LETKF format will be created.
+#Folders with the name of each obs type will be created in this folder.
+export OBSDIR=/home/ra000007/a04037/data/OBSwVR/
+export MONITDIR=$OBSDIR
 
 #######################
 # RAW OBS DIRECTORIES #
 #######################
-export REPODIR_RADARC=/home/ra000007/a04037/data/DATOS_RADAR/
+#Path were raw data (before pre-procesing is stored). This is the main path.
+#We assume that folders with the name of each obs type will be present in this path.
+export REPODIR=/home/ra000007/a04037/data/RAWOBS/
 
 #######################
 # AUX. DATA           #
 #######################
 export DOMAIN_GEO_EM=/home/ra000007/a04037/data/data_assimilation_exps/PREVENIR_LOWRESOLUTION_DA_FUGAKU_2024031900/WPS/geogrid/geo_em.d01.nc  #geo_em file corresponding to the model domain. Will be used to filter observations.
 
-#TODO add obs dirs for different data types for more flexibility in experimental mode. 

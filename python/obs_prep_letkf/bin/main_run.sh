@@ -1,6 +1,12 @@
 ##!bin/bash 
-source ../config_exp/experiment.dirs
+source $HOME/.bashrc
+source activate obs-tools
+
+export TEMPLATE="RADAR5MIN"  #Which configuration are we going to use?
+
+source ../config_exp/$TEMPLATE/experiment.dirs
 ### START JOB
+echo "Procesing observations for the template: " $TEMPLATE
 echo "----------------------------------------------"
 echo "[$(date '+%Y-%m-%d %H:%M')] START JOB         "
 echo "----------------------------------------------"
@@ -20,6 +26,11 @@ do
    do
      echo Processing: $MY_DATA_SOURCE
      export $MY_DATA_SOURCE
+     if [ $DOWNLOAD -eq 1 ]
+ 
+
+     fi
+
      python -u $SRCDIR/process/process_${MY_DATA_SOURCE}.py $(date -d "$CDATE" +"%Y%m%d%H%M%S")
    done 
 
