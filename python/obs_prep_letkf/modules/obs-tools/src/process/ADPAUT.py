@@ -6,7 +6,8 @@ from datetime import datetime, timedelta
 import multiprocessing as mp
 import common_obs
 DEBUG=bool(int( os.environ['DEBUG'] ))
-
+QCDIR=os.environ['QCDIR']
+filename_stations=os.environ['QC_FILE']
 
 def get_files(path, ini, end):
 
@@ -29,7 +30,7 @@ def get_files(path, ini, end):
    return res
 
 def read_data(filename):
-   print(filename)
+   #print(filename)
    # Set variables
    column_keep = ['idEstacion', 'idPropietario', 'fechaHora', 'temperatura', 'humedad', 'presion', 'dirViento', 'velViento']
    column_input = ['ID', 'Prop', 'DateTime', 't2', 'rh2', 'psfc', 'wdir10', 'wspd10']
@@ -44,10 +45,10 @@ def read_data(filename):
       raise RuntimeError(' ERROR Reading {}'.format(filename))
 
    if data.empty: 
-      #print(' WARNING: Empty file {}'.format(filename), file = sys.stderr)
+      print(' WARNING: Empty file {}'.format(filename), file = sys.stderr)
       return data
 
-   filename_stations = '{}/stations.QC'.format(os.environ['TEMPLATEDIR'])
+   #filename_stations = '{}/stations.QC'.format(QCDIR)
    stations = pd.read_json(filename_stations)
    if stations.empty: 
       raise Exception(' WARNING: Empty file {}'.format(filename_stations))
@@ -100,7 +101,6 @@ def proc_filename(filename, ctlg, ini, end, slot, monit_file):
 
    if os.stat(filename).st_size == 0:
         return pd.DataFrame(), 0
-
    # Read data
    try:
       data = read_data(filename)
@@ -127,10 +127,6 @@ def proc_filename(filename, ctlg, ini, end, slot, monit_file):
       common_obs.do_monit(data, ctlg, slot, 'REPO', monit_file, data['Prop_Name'].unique()[0])
    common_cols = [x for x in ctlg['vars'] if x in data.columns]
 
-   print(data.dropna(subset = common_cols , how='all') )
-   print(data['QC_t2'])
-   quit()
-
    # Additional filters
    # 1) QC
    common_cols = [x for x in ctlg['vars'] if x in data.columns]
@@ -153,11 +149,11 @@ def get_data(ctlg, ini, end, files, slot, monit_file):
 
    nin = 0
    code_error = 0
-   arg_list = [(filename, ctlg, ini, end, slot, monit_file) for filename in files['Path']]
+   #arg_list = [(filename, ctlg, ini, end, slot, monit_file) for filename in files['Path']]
 
    pool_out = []
    for filename in files['Path'] :
-     pool_out.append( proc_filename( files['Path'][0] , ctlg , ini , end , slot , monit_file ) )
+     pool_out.append( proc_filename( filename , ctlg , ini , end , slot , monit_file ) )
    #quit()
    #JR -> for some reason the pool command got stacked in 10.10.23.21 ... 
    #I could not find the fix for that.

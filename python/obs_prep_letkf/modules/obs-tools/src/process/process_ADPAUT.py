@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import sys, os
 from datetime import datetime, timedelta
-sys.path += [os.environ['CONFIGDIR'],f'{os.environ["UTILSDIR"]}/py-lib']
-import common
-ENVVARS = common.load_config_exp()
+sys.path += [os.environ['CONFIGDIR'] ]
+#import common
+#ENVVARS = common.load_config_exp()
 
 import common_obs
 import catalog_obs as ctlg_process
@@ -11,6 +11,15 @@ from superobbing import so_th
 from ADPAUT import get_files, get_data
 
 ctlg = ctlg_process.adpaut
+REPODIR = os.environ['REPODIR']
+OBSDIR = os.environ['OBSDIR']
+MODEL = os.environ['MODEL']
+MONIT = os.environ['MONIT']
+MONITDIR = os.environ['MONITDIR']
+REPODIR = os.environ['REPODIR']
+DEBUG = os.environ['DEBUG']
+DOMAIN = eval(os.environ['DOMAIN'])
+OBSTYPE = os.environ['OBSTYPE']
 
 ###############
 # ASIMILACION #
@@ -20,26 +29,22 @@ def main_asim(args):
 
    exit_code = 0
 
-   #EXPNAME_BASE = ENVVARS['EXPBASE']
-   REPODIR = os.environ['REPODIR']
-   OBSDIR = ENVVARS['OBSDIR']
-   MODEL = ENVVARS['MODEL']
-
    # Parse input parameters into date
-   ANA_DATE = common_obs.parse_date(args)
+   
+   #print(args)
+   ANA_DATE = common_obs.parse_date( args )
    print('ANALYSIS DATE:', ANA_DATE)
 
    # Set variables
    column_write = ['Lon', 'Lat', 'Lev'] + ctlg['vars']
    pathobs = f'{REPODIR}/{ctlg["name"]}'
    pathout = f'{OBSDIR}/{ctlg["name"]}'
-   print(pathobs,pathout)
+   #print(pathobs,pathout)
    os.makedirs(pathout, exist_ok=True)
 
    # Set variables for monitoring
    monit_file = None
-   if ENVVARS['MONIT']:
-      MONITDIR = ENVVARS['MONITDIR']
+   if MONIT :
       monit_path = f'{MONITDIR}/{ctlg["name"]}'
       os.makedirs(monit_path, exist_ok=True)
 
@@ -67,10 +72,11 @@ def main_asim(args):
       if sfiles.empty: continue
 
       # Get data
-      print('Before get data')
+      #print('Before get data')
       data, nin, exit_code_slot = get_data(ctlg, sini, send, sfiles, slot, monit_file) 
       exit_code += exit_code_slot
       print('After get data')
+      print( data.empty )
       if data.empty: continue
 
       print('After get data')
@@ -78,7 +84,7 @@ def main_asim(args):
       obs_in = data.shape[0]
       gp = data.groupby(['ID', 'Lon', 'Lat', 'Lev', 'Prop_Name']).mean(numeric_only=True)
       data = gp.reset_index(inplace=False)
-      if ENVVARS['DEBUG']: print('   Filter Temporal SO', obs_in - data.shape[0])
+      if DEBUG : print('   Filter Temporal SO', obs_in - data.shape[0])
       if data.empty: continue
 
       print(' File In Out', obs_in, data.shape[0])
@@ -87,14 +93,13 @@ def main_asim(args):
       # Apply filters
       obs_in = data.shape[0]
       data = common_obs.filter_duplicates(data, ['Lon', 'Lat', 'Lev'])
-      if ENVVARS['DEBUG']: print('   Filter Duplicates', obs_in - data.shape[0])
+      if DEBUG : print('   Filter Duplicates', obs_in - data.shape[0])
       if data.empty: continue
 
       print(' All Files In Out', nin, data.shape[0])
 
       # Superobbing
       if ctlg['so/th']:
-         DOMAIN = eval(ENVVARS['DOMAIN'])
          data = so_th(ctlg, data, [DOMAIN['lat_s'], DOMAIN['lat_n']], [DOMAIN['lon_w'], DOMAIN['lon_e']], [DOMAIN['bottom'], DOMAIN['top']])
 
       # Write processed data for monitoring
@@ -120,10 +125,6 @@ def main_asim(args):
 def main_calib(args):
 
    exit_code = 0
-
-   EXPNAME_BASE = ENVVARS['EXPNAME_BASE']
-   REPODIR = os.environ['REPODIR']
-   OBSDIR = ENVVARS['H_OBSDIR']
 
    # Parse input parameters into date
    OBS_DATE = common_obs.parse_date(args)
@@ -165,7 +166,6 @@ def main_calib(args):
 ### MAIN SCRIPT ###
 def main(args):
 
-    OBSTYPE = ENVVARS['OBSTYPE']
     func = eval(f'main_{OBSTYPE}')
     exit_code = func(args)
 
