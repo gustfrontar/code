@@ -1,6 +1,6 @@
 #!/bin/bash
 ### MAIN DIRECTORY
-test ! $MAINDIR && export MAINDIR=$(realpath $PWD/..)
+export MAINDIR=$PWD/.. 
 
 #######################
 # CONF. & SOURCE      #
@@ -10,6 +10,7 @@ export CONFIGDIR=$MAINDIR/config_exp/$TEMPLATE/
 export TOOLSDIR=$MAINDIR/modules/obs-tools
 export SRCDIR=$TOOLSDIR/src
 export UTILSDIR=$TOOLSDIR/utils
+export TEMPLATEDIR=$TOOLSDIR/templates
 
 #######################
 # LETKF OBS DIRS      #
@@ -17,6 +18,7 @@ export UTILSDIR=$TOOLSDIR/utils
 #Path were the pre-procesed observations in the LETKF format will be created.
 #Folders with the name of each obs type will be created in this folder.
 export OBSDIR=/home/jruiz/data/OBS5MIN/
+export QCDIR=$OBSDIR/QC/
 export MONITDIR=$OBSDIR
 
 #######################
@@ -29,5 +31,5 @@ export REPODIR=/home/jruiz/data/RAWOBS/
 #######################
 # AUX. DATA           #
 #######################
-export DOMAIN_GEO_EM=/home/jruiz/data/data_assimilation_exps/PREVENIR_LOWRESOLUTION_DA_FUGAKU_2024031900/WPS/geogrid/geo_em.d01.nc  #geo_em file corresponding to the model domain. Will be used to filter observations.
+export DOMAIN_GEO_EM=/home/jruiz/data/RAWOBS/geoem/geo_em.d01.nc  #geo_em file corresponding to the model domain. Will be used to filter observations.
 

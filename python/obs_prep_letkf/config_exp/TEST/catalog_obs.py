@@ -1,1 +1,1 @@
-/home/jruiz/Dropbox/code/python/obs_prep_letkf/config_exp/TEST//catalog_process.py
+/home/jruiz/code/python/obs_prep_letkf/bin/../config_exp/TEST//catalog_process.py

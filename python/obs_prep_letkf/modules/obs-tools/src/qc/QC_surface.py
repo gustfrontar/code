@@ -1,18 +1,19 @@
 import os, shutil, sys, glob, re
 from datetime import datetime, timedelta
-sys.path += [os.environ['RUNDIR'], f'{os.environ["UTILSDIR"]}/py-lib']
-import common
-ENVVARS = common.load_config_exp()
 import pandas as pd
 import numpy as np
 from copy import deepcopy
 from scipy.stats import t as t_student
 import common_obs
 from catalog_qc import ADPAUT as conf_QC
-import catalogs.catalog_obs as ctlg_obs
+import catalog_obs as ctlg_obs
 import multiprocessing as mp
-
+QCPROC = int(os.environ['QCPROC'])
 SRCDIR = os.environ['SRCDIR']
+OBSREPO = os.environ['REPODIR']
+QCDIR = os.environ['QCDIR'] + '/surface'
+TOOLSDIR = os.environ['TOOLSDIR']
+
 sys.path.append(f'{SRCDIR}/process')
 ############
 # FLAGS QC #
@@ -88,16 +89,19 @@ def get_ADPAUT_data(OBSREPO, DATE_INI, DATE_END, VARS):
     """
 
     import ADPAUT as ADPAUT_fun
-    QCPROC = int(ENVVARS['QCPROC'])
 
     file_list_ADPAUT = ADPAUT_fun.get_files(f'{OBSREPO}/ADPAUT/', DATE_INI, DATE_END)
 
     if file_list_ADPAUT.empty:
         return pd.DataFrame(), pd.DataFrame()
 
-    arg_list = [(filename, DATE_INI, DATE_END, ADPAUT_fun.read_data, ctlg_obs.adpaut) for filename in file_list_ADPAUT['Path']]
-    with mp.Pool(min(QCPROC, len(arg_list))) as pool:
-        pool_out = pool.starmap(proc_filename, arg_list)
+    #arg_list = [(filename, DATE_INI, DATE_END, ADPAUT_fun.read_data, ctlg_obs.adpaut) for filename in file_list_ADPAUT['Path']]
+    pool_out = []
+    for my_file in file_list_ADPAUT['Path'] :
+        pool_out.append( proc_filename( my_file , DATE_INI, DATE_END, ADPAUT_fun.read_data, ctlg_obs.adpaut ) )
+
+    #with mp.Pool(min(QCPROC, len(arg_list))) as pool:
+    #    pool_out = pool.starmap(proc_filename, arg_list)
     ADPAUT_data = pd.concat(pool_out)
 
     ADPAUT_metadata = ADPAUT_data[['ID', 'Prop', 'Lat', 'Lon', 'Lev']].drop_duplicates(ignore_index = True)
@@ -125,15 +129,17 @@ def get_ADPSFC_data(OBSREPO, DATE_INI, DATE_END, VARS):
     VARS: Variables observadas que quiero conservar
     """
     import ADPSFC as ADPSFC_fun
-    QCPROC = int(ENVVARS['QCPROC'])
 
     file_list_ADPSFC = ADPSFC_fun.get_files(f'{OBSREPO}/ADPSFC/', DATE_INI, DATE_END)
     if file_list_ADPSFC.empty:
         return pd.DataFrame(), pd.DataFrame()
 
-    arg_list = [(filename, DATE_INI, DATE_END, ADPSFC_fun.read_data, ctlg_obs.adpsfc) for filename in file_list_ADPSFC['Path']]
-    with mp.Pool(min(QCPROC, len(arg_list))) as pool:
-        pool_out = pool.starmap(proc_filename, arg_list)
+    #arg_list = [(filename, DATE_INI, DATE_END, ADPSFC_fun.read_data, ctlg_obs.adpsfc) for filename in file_list_ADPSFC['Path']]
+    pool_out = []
+    for my_file in file_list_ADPSFC['Path'] :
+        pool_out.append( proc_filename( my_file , DATE_INI, DATE_END, ADPSFC_fun.read_data, ctlg_obs.adpsfc ) ) 
+    #with mp.Pool(min(QCPROC, len(arg_list))) as pool:
+    #    pool_out = pool.starmap(proc_filename, arg_list)
     ADPSFC_data = pd.concat(pool_out)
 
     ADPSFC_data.loc[:, 'Prop'] = 'SMN_conv'
@@ -165,15 +171,17 @@ def get_AWOS_data(OBSREPO, DATE_INI, DATE_END, VARS):
     """
 
     import AWOS as AWOS_fun
-    QCPROC = int(ENVVARS['QCPROC'])
 
     file_list_AWOS = AWOS_fun.get_files(f'{OBSREPO}/AWOS/', DATE_INI, DATE_END)
     if file_list_AWOS.empty:
         return pd.DataFrame(), pd.DataFrame()
 
-    arg_list = [(filename, DATE_INI, DATE_END, AWOS_fun.read_data, ctlg_obs.awos) for filename in file_list_AWOS['Path']]
-    with mp.Pool(min(QCPROC, len(arg_list))) as pool:
-        pool_out = pool.starmap(proc_filename, arg_list)
+    #arg_list = [(filename, DATE_INI, DATE_END, AWOS_fun.read_data, ctlg_obs.awos) for filename in file_list_AWOS['Path']]
+    pool_out = []
+    for my_file in file_list_AWOS['Path'] :
+        pool_out.append( proc_filename( my_file , DATE_INI, DATE_END, AWOS_fun.read_data, ctlg_obs.awos ) )
+    #with mp.Pool(min(QCPROC, len(arg_list))) as pool:
+    #pool_out = pool.starmap(proc_filename, arg_list)
     AWOS_data = pd.concat(pool_out)
 
     AWOS_data.loc[:, 'Prop'] = 'AWOS'
@@ -472,14 +480,17 @@ def long_term_QC(data, metadata, df_QC, neighbors):
     neighbors: dataframe con las estaciones cercanas para cada estacion y variable
     """
 
-    QCPROC = int(ENVVARS['QCPROC'])
 
-    arg_list = []
-    for var in df_QC.columns:
-        arg_list.append((data, metadata, df_QC[[var]], neighbors, var))
+    #arg_list = []
+    #for var in df_QC.columns:
+    #    arg_list.append((data, metadata, df_QC[[var]], neighbors, var))
 
-    with mp.Pool(min(QCPROC, len(arg_list))) as pool:
-        pool_out = pool.starmap(QC_var, arg_list)
+    pool_out = []
+    for my_var in df_QC.columns :
+        pool_out.append( QC_var( data , metadata , df_QC[[my_var]] , neighbors , my_var ) )
+
+    #with mp.Pool(min(QCPROC, len(arg_list))) as pool:
+    #    pool_out = pool.starmap(QC_var, arg_list)
 
     df_QC_update = pd.concat(pool_out, axis = 1)
 
@@ -510,26 +521,21 @@ if __name__ == "__main__":
 
     exit_code = 0
 
-    RUNDIR = ENVVARS['RUNDIR']
-    OBSREPO = os.environ['REPODIR']
-    QCDIR = os.environ['QCDIR'] + '/surface' 
+    #RUNDIR = ENVVARS['RUNDIR']
 
-    OBS_DATE = ENVVARS['START_TIME']
-    OBS_HOUR = ENVVARS['START_HOUR']
+    DATE_END = datetime.strptime( sys.argv[1] , '%Y%m%d%H%M%S' )
+    DATE_INI = DATE_END - timedelta(days = conf_QC['N_DAYS_QC'])
 
     read_functions = {'ADPAUT': get_ADPAUT_data, 'ADPSFC': get_ADPSFC_data, 'AWOS': get_AWOS_data}
 
     #Variables a las que se les va a aplicar el QC
     VARS = ['t2', 'rh2', 'psfc', 'wspd10']
 
-    DATE_END = datetime.strptime(OBS_DATE + OBS_HOUR, '%Y/%m/%d%H')
-    DATE_INI = DATE_END - timedelta(days = conf_QC['N_DAYS_QC'])
-
     #Leo la metadata
     filename_stationsQC = f'{QCDIR}/stations.QC'
     if not os.path.exists(filename_stationsQC):
         os.makedirs(QCDIR, exist_ok = True)
-        stations_QC_template = f'{ENVVARS["TOOLSDIR"]}/templates/stations.QC'
+        stations_QC_template = TOOLSDIR + '/templates/stations.QC'
         shutil.copy(stations_QC_template, filename_stationsQC)
     stations_QC = pd.read_json(filename_stationsQC)
     stations_QC = stations_QC.set_index(['idEstacion', 'idPropietario'])

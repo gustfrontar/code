@@ -20,9 +20,9 @@ def main_asim(args):
 
    exit_code = 0
 
-   EXPNAME_BASE = ENVVARS['EXPBASE']
+   #EXPNAME_BASE = ENVVARS['EXPBASE']
    REPODIR = os.environ['REPODIR']
-   OBSDIR = ENVVARS['H_OBSDIR']
+   OBSDIR = ENVVARS['OBSDIR']
    MODEL = ENVVARS['MODEL']
 
    # Parse input parameters into date
@@ -32,15 +32,15 @@ def main_asim(args):
    # Set variables
    column_write = ['Lon', 'Lat', 'Lev'] + ctlg['vars']
    pathobs = f'{REPODIR}/{ctlg["name"]}'
-   pathout = f'{OBSDIR}/{ANA_DATE:{os.environ["DATEFOLDER_fmt"]}}/{EXPNAME_BASE}'
+   pathout = f'{OBSDIR}/{ctlg["name"]}'
    print(pathobs,pathout)
    os.makedirs(pathout, exist_ok=True)
 
    # Set variables for monitoring
    monit_file = None
    if ENVVARS['MONIT']:
-      MONITDIR = ENVVARS['H_MONITDIR']
-      monit_path = f'{MONITDIR}/{ANA_DATE:{os.environ["DATEFOLDER_fmt"]}}/{EXPNAME_BASE}/'
+      MONITDIR = ENVVARS['MONITDIR']
+      monit_path = f'{MONITDIR}/{ctlg["name"]}'
       os.makedirs(monit_path, exist_ok=True)
 
       # Create files
@@ -67,10 +67,13 @@ def main_asim(args):
       if sfiles.empty: continue
 
       # Get data
+      print('Before get data')
       data, nin, exit_code_slot = get_data(ctlg, sini, send, sfiles, slot, monit_file) 
       exit_code += exit_code_slot
+      print('After get data')
       if data.empty: continue
 
+      print('After get data')
       # Temporal superobbing
       obs_in = data.shape[0]
       gp = data.groupby(['ID', 'Lon', 'Lat', 'Lev', 'Prop_Name']).mean(numeric_only=True)

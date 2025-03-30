@@ -1,11 +1,10 @@
 import sys, os
-sys.path.append(f'{os.environ["UTILSDIR"]}/py-lib')
+#sys.path.append(f'{os.environ["UTILSDIR"]}/py-lib')
 sys.path.append(f'{os.environ["CONFIGDIR"]}/')
 print( os.environ["CONFIGDIR"] )
-import common
+#import common
 import catalog_obs as ctlg_obs
-ENVVARS = common.load_config_exp()
-
+#ENVVARS = common.load_config_exp()
 #sys.path.append(ENVVARS['RUNDIR'])
 
 import re, requests
@@ -20,9 +19,11 @@ import time
 ### SETTINGS ###
 ################
 
-EC_OK = int(os.environ['EC_OK'])
-EC_ERROR = int(os.environ['EC_ERROR'])
-EC_WARNING = int(os.environ['EC_WARNING'])
+WLENGTH=int(os.environ['WLENGTH'])
+WOFFSET=int(os.environ['WOFFSET'])
+SLENGTH=int(os.environ['SLENGTH'])
+DEBUG=bool(int(os.environ['DEBUG']))
+DOMAIN_GEO_EM=os.environ['DOMAIN_GEO_EM']
 
 #################
 ### CONSTANTS ###
@@ -76,18 +77,18 @@ def to_numeric(df):
 #############
 def get_slots(slots):
    # 3D window
-   if ENVVARS['WLENGTH'] == ENVVARS['SLENGTH']:
+   if WLENGTH == SLENGTH:
       nslots = 1
    # 4D window
    else:
-      nslots = int(ENVVARS['WLENGTH'])/int(ENVVARS['SLENGTH']) + 1
+      nslots = WLENGTH/ENVVARS + 1
    return np.arange(nslots)
 
 def get_awin_dates(ana_date):
    # Get assimilation window parameters 
-   wlength = int(ENVVARS['WLENGTH'])  # window length
-   woffset = int(ENVVARS['WOFFSET'])  # window displacement (sec previous to analysis time)
-   slength = int(ENVVARS['SLENGTH'])  # slot frequency
+   wlength = WLENGTH  # window length
+   woffset = WOFFSET  # window displacement (sec previous to analysis time)
+   slength = SLENGTH  # slot frequency
 
    # Assimilation window time interval 
    ini = ana_date - timedelta(seconds=woffset)
@@ -98,15 +99,15 @@ def get_awin_dates(ana_date):
       ini -= timedelta(seconds=slength/2.)
       end += timedelta(seconds=slength/2.)
 
-   if ENVVARS['DEBUG']:
+   if DEBUG:
       print('Assimilation window:', ini, end)
    return ini, end
 
 def get_slot_dates(slot, ana_date):
 
    # Get assimilation window parameters 
-   wlength = int(ENVVARS['WLENGTH'])  # window length 
-   slength = int(ENVVARS['SLENGTH'])  # slot length
+   wlength = WLENGTH  # window length 
+   slength = SLENGTH  # slot length
    wini, wend = get_awin_dates(ana_date)
 
    # Observation slot time interval
@@ -120,7 +121,7 @@ def get_slot_dates(slot, ana_date):
       ini = date - timedelta(seconds=slength/2)
       end = date + timedelta(seconds=slength/2)
 
-   if ENVVARS['DEBUG']:
+   if DEBUG:
       print('Slot {}:'.format(slot), date, ini , end)
 
    return date, ini, end
@@ -342,7 +343,7 @@ def filter_time(data, ini, end):
    nin = data.shape[0]
    data.drop(data[data.DateTime <= ini].index, axis=0,  inplace=True)
    data.drop(data[data.DateTime > end].index, axis=0, inplace=True)
-   if ENVVARS['DEBUG']: print('   Filter Out of Time', nin - data.shape[0])
+   if DEBUG: print('   Filter Out of Time', nin - data.shape[0])
    return data
 
 def filter_domain(data):
@@ -350,7 +351,7 @@ def filter_domain(data):
    #Read static file once for domain selection
    #JR This is a simplified version of the domain check using the geo_em.d?? 
    #This only works with WRF ... 
-   static_file = f'{ENVVARS["DOMAIN_GEO_EM"]}'
+   static_file = f'{DOMAIN_GEO_EM}'
    ds_static = xr.open_dataset(static_file)
 
    min_x = ds_static['XLONG_M'].min().item()
@@ -382,40 +383,40 @@ def filter_duplicates(data, columns):
 
 def apply_filters(ctlg, data, coords_columns, time_interval=None):
 
-   if ENVVARS['DEBUG']: print('  ******* Filters *******')
+   if DEBUG: print('  ******* Filters *******')
 
    # 1) Missing observation point
    obs_in = data.shape[0]
    data = filter_coordinates(data, coords_columns)
-   if ENVVARS['DEBUG']: print('   Filter Missing Coords', obs_in - data.shape[0])
+   if DEBUG: print('   Filter Missing Coords', obs_in - data.shape[0])
    if data.empty: return data
 
    # 2) Missing variables
    obs_in = data.shape[0]
    data = filter_variables(ctlg, data)
-   if ENVVARS['DEBUG']: print('   Filter Missing Vars', obs_in - data.shape[0])
+   if DEBUG: print('   Filter Missing Vars', obs_in - data.shape[0])
    if data.empty: return data
 
    # 3) Out of time interval
    if time_interval is not None:
       obs_in = data.shape[0]
       data = filter_time(data, time_interval[0], time_interval[1])
-      if ENVVARS['DEBUG']: print('   Filter Out of Time', obs_in - data.shape[0])
+      if DEBUG: print('   Filter Out of Time', obs_in - data.shape[0])
       if data.empty: return data
 
    # 4) Out of domain
    obs_in = data.shape[0]
    data = filter_domain(data)
-   if ENVVARS['DEBUG']: print('   Filter Out of Domain', obs_in - data.shape[0])
+   if DEBUG: print('   Filter Out of Domain', obs_in - data.shape[0])
    if data.empty: return data
 
    # 5) Duplicates 
    obs_in = data.shape[0]
    data = filter_duplicates(data, coords_columns)
-   if ENVVARS['DEBUG']: print('   Filter Duplicates', obs_in - data.shape[0])
+   if DEBUG: print('   Filter Duplicates', obs_in - data.shape[0])
    if data.empty: return data
 
-   if ENVVARS['DEBUG']: print('  ***********************')
+   if DEBUG: print('  ***********************')
 
    return data
 
@@ -432,7 +433,7 @@ def do_monit(data, ctlg, slot, TYPE, monit_file, ID = None):
    monit_append_csv(monit_file, records, common_line)
 
 def monit_get_filename(ctlg, path, date):
-   model = ENVVARS['MODEL']
+   model = os.environ['MODEL']
    return f'{path}/{model}_{ctlg["name"]}_{date:%Y%m%d_%H0000}.csv'
 
 def monit_get_nobs(ctlg, data): 
@@ -613,7 +614,7 @@ def read_letkf_dat_2(filename):
 ###############
 ### PARSERS ###
 ###############
-def parse_date(args, fmt = '%Y%m%d%H%M%S'):
+def parse_date( date , fmt = '%Y%m%d%H%M%S'):
    '''
    args: list with elements [yyyy, mm, dd, hh, nn, ss]. Minimum length: 3
    return: datetime object
@@ -628,6 +629,7 @@ def parse_date(args, fmt = '%Y%m%d%H%M%S'):
    #
    # Get date and convert to datetime object 
    date = args[0]  #('').join(args)
+   print( date , fmt )
    return datetime.strptime(date, fmt)
 
 ## funcion para parsear archivos de texto con lineas de ancho fijo
