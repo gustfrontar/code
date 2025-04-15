@@ -4,10 +4,10 @@ import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
 import multiprocessing as mp
-sys.path.append(f'{os.environ["UTILSDIR"]}/py-lib')
-import common
 import common_obs
-ENVVARS = common.load_config_exp()
+DEBUG=bool(int( os.environ['DEBUG'] ))
+QCDIR=os.environ['QCDIR']
+filename_stations=os.environ['QC_FILE']
 
 def get_files(path, ini, end):
 
@@ -30,7 +30,7 @@ def get_files(path, ini, end):
    return res
 
 def read_data(filename):
-
+   #print(filename)
    # Set variables
    column_keep = ['idEstacion', 'idPropietario', 'fechaHora', 'temperatura', 'humedad', 'presion', 'dirViento', 'velViento']
    column_input = ['ID', 'Prop', 'DateTime', 't2', 'rh2', 'psfc', 'wdir10', 'wspd10']
@@ -48,7 +48,7 @@ def read_data(filename):
       print(' WARNING: Empty file {}'.format(filename), file = sys.stderr)
       return data
 
-   filename_stations = '{}/surface/stations.QC'.format(os.environ['QCDIR'])
+   #filename_stations = '{}/stations.QC'.format(QCDIR)
    stations = pd.read_json(filename_stations)
    if stations.empty: 
       raise Exception(' WARNING: Empty file {}'.format(filename_stations))
@@ -101,7 +101,6 @@ def proc_filename(filename, ctlg, ini, end, slot, monit_file):
 
    if os.stat(filename).st_size == 0:
         return pd.DataFrame(), 0
-
    # Read data
    try:
       data = read_data(filename)
@@ -114,7 +113,7 @@ def proc_filename(filename, ctlg, ini, end, slot, monit_file):
    nin = data.shape[0]
 
    # Filter data outside slot 
-   if ENVVARS['DEBUG']: print('', filename)
+   if DEBUG: print('', filename)
    data = common_obs.filter_time(data, ini, end)
    if data.empty: return pd.DataFrame(), nin, code_error
 
@@ -126,6 +125,7 @@ def proc_filename(filename, ctlg, ini, end, slot, monit_file):
    # Write raw data for monitoring
    if monit_file is not None:
       common_obs.do_monit(data, ctlg, slot, 'REPO', monit_file, data['Prop_Name'].unique()[0])
+   common_cols = [x for x in ctlg['vars'] if x in data.columns]
 
    # Additional filters
    # 1) QC
@@ -139,7 +139,7 @@ def proc_filename(filename, ctlg, ini, end, slot, monit_file):
          data.loc[index_QC, var] = np.nan
 
    obs_out = data.dropna(subset = common_cols, how = 'all').shape[0]
-   if ENVVARS['DEBUG']: print('   Filter QC', obs_in - obs_out)
+   if DEBUG: print('   Filter QC', obs_in - obs_out)
    if obs_out == 0: return pd.DataFrame(), nin, code_error
 
    return data, nin, code_error
@@ -149,9 +149,16 @@ def get_data(ctlg, ini, end, files, slot, monit_file):
 
    nin = 0
    code_error = 0
-   arg_list = [(filename, ctlg, ini, end, slot, monit_file) for filename in files['Path']]
-   with mp.Pool(min(ctlg['procs'], len(files))) as pool:
-      pool_out = pool.starmap(proc_filename, arg_list)
+   #arg_list = [(filename, ctlg, ini, end, slot, monit_file) for filename in files['Path']]
+
+   pool_out = []
+   for filename in files['Path'] :
+     pool_out.append( proc_filename( filename , ctlg , ini , end , slot , monit_file ) )
+   #quit()
+   #JR -> for some reason the pool command got stacked in 10.10.23.21 ... 
+   #I could not find the fix for that.
+   #with mp.Pool(1) as pool:
+   #   pool_out = pool.starmap(proc_filename, arg_list)
 
    df_list = []
    for df_file, nin_file, code_error_file in pool_out:
@@ -167,3 +174,4 @@ def get_data(ctlg, ini, end, files, slot, monit_file):
 if __name__ == '__main__':
 
     pass
+

@@ -10,6 +10,8 @@ export CONFIGDIR=$MAINDIR/config_exp/$TEMPLATE/
 export TOOLSDIR=$MAINDIR/modules/obs-tools
 export SRCDIR=$TOOLSDIR/src
 export UTILSDIR=$TOOLSDIR/utils
+export TEMPLATEDIR=$TOOLSDIR/templates
+
 
 #######################
 # LETKF OBS DIRS      #
@@ -17,6 +19,7 @@ export UTILSDIR=$TOOLSDIR/utils
 #Path were the pre-procesed observations in the LETKF format will be created.
 #Folders with the name of each obs type will be created in this folder.
 export OBSDIR=/home/ra000007/a04037/data/OBS5MIN/
+export QCDIR=$OBSDIR/QC/
 export MONITDIR=$OBSDIR
 
 #######################

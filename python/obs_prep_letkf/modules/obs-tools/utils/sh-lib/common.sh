@@ -66,8 +66,8 @@ function job_load_config_exp {
    for exp in ${EXPS[@]}
    do
       [[ ! -f $CONFIGDIR/$exp ]] && job_reply $PROC $S_ERROR "File not found: $CONFIGDIR/$exp" || source $CONFIGDIR/$exp
+      echo $CONFIGDIR/$exp
    done
-
 }
 
 function job_reply {

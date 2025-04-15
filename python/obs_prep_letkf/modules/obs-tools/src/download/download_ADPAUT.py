@@ -1,6 +1,6 @@
 import sys, os
-sys.path += [os.environ['RUNDIR'], f'{os.environ["UTILSDIR"]}/py-lib']
-import catalog_download as ctlg_download
+sys.path += [os.environ['CONFIGDIR'],f'{os.environ["UTILSDIR"]}/py-lib']
+import catalog_obs as ctlg_download
 import common_obs
 import common
 
@@ -8,7 +8,7 @@ import urllib.request
 import pandas as pd
 from datetime import datetime, timedelta
 
-ctlg = common.merge_catalog(ctlg_download.adpaut, 'obs', 'adpaut')
+ctlg = ctlg_download.adpaut
 
 def download_file(filein, fileout, filetype):
    try:
@@ -59,7 +59,7 @@ def main(args):
 
 if __name__ == '__main__':
 
-   common_obs.set_walltime(ctlg['walltime'])
+   #common_obs.set_walltime(ctlg['walltime'])
    try:
       main(sys.argv[1:])
    except TimeoutError as e:
