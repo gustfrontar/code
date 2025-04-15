@@ -26,10 +26,10 @@ do
    do
      echo Processing: $MY_DATA_SOURCE
      export $MY_DATA_SOURCE
-     if [ $DOWNLOAD -eq 1 ]
- 
-
-     fi
+     #if [ $DOWNLOAD -eq 1 ]
+     #
+     #
+     #fi
 
      python -u $SRCDIR/process/process_${MY_DATA_SOURCE}.py $(date -d "$CDATE" +"%Y%m%d%H%M%S")
    done 

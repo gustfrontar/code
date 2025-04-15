@@ -131,7 +131,7 @@ radarc = {'id_obs': 12,
           'errors': {'dbz': 5,'Vr': 2},
           'slots': [1],
           'so/th': {'method': 'so', 'dx': 2, 'dz': 0.5}, # km, km
-          'constraints': {'min_nobs': 8 , 'min_nyquist_velocity' : 10.0 , 'maximum_so_var' : {'dbz' : 20.0 , 'Vr' : 5.0 }, 'valid_range' : {'dbz' : [-30.0,70] , 'Vr' : [-90,90] }}, # number (10 for dx > 2; 2 for dx <=2) #minimum nyquist velocity required to process doppler data. #Maximum allowed intra grid variance after supperogin.
+          'constraints': {'min_nobs': 8 , 'min_nyquist_velocity' : 10.0 , 'maximum_so_var' : {'dbz' : 1000000.0 , 'Vr' : 5.0 }, 'valid_range' : {'dbz' : [0.0,10000000.0] , 'Vr' : [-90,90] }}, # number (10 for dx > 2; 2 for dx <=2) #minimum nyquist velocity required to process doppler data. #Maximum allowed intra grid variance after supperogin.
           'procs': OBSPROC,
           'name': 'RADARC',
           'desc': 'Radar banda C',
