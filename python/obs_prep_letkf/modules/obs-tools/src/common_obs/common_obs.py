@@ -628,7 +628,7 @@ def parse_date( date , fmt = '%Y%m%d%H%M%S'):
    #   args.append('00')
    #
    # Get date and convert to datetime object 
-   date = args[0]  #('').join(args)
+   #date = args[0]  #('').join(args)
    print( date , fmt )
    return datetime.strptime(date, fmt)
 

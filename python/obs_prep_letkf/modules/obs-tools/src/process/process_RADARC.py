@@ -99,16 +99,16 @@ def read_data(ctlg, filename):
       data['DateTime'] = epoch + pd.to_timedelta(data.Time, unit='s')
       #print(data.DateTime.min(), data.DateTime.max())
 
-      #Remove data wich is outside the valid range.
-      for var in ctlg['vars'] :
-         if var in data.keys() : 
-            data.drop( data[( data[var] < ctlg['constraints']['valid_range'][var][0] ) | 
-                         ( data[var] > ctlg['constraints']['valid_range'][var][1] ) ].index 
-                           , axis=0 , inplace=True )
       # Standard units
       data.loc[data.Lon < 0., 'Lon'] = data.Lon + 360.
       if 'dbz' in data.keys():
          data.dbz = np.power(10, data.dbz/10.)
+
+      #Remove data wich is outside the valid range.
+      for var in ctlg['vars'] :
+         if var in data.keys() : 
+            data[var][ data[( data[var] < ctlg['constraints']['valid_range'][var][0] ) |
+                         ( data[var] > ctlg['constraints']['valid_range'][var][1] ) ].index ] = np.nan
    except Exception as err:
       print(err, file = sys.stderr)
       print(' ERROR parsing {}'.format(filename))
@@ -225,7 +225,7 @@ def main_asim(args):
    MODEL = ENVVARS['MODEL']
 
    # Parse input parameters into date
-   ANA_DATE = common_obs.parse_date(args)
+   ANA_DATE = common_obs.parse_date( args[0] )
    print('ANALYSIS DATE:', ANA_DATE)
 
    # Set variables

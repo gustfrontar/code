@@ -1,8 +1,9 @@
 ##!bin/bash 
+export OBSPROC=40
 source $HOME/.bashrc
 source activate obs-tools
 
-export TEMPLATE="TEST"  #Which configuration are we going to use?
+export TEMPLATE="RADARwVR"  #Which configuration are we going to use?
 source ../config_exp/$TEMPLATE/experiment.dirs
 source ../config_exp/$TEMPLATE/experiment.conf
 ### START JOB
@@ -59,7 +60,6 @@ do
      echo Processing: $MY_DATA_SOURCE
      export $MY_DATA_SOURCE
      python -u $SRCDIR/process/process_${MY_DATA_SOURCE}.py $(date -d "$CDATE" +"%Y%m%d%H%M%S")
-     exit
    done 
 
    export CDATE=$(date -u -d "$CDATE UTC + $WLENGTH seconds" +"%Y-%m-%d %T")

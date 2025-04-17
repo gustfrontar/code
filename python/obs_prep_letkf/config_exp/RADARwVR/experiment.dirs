@@ -1,7 +1,7 @@
 #!/bin/bash
 ### MAIN DIRECTORY
-test ! $MAINDIR && export MAINDIR=$(realpath $PWD/..)
-
+#test ! $MAINDIR && export MAINDIR=$(realpath $PWD/..)
+export MAINDIR=$PWD/..
 #######################
 # CONF. & SOURCE      #
 #######################
