@@ -3,7 +3,7 @@ export OBSPROC=40
 source $HOME/.bashrc
 source activate obs-tools
 
-export TEMPLATE="RADARwVR"  #Which configuration are we going to use?
+export TEMPLATE="RADAR5MIN"  #Which configuration are we going to use?
 source ../config_exp/$TEMPLATE/experiment.dirs
 source ../config_exp/$TEMPLATE/experiment.conf
 ### START JOB

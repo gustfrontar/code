@@ -1,1 +1,1 @@
-/vol0004/ra000007/data/jruiz/code/python/obs_prep_letkf/config_exp/RADAR5MIN//catalog_process.py
+/home/ra000007/a04037/data/code/python/obs_prep_letkf/bin/../config_exp/RADAR5MIN//catalog_process.py

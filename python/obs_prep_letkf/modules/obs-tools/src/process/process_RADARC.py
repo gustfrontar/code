@@ -85,8 +85,14 @@ def read_data(ctlg, filename):
          try:
             if ( var == 'dbz' ) or ( ( var == 'Vr' ) and  process_doppler ) :
                data[var] = radar.fields[ncvar]['data'].data
-               data[var][data[var] == radar.fields[ncvar]['data'].fill_value] = np.nan
                data[var] = data[var].ravel()
+               data[var][data[var] == radar.fields[ncvar]['data'].fill_value] = np.nan
+               if ( var == 'dbz' ) :
+                  #Convert to power
+                  data[var] = np.power(10, data[var]/10.)
+               #Check data range
+               data[var][ data[( data[var] < ctlg['constraints']['valid_range'][var][0] ) |
+                  ( data[var] > ctlg['constraints']['valid_range'][var][1] ) ] ] = np.nan 
          except:
             #print('Variable not found:', var) 
             continue
@@ -101,14 +107,7 @@ def read_data(ctlg, filename):
 
       # Standard units
       data.loc[data.Lon < 0., 'Lon'] = data.Lon + 360.
-      if 'dbz' in data.keys():
-         data.dbz = np.power(10, data.dbz/10.)
 
-      #Remove data wich is outside the valid range.
-      for var in ctlg['vars'] :
-         if var in data.keys() : 
-            data[var][ data[( data[var] < ctlg['constraints']['valid_range'][var][0] ) |
-                         ( data[var] > ctlg['constraints']['valid_range'][var][1] ) ].index ] = np.nan
    except Exception as err:
       print(err, file = sys.stderr)
       print(' ERROR parsing {}'.format(filename))
@@ -168,19 +167,19 @@ def proc_radar(radar, ctlg, files, sini, send, slot, slot_date, monit_file, colu
    if data.empty: return pd.DataFrame(), nin
 
    # Temporal superobbing
-   obs_in = data.shape[0]
-   gp = data.groupby(['Lon', 'Lat', 'Lev', 'Rang', 'Azim', 'Elev']).mean(numeric_only=True)
-   data = gp.reset_index(inplace=False)
-   if ENVVARS['DEBUG']: print('   Filter Temporal SO', obs_in - data.shape[0])
-   if data.empty: pd.DataFrame(), nin
+   #obs_in = data.shape[0]
+   #gp = data.groupby(['Lon', 'Lat', 'Lev', 'Rang', 'Azim', 'Elev']).mean(numeric_only=True)
+   #data = gp.reset_index(inplace=False)
+   #if ENVVARS['DEBUG']: print('   Filter Temporal SO', obs_in - data.shape[0])
+   #if data.empty: pd.DataFrame(), nin
 
-   print(' File In Out', obs_in, data.shape[0])
+   #print(' File In Out', obs_in, data.shape[0])
 
    # Apply filters
-   obs_in = data.shape[0]
-   data = common_obs.filter_duplicates(data, ['Lon', 'Lat', 'Lev', 'Azim', 'Elev', 'Rang'])
-   if ENVVARS['DEBUG']: print('   Filter Duplicates', obs_in - data.shape[0])
-   if data.empty: return pd.DataFrame(), nin
+   #obs_in = data.shape[0]
+   #data = common_obs.filter_duplicates(data, ['Lon', 'Lat', 'Lev', 'Azim', 'Elev', 'Rang'])
+   #if ENVVARS['DEBUG']: print('   Filter Duplicates', obs_in - data.shape[0])
+   #if data.empty: return pd.DataFrame(), nin
 
    print(' All Files In Out', nin, data.shape[0])
 
