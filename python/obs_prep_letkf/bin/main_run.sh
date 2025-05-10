@@ -1,7 +1,7 @@
 ##!bin/bash 
 export OBSPROC=40
-source $HOME/.bashrc
-source activate obs-tools
+#source $HOME/.bashrc
+#source activate obs-tools
 
 export TEMPLATE="RADAR5MIN"  #Which configuration are we going to use?
 source ../config_exp/$TEMPLATE/experiment.dirs
