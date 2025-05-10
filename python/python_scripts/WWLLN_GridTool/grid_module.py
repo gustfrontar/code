@@ -12,7 +12,7 @@ def grid_data(lon_grid,lat_grid,time_res,file_time_res,data,fig_path='./figs/',o
     nvars  = data['data'].shape[1]
 
     if ( (file_time_res % time_res) == 0 ) :
-       ntimes = int( file_time_res / time_res )
+       ntimes = int( file_time_res / time_res ) + 1
     else  :
        print('Error: file_time_res must be divisible by time_res')
        return
