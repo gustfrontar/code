@@ -1,26 +1,35 @@
 import numpy as np
 
-def get_random_pairs( npairs , nprices ) :
+def get_pairs( npairs , nprices , ptype = 'random' ) :
     #Definimos pares aleatorios sin hacer un analisis previo de 
     #la cointegracion.
     #TODO: verificar que no este incluyendo 2 veces el mismo par.
-    pair_index = np.zeros((npairs,2))
 
-    pair_index[:,0] = np.floor( np.random.rand( npairs ) * nprices ) 
+    if ptype == 'random' :
+       pair_index = np.zeros((npairs,2))
 
-    #Elegimos el segundo asset del par cuidando de no repetir.
-    for ii in range( npairs ) :
+       pair_index[:,0] = np.floor( np.random.rand( npairs ) * nprices ) 
 
-        second = np.floor( np.random.rand() * nprices )
-        while not( second == pair_index[ii,0] ) :
-            pair_index[ii,1] = second
-            second = np.floor( np.random.rand() * nprices )
+       #Elegimos el segundo asset del par cuidando de no repetir.
+       for ii in range( npairs ) :
+
+           second = np.floor( np.random.rand() * nprices )
+           while not( second == pair_index[ii,0] ) :
+              pair_index[ii,1] = second
+              second = np.floor( np.random.rand() * nprices )
+
+    if ptype == 'all' : #We will compute all possible pairs.
+        npairs = int( np.round( ( nprices * ( nprices - 1 ) ) / 2 ) )
+        ipair = 0
+        pair_index = np.zeros(( npairs , 2 ))
+        for ii in range( nprices ) :
+            for jj in range( ii ) :
+                pair_index[ipair,0] = ii
+                pair_index[ipair,1] = jj
+                #print( pair_index[ipair,:] )
+                ipair = ipair + 1
 
     return pair_index.astype(int)     
-
-
-
-
 
 def get_model( var_1 , var_2 , min_times = 10 , weighted_corr = False , weigth_type = None ) :
 
