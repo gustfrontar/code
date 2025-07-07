@@ -47,7 +47,7 @@ def gfs_ensemble_grib_to_netcdf(input_file, output_file,
             drop=True
         )
         
-        ds.coarsen(x=scoarsen).mean().coarsen(y=scoarsen).mean()
+        ds.coarsen(longitude=scoarsen,boundary='trim').mean().coarsen(latitude=scoarsen,boundary='trim').mean()
 
     # Add metadata
     ds.attrs['history'] = f"Processed by GFS ensemble converter on {datetime.now()}"
@@ -115,13 +115,17 @@ def merge_gfs_ensemble(grib_files, members , lead_times , output_nc,
                         drop=True
                         )
                 if scoarsen is not None :
-                    ds = ds.coarsen(x=scoarsen).mean().coarsen(y=scoarsen).mean()
+                    ds = ds.coarsen(longitude=scoarsen,boundary='trim').mean().coarsen(latitude=scoarsen,boundary='trim').mean()
                 
                 # Extract member number from filename if not in data
-                if 'member' not in ds.dims :
-                    ds = ds.expand_dims({'member': [int( members[ii] )]})
-                if 'lead_time' not in ds.dims :
-                    ds = ds.expand_dims({'lead_time':[int( lead_times[ii] )]})
+                if 'number' not in ds.dims :
+                    ds = ds.expand_dims({'number': [int( members[ii] )]})
+                else:
+                    ds = ds.assign_coords(number=[int( members[ii] )])
+                print( 'Member ' , members[ii] )    
+                
+                if 'steps' not in ds.dims :
+                    ds = ds.expand_dims({'steps':[int( lead_times[ii] )]})
                 
                 ds_list.append(ds)
                 
@@ -164,7 +168,7 @@ def merge_gfs_ensemble(grib_files, members , lead_times , output_nc,
 # %%
 # Example usage
 ens_size = 30
-date = '20231216'
+date = '20240319'
 init_time = '12'
 data_path = '/home/jruiz/datosdemerzel/GFSDATA/gefs.' + date +'/' + init_time + '/pgrb2b/'
 output_file = data_path + 'gfs_ens.nc'
@@ -176,7 +180,7 @@ print(ens_members)
 # Input parameters
 levels = [1000.,  900.,  800.,  700.,  600.,  500.,  400.,  300.]
 # Define subset parameters
-bbox = (-80, -60, -30, 0 )   # Continental US approx
+bbox = (-80, -60, -30, 10 )   # Southern South America
 variables = ['t', 'q', 'u', 'v' , 'gh']  # Temperature, humidity, wind components
 
 file_list = []
@@ -185,16 +189,16 @@ lead_time_list = []
 for imem in ens_members :
     print('My member is ',imem)
     str_mem = imem.zfill(3)
-    file_list += glob.glob( data_path + str_mem + '/*.pgrb2.*[!idx][!nc]' ) 
-        
-    members_list = []
-    lead_time_list = []
-    for my_file in file_list :
+    mem_file_list = glob.glob( data_path + str_mem + '/*.pgrb2.*[!idx][!nc]' )
+    mem_file_list.sort
+    file_list += mem_file_list
+
+    for my_file in mem_file_list :
         members_list.append( str_mem )
         lead_time_list.append( int(my_file[-3:]) )
-        print(members_list[-1],lead_time_list[-1])
-    
-    
+        print(members_list[-1],lead_time_list[-1],my_file)
+
+   
 # Run the merge
 combined_ds = merge_gfs_ensemble(
     file_list , members_list , lead_time_list ,
