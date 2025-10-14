@@ -70,7 +70,7 @@ DO ix = 1 , nx
 
        rloc(:) = oerr(:) / rloc(:) 
 
-       CALL letkf_core(nbv,1,hxfpert,rloc,   &
+       CALL letkf_core(nbv,nobs,hxfpert,rloc,   &
                     dep_rsize,infl,wa,wamean,pa,1.0d0)
 
        !Apply the weights and update the state variables. 
